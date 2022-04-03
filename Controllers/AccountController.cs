@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -58,6 +59,7 @@ namespace ST1109348.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            MessageBox.Show("IS this running?");
             return View();
         }
 
@@ -70,6 +72,7 @@ namespace ST1109348.Controllers
         {
             if (!ModelState.IsValid)
             {
+                MessageBox.Show("We logging in");
                 return View(model);
             }
 
@@ -79,13 +82,17 @@ namespace ST1109348.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    MessageBox.Show("Successful Sign in");
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
+                    MessageBox.Show("Locked out");
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
+                    MessageBox.Show("Successful Sign in");
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
+                    MessageBox.Show("Ivalid login attempt");
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
