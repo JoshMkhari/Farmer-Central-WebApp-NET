@@ -9,7 +9,8 @@ namespace ST1109348.Models
     public class ProgramDAL
     {
         //Desktop Connection Strings
-        string connectionStringLocalDEV = "Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename=D:\\Github\\PROG7311\\ST1109348\\App_Data\\aspnet-ST1109348-20220402012207.mdf;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True";
+        //string connectionStringLocalDEV = "Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename=D:\\Github\\PROG7311\\ST1109348\\App_Data\\aspnet-ST1109348-20220402012207.mdf;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True";
+        string connectionStringLocalDEV = "C:\\Users\\njmkh\\AppData\\Local\\Microsoft\\Microsoft SQL Server Local DB\\Instances\\MSSQLLocalDB";
 
         //Farmer Related 
         public IEnumerable<FarmerModel> GetAllFarmers()
@@ -40,7 +41,7 @@ namespace ST1109348.Models
         public IEnumerable<UserModel> GetAllUsers()
         {
             List<UserModel> userList = new List<UserModel>();
-            using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
+            using (     SqlConnection con = new SqlConnection(connectionStringLocalDEV))
             {
                 SqlCommand cmd = new SqlCommand("SP_GetAllUsers", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
