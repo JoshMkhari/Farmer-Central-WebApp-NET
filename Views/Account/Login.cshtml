@@ -29,41 +29,42 @@
                                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                                     <p class="text-center small">Enter your email & password to login</p>
                                 </div>
-                                    <section id="loginForm">
-                                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                            <div class="col-12">
-                                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                                                <div class="col-md-10">
-                                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                                                </div>
+                                <section id="loginForm">
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="col-12">
+                                            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                            <div class="col-md-10">
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                             </div>
-
-                                            <div class="col-lg-20">
-                                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                                                <div class="col-md-10">
-                                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                                </div>
+                                        </div>
+                                        <p />
+                                        <div class="col-lg-20">
+                                            @Html.LabelFor(m => m.Password, new { @class = "col-md-5 control-label" })
+                                            <div class="col-md-10">
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                             </div>
-
-                                            <div class="col-12">
-                                                <div class="form-check">
-                                                    @Html.CheckBoxFor(m => m.RememberMe)
-                                                    @Html.LabelFor(m => m.RememberMe)
-                                                </div>
+                                        </div>
+                                        <p />
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                @Html.CheckBoxFor(m => m.RememberMe)
+                                                @Html.LabelFor(m => m.RememberMe)
                                             </div>
-                                            <div class="col-12">
-                                                <button class="btn btn-primary w-100" type="submit" value="Log in">Login</button>
-                                            </div>
-                                            <div class="col-12">
-                                                <p class="small mb-0">Don't have account? @Html.ActionLink("Register as a new user", "Register")</p>
-                                            </div>
-                                        }
-                                    </section>
+                                        </div>
+                                        <p />
+                                        <div class="col-12">
+                                            <button class="btn btn-primary w-100" type="submit" value="Log in">Login</button>
+                                        </div>
+                                        <div class="col-12">
+                                            <p class="small mb-0">Don't have account? @Html.ActionLink("Register as a new user", "Register")</p>
+                                        </div>
+                                    }
+                                </section>
    
                             </div>
                         </div>
