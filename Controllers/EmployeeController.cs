@@ -15,7 +15,9 @@ namespace ST1109348.Controllers
             //Should probably move this to work earlier in a thread
             UserModel.populateUserList();
             FarmerModel.populateFarmerList();
-            return View();
+            FarmerModel fm = new FarmerModel();
+            fm.farmerView = FarmerModel.farmerList;
+            return View(fm.farmerView);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ST1109348.Models
         public string UserName { get; set; }
         public static List<UserModel> userList = new List<UserModel>();
 
+
         public static void populateUserList()
         {
             ProgramDAL progDal = new ProgramDAL();

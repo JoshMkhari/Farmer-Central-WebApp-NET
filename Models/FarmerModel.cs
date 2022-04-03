@@ -13,7 +13,9 @@ namespace ST1109348.Models
         public string FarmerID { get; set; }
         public string FarmerUserName { get; set; }
 
-        static List<FarmerModel> farmerList = new List<FarmerModel>();
+        public static List<FarmerModel> farmerList = new List<FarmerModel>();
+
+        public List<FarmerModel> farmerView;
 
         public static void populateFarmerList()
         {
@@ -34,7 +36,6 @@ namespace ST1109348.Models
             MessageBox.Show("farmer Id " + farmerList.ElementAt(0).FarmerID + ": is for user " + farmerList.ElementAt(0).FarmerUserName);
 
         }
-
 
 
     }
