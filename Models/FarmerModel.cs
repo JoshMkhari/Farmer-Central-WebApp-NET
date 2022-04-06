@@ -33,8 +33,7 @@ namespace ST1109348.Models
                 }
             }
 
-            MessageBox.Show("farmer Id " + farmerList.ElementAt(0).FarmerID + ": is for user " + farmerList.ElementAt(0).FarmerUserName);
-
+        
         }
 
 

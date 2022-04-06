@@ -19,5 +19,10 @@ namespace ST1109348.Controllers
             fm.farmerView = FarmerModel.farmerList;
             return View(fm.farmerView);
         }
+
+        public ActionResult Farmers()
+        {
+            return View();
+        }
     }
 }
