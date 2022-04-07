@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -81,7 +82,42 @@ namespace ST1109348.Controllers
             {
                 case SignInStatus.Success:
                     //check type and send to correct area
-                    MessageBox.Show(returnUrl);
+                    if (String.IsNullOrEmpty(returnUrl))
+                    {
+                        //User.Identity.Name
+                        String userID ="";
+                        int userRole = 0;
+                        ProgramDAL progDal = new ProgramDAL();
+                        List<UserModel> users = new List<UserModel>();
+                        users = progDal.GetAllUsers().ToList();
+
+                        foreach (var item in users)
+                        {
+                            if (item.UserEmail.Equals(User.Identity.Name))
+                            {
+                                userID = item.UserID;
+                                break;
+                            }
+                        }
+                        users = progDal.GetAllRoles().ToList();
+                        
+                        foreach (var item in users)
+                        {
+                            if (item.UserID.Equals(userID))
+                            {
+                                userRole = item.UserRole;
+                                break;
+                            }
+                        }
+                        if (userRole == 2 )
+                        {
+                            return RedirectToAction("Register","Account");
+                        }
+                        else//User is Admin or Employee
+                        {
+                            return RedirectToAction("Index", "Employee");
+                        }
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -159,14 +195,20 @@ namespace ST1109348.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    if (EmployeeModel.addingFarmer)
+                    {
+                        //call roles and add role to
+                        MessageBox.Show(user.Email);
+                        EmployeeModel.addingFarmer = false;
+                        return RedirectToAction("Index", "Employee");
+                    }
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Employee");
                 }
                 AddErrors(result);
             }

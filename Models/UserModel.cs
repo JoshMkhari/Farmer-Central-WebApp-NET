@@ -14,6 +14,8 @@ namespace ST1109348.Models
         public string UserName { get; set; }
         public string UserEmail { get; set; }
 
+        public int UserRole { get; set; }
+
         public static List<UserModel> userList { get; set; }
 
 

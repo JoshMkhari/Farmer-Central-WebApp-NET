@@ -13,6 +13,8 @@ namespace ST1109348.Models
         public string FarmerID { get; set; }
         public string FarmerEmail { get; set; }
 
+        public string FarmerPassword { get; set; }
+
         public static List<FarmerModel> farmerList = new List<FarmerModel>();
 
         public List<FarmerModel> farmerView;

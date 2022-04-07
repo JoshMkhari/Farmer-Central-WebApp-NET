@@ -66,5 +66,31 @@ namespace ST1109348.Models
             return userList;
 
         }
+
+        //Roles Related
+        public IEnumerable<UserModel> GetAllRoles()
+        {
+            List<UserModel> userList = new List<UserModel>();
+            using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
+            {
+                SqlCommand cmd = new SqlCommand("SP_GetAllRoles", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+
+                    UserModel use = new UserModel();
+                    use.UserID = Convert.ToString(dr["UserId"].ToString());
+                    use.UserRole = Convert.ToInt32(dr["RoleId"].ToString());
+                    userList.Add(use);
+                }
+
+                con.Close();
+            }
+
+            return userList;
+
+        }
     }
 }

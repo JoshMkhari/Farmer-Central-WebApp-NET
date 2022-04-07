@@ -9,5 +9,7 @@ namespace ST1109348.Models
     {
         public string EmployeeEmail { get; set; }
         public string EmployeeName { get; set; }
+
+        public static bool addingFarmer { get; set; }
     }
 }
