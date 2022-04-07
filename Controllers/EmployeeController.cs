@@ -32,14 +32,26 @@ namespace ST1109348.Controllers
 
             EmployeeModel em = new EmployeeModel();
             em.EmployeeEmail = User.Identity.Name;
-
+            String userName = "";
             foreach (var item in UserModel.userList)
             {
                 if (item.UserEmail.Equals(em.EmployeeEmail))
                 {
-                    em.EmployeeName = item.UserName;
+                    for (int i = 0; i < item.UserName.Length; i++)
+                    {
+                        if (!item.UserName.Substring(i,1).Equals("@"))
+                        {
+                            userName = userName + item.UserName.Substring(i, 1);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    break;
                 }
             }
+            em.EmployeeName = userName;
             fm.currentEmployee = em;
 
             return fm;;
