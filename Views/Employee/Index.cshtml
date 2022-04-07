@@ -4,8 +4,19 @@
     Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
 
 }
-@model IEnumerable<ST1109348.Models.FarmerModel>
-<!-- Recent Sales -->
+@model ST1109348.Models.FarmerModel
+
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+<p />
+<!-- Farmers Table -->
 <div class="col-12">
     <div class="card recent-sales overflow-auto">
 
@@ -23,28 +34,28 @@
         </div>
 
         <div class="card-body">
-            <h5 class="card-title">Farmers </h5>
+            <h5 class="card-title">Farmers <span>| All</span></h5>
 
-            <table class="table datatable">
+            <table class="table table-borderless datatabl">
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Email</th>
                         @*<th scope="col">Module Credits</th>
-                        <th scope="col">Class Hours</th>
-                        <th scope="col">Self Study Hours</th>*@
+                            <th scope="col">Class Hours</th>
+                            <th scope="col">Self Study Hours</th>*@
                     </tr>
                 </thead>
                 <tbody>
 
-                    @foreach (var mod in Model)
+                    @foreach (var mod in Model.farmerView)
                     {
                         <tr>
                             <td>@mod.FarmerID</td>
-                            <td>@mod.FarmerUserName</td>
+                            <td>@mod.FarmerEmail</td>
                             @*<td>@mod.NumberOfCredits</td>
-                            <td>@mod.ClassHoursPerWeek</td>
-                            <td>@mod.SelfStudyHours</td>*@
+                                <td>@mod.ClassHoursPerWeek</td>
+                                <td>@mod.SelfStudyHours</td>*@
                         </tr>
                     }
                 </tbody>

@@ -11,16 +11,19 @@ namespace ST1109348.Models
     {
         [Required]
         public string FarmerID { get; set; }
-        public string FarmerUserName { get; set; }
+        public string FarmerEmail { get; set; }
 
         public static List<FarmerModel> farmerList = new List<FarmerModel>();
 
         public List<FarmerModel> farmerView;
 
+        public EmployeeModel currentEmployee { get; set; }
+
         public static void populateFarmerList()
         {
             ProgramDAL progDal = new ProgramDAL();
             farmerList = progDal.GetAllFarmers().ToList();
+
 
             foreach (var user in UserModel.userList)
             {
@@ -28,7 +31,7 @@ namespace ST1109348.Models
                 {
                     if (farmerList.ElementAt(i).FarmerID.Equals(user.UserID))
                     {
-                        farmerList.ElementAt(i).FarmerUserName = user.UserName;
+                        farmerList.ElementAt(i).FarmerEmail = user.UserEmail;
                     }
                 }
             }

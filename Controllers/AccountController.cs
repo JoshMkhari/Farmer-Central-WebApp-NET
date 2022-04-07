@@ -80,6 +80,8 @@ namespace ST1109348.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //check type and send to correct area
+                    MessageBox.Show(returnUrl);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

@@ -9,10 +9,10 @@ namespace ST1109348.Models
     public class ProgramDAL
     {
         //Desktop Connection Strings
-        //string connectionStringLocalDEV = "Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename=D:\\Github\\PROG7311\\ST1109348\\App_Data\\aspnet-ST1109348-20220402012207.mdf;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True";
+        string connectionStringLocalDEV = "Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename=D:\\Github\\PROG7311\\ST1109348\\App_Data\\aspnet-ST1109348-20220402012207.mdf;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True";
 
         //Laptop Connection Strings
-        string connectionStringLocalDEV = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        //string connectionStringLocalDEV = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         //Farmer Related 
         public IEnumerable<FarmerModel> GetAllFarmers()
@@ -54,6 +54,7 @@ namespace ST1109348.Models
 
                        UserModel use = new UserModel();
                     use.UserID = Convert.ToString(dr["Id"].ToString());
+                    use.UserEmail = Convert.ToString(dr["Email"].ToString());
                     use.UserName = Convert.ToString(dr["UserName"].ToString());
 
                     userList.Add(use);
