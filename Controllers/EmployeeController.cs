@@ -25,7 +25,11 @@ namespace ST1109348.Controllers
         {
             UserModel.populateUserList();
             FarmerModel.populateFarmerList();
-            EmployeeModel.addingFarmer = false;
+            return View(InitilizeFarmers());
+        }
+
+        public ActionResult MyProfile()
+        {
             return View(InitilizeFarmers());
         }
 
@@ -33,7 +37,6 @@ namespace ST1109348.Controllers
         {
             RegisterViewModel rvm = new RegisterViewModel();
             rvm.EmployeeName = getEmployeeName();
-            EmployeeModel.addingFarmer = true;
             return View(rvm);
         }
 

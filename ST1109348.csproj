@@ -396,6 +396,7 @@
     <Content Include="Views\Employee\Farmers.cshtml" />
     <Content Include="Views\Farmer\Index.cshtml" />
     <Content Include="Views\Account\SignOut.cshtml" />
+    <Content Include="Views\Employee\MyProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
