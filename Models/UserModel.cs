@@ -16,8 +16,11 @@ namespace ST1109348.Models
 
         public int UserRole { get; set; }
 
-        public static List<UserModel> userList { get; set; }
+        public string UserType { get; set; }
 
+        public static List<UserModel> UserList { get; set; }
+
+        public static String LoggedInUserRole { get; set; }
 
         public static void populateUserList()
         {
@@ -25,7 +28,7 @@ namespace ST1109348.Models
             List<UserModel> users = new List<UserModel>();
 
             users = progDal.GetAllUsers().ToList();
-            userList = users;
+            UserList = users;
         }
     }
 }

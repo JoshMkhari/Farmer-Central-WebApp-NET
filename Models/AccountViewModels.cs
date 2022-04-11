@@ -81,6 +81,8 @@ namespace ST1109348.Models
         public string ConfirmPassword { get; set; }
 
         public string EmployeeName { get; set; }
+
+        public FarmerModel fm;
     }
 
     public class ResetPasswordViewModel

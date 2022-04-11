@@ -1,9 +1,9 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
+    //Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
 
 }
-@model ST1109348.Models.FarmerModel
+@model ST1109348.Models.RegisterViewModel
 
 <div class="pagetitle">
     <h1>Dashboard</h1>
@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
 
-                    @foreach (var mod in Model.farmerView)
+                    @foreach (var mod in Model.fm.farmerView)
                     {
                         <tr>
                             <td>@mod.FarmerID</td>

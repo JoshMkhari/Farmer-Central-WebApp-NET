@@ -25,7 +25,12 @@ namespace ST1109348.Controllers
         {
             UserModel.populateUserList();
             FarmerModel.populateFarmerList();
-            return View(InitilizeFarmers());
+
+            RegisterViewModel rvm = new RegisterViewModel();
+            rvm.EmployeeName = getEmployeeName(User.Identity.Name);
+            rvm.fm = InitilizeFarmers();
+            return View(rvm);
+
         }
 
         public ActionResult MyProfile()
@@ -36,7 +41,8 @@ namespace ST1109348.Controllers
         public ActionResult Farmers()
         {
             RegisterViewModel rvm = new RegisterViewModel();
-            rvm.EmployeeName = getEmployeeName();
+            rvm.EmployeeName = getEmployeeName(User.Identity.Name);
+            rvm.fm = InitilizeFarmers();
             return View(rvm);
         }
 
@@ -74,24 +80,23 @@ namespace ST1109348.Controllers
             FarmerModel fm = new FarmerModel();
             fm.farmerView = FarmerModel.farmerList;
 
-            EmployeeModel em = new EmployeeModel();
-            em.EmployeeEmail = User.Identity.Name;
-
-            em.EmployeeName = getEmployeeName();
+            UserModel em = new UserModel();
+            em.UserEmail = User.Identity.Name;
+            em.UserName = getEmployeeName(em.UserEmail);
+            //check role
+            em.UserType = UserModel.LoggedInUserRole;
             fm.currentEmployee = em;
 
             return fm;;
         }
 
-        private String getEmployeeName()
+        private String getEmployeeName(String userEmail)
         {
             String userName = "";
-            EmployeeModel em = new EmployeeModel();
-            em.EmployeeEmail = User.Identity.Name;
 
-            foreach (var item in UserModel.userList)
+            foreach (var item in UserModel.UserList)
             {
-                if (item.UserEmail.Equals(em.EmployeeEmail))
+                if (item.UserEmail.Equals(userEmail))
                 {
                     for (int i = 0; i < item.UserName.Length; i++)
                     {
@@ -107,7 +112,6 @@ namespace ST1109348.Controllers
                     break;
                 }
             }
-            em.EmployeeName = userName;
             return userName;
         }
 

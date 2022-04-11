@@ -19,7 +19,8 @@ namespace ST1109348.Models
 
         public List<FarmerModel> farmerView;
 
-        public EmployeeModel currentEmployee { get; set; }
+        //For interface purposes
+        public UserModel currentEmployee { get; set; }
 
         public static void populateFarmerList()
         {
@@ -27,7 +28,7 @@ namespace ST1109348.Models
             farmerList = progDal.GetAllFarmers().ToList();
 
 
-            foreach (var user in UserModel.userList)
+            foreach (var user in UserModel.UserList)
             {
                 for (int i = 0; i < farmerList.Count; i++)
                 {

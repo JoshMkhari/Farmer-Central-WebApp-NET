@@ -109,14 +109,20 @@ namespace ST1109348.Controllers
                                 break;
                             }
                         }
-                        if (userRole == 2 ) //Farmer Logging in
+                        switch (userRole)
                         {
-                            return RedirectToAction("Index","Farmer");
+                            case 1://Employee Logging in
+                                UserModel.LoggedInUserRole = "Employee";
+                                return RedirectToAction("Index", "Employee");
+                            case 2: //Farmer Logging in
+                                UserModel.LoggedInUserRole = "Farmer";
+                                return RedirectToAction("Index", "Farmer");
+                            case 3://Admin Logging in
+                                UserModel.LoggedInUserRole = "Admin";
+                                return RedirectToAction("Index", "Admin");
+
                         }
-                        else if (userRole == 1 || userRole == 3) //Admin or Employee Logging in
-                        {
-                            return RedirectToAction("Index", "Employee");
-                        }
+
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
