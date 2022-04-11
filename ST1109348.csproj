@@ -395,6 +395,7 @@
     <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
     <Content Include="Views\Employee\Farmers.cshtml" />
     <Content Include="Views\Farmer\Index.cshtml" />
+    <Content Include="Views\Account\SignOut.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

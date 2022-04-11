@@ -437,10 +437,17 @@ namespace ST1109348.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            MessageBox.Show("success");
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
+
+        public ActionResult SignOut()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Login", "Account");
+        }
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
