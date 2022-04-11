@@ -67,12 +67,13 @@ namespace ST1109348.Models
                 SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-
-                       UserModel use = new UserModel();
+                    UserModel use = new UserModel();
                     use.UserID = Convert.ToString(dr["Id"].ToString());
                     use.UserEmail = Convert.ToString(dr["Email"].ToString());
                     use.UserName = Convert.ToString(dr["UserName"].ToString());
-
+                    use.Address = Convert.ToString(dr["Address"].ToString());
+                    use.FullName = Convert.ToString(dr["FullName"].ToString());
+                    use.Phone = Convert.ToString(dr["PhoneNumber"].ToString());
                     userList.Add(use);
                 }
 
@@ -81,6 +82,27 @@ namespace ST1109348.Models
 
             return userList;
 
+        }
+
+        //Update User
+        public void UpdateUser(UserModel use, String OldEmail)
+        {
+
+            using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
+            {
+                SqlCommand cmd = new SqlCommand("SP_UpdateUser", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FullName", use.FullName);
+                cmd.Parameters.AddWithValue("@Address", use.Address);
+                cmd.Parameters.AddWithValue("@Phone", use.Phone);
+                cmd.Parameters.AddWithValue("@UserEmail", use.UserEmail);
+                cmd.Parameters.AddWithValue("@UserName", use.UserName);
+                cmd.Parameters.AddWithValue("@OldEmail", OldEmail);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
         }
 
         //Roles Related

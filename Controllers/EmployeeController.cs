@@ -20,6 +20,7 @@ namespace ST1109348.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UserModel currentUser;
 
         public ActionResult Index()
         {
@@ -35,7 +36,45 @@ namespace ST1109348.Controllers
 
         public ActionResult MyProfile()
         {
-            return View(InitilizeFarmers());
+            RegisterViewModel rvm = new RegisterViewModel();
+            rvm.EmployeeName = getEmployeeName(User.Identity.Name);
+            rvm.fm = InitilizeFarmers();
+            return View(rvm);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MyProfile(FormCollection formData)
+        {
+            UserModel use = new UserModel();
+
+            //check if details have changed or are empty
+            use.FullName = ValidateUpdate(formData["fullName"] == "" ? null : formData["fullName"], currentUser.FullName);
+            use.Address = ValidateUpdate(formData["Address"] == "" ? null : formData["Address"], currentUser.Address);
+            use.Phone = ValidateUpdate(formData["Phone"] == "" ? null : formData["Phone"], currentUser.Phone);
+            use.UserEmail = ValidateUpdate(formData["Email"] == "" ? null : formData["Email"], currentUser.UserEmail);
+            use.UserName = ValidateUpdate(formData["UserName"] == "" ? null : formData["UserName"], currentUser.UserName);
+
+            MessageBox.Show("New username " + use.UserName);
+            ProgramDAL pal = new ProgramDAL();
+            pal.UpdateUser(use, currentUser.UserEmail);
+
+            RegisterViewModel rvm = new RegisterViewModel();
+            rvm.EmployeeName = getEmployeeName(User.Identity.Name);
+            rvm.fm = InitilizeFarmers();
+            return View(rvm);
+        }
+
+        private string ValidateUpdate(String check, String old)
+        {
+            if (String.IsNullOrEmpty(check))
+            {
+                return old;
+            }
+            else if(check.Equals(old))
+            {
+                return old;
+            }else 
+                return check;
         }
 
         public ActionResult Farmers()
@@ -48,7 +87,6 @@ namespace ST1109348.Controllers
 
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Farmers(RegisterViewModel model)
         {
@@ -80,14 +118,25 @@ namespace ST1109348.Controllers
             FarmerModel fm = new FarmerModel();
             fm.farmerView = FarmerModel.farmerList;
 
-            UserModel em = new UserModel();
-            em.UserEmail = User.Identity.Name;
-            em.UserName = getEmployeeName(em.UserEmail);
-            //check role
-            em.UserType = UserModel.LoggedInUserRole;
-            fm.currentEmployee = em;
+            InitializeCurrentUser();
+            fm.CurrentUser = currentUser;
 
             return fm;;
+        }
+
+        private void InitializeCurrentUser()
+        {
+            currentUser = new UserModel();
+            currentUser.UserEmail = User.Identity.Name;
+
+            foreach (var item in UserModel.UserList)
+            {
+                if (item.UserEmail.Equals(currentUser.UserEmail))
+                {
+                    currentUser = item;
+                }
+            }
+            currentUser.UserType = UserModel.LoggedInUserRole;
         }
 
         private String getEmployeeName(String userEmail)

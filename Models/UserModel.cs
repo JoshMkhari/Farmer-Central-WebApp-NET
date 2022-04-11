@@ -12,6 +12,7 @@ namespace ST1109348.Models
         public string UserID { get; set; }
         [Required]
         public string UserName { get; set; }
+
         public string UserEmail { get; set; }
 
         public int UserRole { get; set; }
@@ -21,6 +22,12 @@ namespace ST1109348.Models
         public static List<UserModel> UserList { get; set; }
 
         public static String LoggedInUserRole { get; set; }
+
+        public string FullName { get; set; }
+        public string Job { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+
 
         public static void populateUserList()
         {

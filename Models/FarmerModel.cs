@@ -20,7 +20,7 @@ namespace ST1109348.Models
         public List<FarmerModel> farmerView;
 
         //For interface purposes
-        public UserModel currentEmployee { get; set; }
+        public UserModel CurrentUser { get; set; }
 
         public static void populateFarmerList()
         {
