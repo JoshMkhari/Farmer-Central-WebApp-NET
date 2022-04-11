@@ -88,12 +88,12 @@ namespace ST1109348.Controllers
                         String userID ="";
                         int userRole = 0;
                         ProgramDAL progDal = new ProgramDAL();
-                        List<UserModel> users = new List<UserModel>();
-                        users = progDal.GetAllUsers().ToList();
-
+                        //If anything goes wrong learn Discards
+                        _ = new List<UserModel>();
+                        List<UserModel> users = progDal.GetAllUsers().ToList();
                         foreach (var item in users)
                         {
-                            if (item.UserEmail.Equals(User.Identity.Name))
+                            if (item.UserEmail.Equals(model.Email))
                             {
                                 userID = item.UserID;
                                 break;
@@ -109,11 +109,11 @@ namespace ST1109348.Controllers
                                 break;
                             }
                         }
-                        if (userRole == 2 )
+                        if (userRole == 2 ) //Farmer Logging in
                         {
-                            return RedirectToAction("Register","Account");
+                            return RedirectToAction("Index","Farmer");
                         }
-                        else//User is Admin or Employee
+                        else if (userRole == 1 || userRole == 3) //Admin or Employee Logging in
                         {
                             return RedirectToAction("Index", "Employee");
                         }
@@ -200,7 +200,8 @@ namespace ST1109348.Controllers
                         //call roles and add role to
                         MessageBox.Show(user.Email);
                         EmployeeModel.addingFarmer = false;
-                        return RedirectToAction("Index", "Employee");
+                        MessageBox.Show(User.Identity.Name);
+                        return RedirectToAction("Farmers", "Employee");
                     }
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

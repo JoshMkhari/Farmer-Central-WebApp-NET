@@ -39,6 +39,22 @@ namespace ST1109348.Models
 
         }
 
+        public void AddFarmer(String UserID)
+        {
+            using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
+            {
+                SqlCommand cmd = new SqlCommand("SP_AddFarmer", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@UserID", UserID);
+                cmd.Parameters.AddWithValue("@RoleID", "2");
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
         //User Related
         public IEnumerable<UserModel> GetAllUsers()
         {
@@ -92,5 +108,6 @@ namespace ST1109348.Models
             return userList;
 
         }
+
     }
 }

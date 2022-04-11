@@ -35,7 +35,7 @@
                         <div class="tab-pane fade show active profile-overview" id="profile-overview">
                             <h5 class="card-title">Add new Farmer</h5>
 
-                            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            @using (Html.BeginForm("Farmers", "Employee", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
