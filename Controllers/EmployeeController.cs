@@ -29,7 +29,6 @@ namespace ST1109348.Controllers
             FarmerModel.populateFarmerList();
 
             rvm = new RegisterViewModel();
-            rvm.EmployeeName = getEmployeeName(User.Identity.Name);
             rvm.fm = InitilizeFarmers();
             rvm.rpm = new ResetPasswordViewModel();
             return View(rvm);
@@ -89,7 +88,6 @@ namespace ST1109348.Controllers
         public ActionResult Farmers()
         {
             RegisterViewModel rvm = new RegisterViewModel();
-            rvm.EmployeeName = getEmployeeName(User.Identity.Name);
             rvm.fm = InitilizeFarmers();
             return View(rvm);
         }
@@ -173,30 +171,6 @@ namespace ST1109348.Controllers
             currentUser.UserType = UserModel.LoggedInUserRole;
         }
 
-        private String getEmployeeName(String userEmail)
-        {
-            String userName = "";
-
-            foreach (var item in UserModel.UserList)
-            {
-                if (item.UserEmail.Equals(userEmail))
-                {
-                    for (int i = 0; i < item.UserName.Length; i++)
-                    {
-                        if (!item.UserName.Substring(i, 1).Equals("@"))
-                        {
-                            userName = userName + item.UserName.Substring(i, 1);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-            return userName;
-        }
 
         public ApplicationSignInManager SignInManager
         {

@@ -10,8 +10,7 @@ namespace ST1109348.Models
     public class ProgramDAL
     {
         //Desktop Connection Strings
-        //string connectionStringLocalDEV = "Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename=D:\\Github\\PROG7311\\ST1109348\\App_Data\\aspnet-ST1109348-20220402012207.mdf;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True";
-        string connectionStringLocalDEV = "C:\\Users\\njmkh\\AppData\\Local\\Microsoft\\Microsoft SQL Server Local DB\\Instances\\MSSQLLocalDB";
+        string connectionStringLocalDEV = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         //Laptop Connection Strings
         //string connectionStringLocalDEV = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";

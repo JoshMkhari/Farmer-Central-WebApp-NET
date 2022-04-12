@@ -1,8 +1,45 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
-    Layout = null;
+    Layout = "~/Views/Shared/_farmerLayout.cshtml";
+
 }
+@model ST1109348.Models.RegisterViewModel
 
-<h2>Index</h2>
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href=@Url.Action("Index", "Farmer")>Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+<p />
+<!-- Farmers Table -->
+<div class="col-12">
+    <div class="card recent-sales overflow-auto">
+        <div class="card-body">
+            <h5 class="card-title">Farmers <span>| All</span></h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
 
+                    @foreach (var mod in Model.fm.farmerView)
+                    {
+                        <tr>
+                            <td>@mod.FarmerID</td>
+                            <td>@mod.FarmerEmail</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div><!-- End Recent Sales -->

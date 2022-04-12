@@ -181,6 +181,7 @@
     <Compile Include="Models\FarmerModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\ProgramDAL.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -395,6 +396,10 @@
     <Content Include="Views\Farmer\Index.cshtml" />
     <Content Include="Views\Account\SignOut.cshtml" />
     <Content Include="Views\Employee\MyProfile.cshtml" />
+    <Content Include="Views\Shared\_farmerLayout.cshtml" />
+    <Content Include="Views\Farmer\MyProfile.cshtml" />
+    <Content Include="Views\Farmer\Products.cshtml" />
+    <Content Include="Views\Farmer\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
