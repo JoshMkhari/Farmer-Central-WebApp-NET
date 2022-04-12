@@ -83,6 +83,7 @@ namespace ST1109348.Models
         public string EmployeeName { get; set; }
 
         public FarmerModel fm;
+        public ResetPasswordViewModel rpm;
     }
 
     public class ResetPasswordViewModel

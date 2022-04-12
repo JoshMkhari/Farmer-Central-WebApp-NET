@@ -31,6 +31,7 @@ namespace ST1109348.Controllers
             rvm = new RegisterViewModel();
             rvm.EmployeeName = getEmployeeName(User.Identity.Name);
             rvm.fm = InitilizeFarmers();
+            rvm.rpm = new ResetPasswordViewModel();
             return View(rvm);
 
         }
@@ -70,6 +71,7 @@ namespace ST1109348.Controllers
             }
             //MessageBox.Show("New display name " + use.DisplayName);          
         }
+
 
         private string ValidateUpdate(String check, String old)
         {
