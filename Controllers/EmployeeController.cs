@@ -21,13 +21,14 @@ namespace ST1109348.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private UserModel currentUser;
+        private static RegisterViewModel rvm;
 
         public ActionResult Index()
         {
             UserModel.populateUserList();
             FarmerModel.populateFarmerList();
 
-            RegisterViewModel rvm = new RegisterViewModel();
+            rvm = new RegisterViewModel();
             rvm.EmployeeName = getEmployeeName(User.Identity.Name);
             rvm.fm = InitilizeFarmers();
             return View(rvm);
@@ -36,32 +37,38 @@ namespace ST1109348.Controllers
 
         public ActionResult MyProfile()
         {
-            RegisterViewModel rvm = new RegisterViewModel();
-            rvm.EmployeeName = getEmployeeName(User.Identity.Name);
-            rvm.fm = InitilizeFarmers();
+           // MessageBox.Show("Last name " + rvm.fm.CurrentUser.LastName);
             return View(rvm);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult MyProfile(FormCollection formData)
         {
             UserModel use = new UserModel();
+            InitializeCurrentUser();
 
             //check if details have changed or are empty
-            use.FullName = ValidateUpdate(formData["fullName"] == "" ? null : formData["fullName"], currentUser.FullName);
+            use.FirstName = ValidateUpdate(formData["FirstName"] == "" ? null : formData["FirstName"], currentUser.FirstName);
+            use.LastName = ValidateUpdate(formData["LastName"] == "" ? null : formData["LastName"], currentUser.LastName);
             use.Address = ValidateUpdate(formData["Address"] == "" ? null : formData["Address"], currentUser.Address);
             use.Phone = ValidateUpdate(formData["Phone"] == "" ? null : formData["Phone"], currentUser.Phone);
             use.UserEmail = ValidateUpdate(formData["Email"] == "" ? null : formData["Email"], currentUser.UserEmail);
-            use.UserName = ValidateUpdate(formData["UserName"] == "" ? null : formData["UserName"], currentUser.UserName);
+            use.DisplayName = ValidateUpdate(formData["DisplayName"] == "" ? null : formData["DisplayName"], currentUser.DisplayName);
 
-            MessageBox.Show("New username " + use.UserName);
+            use.FullName = use.FirstName +" " + use.LastName;
             ProgramDAL pal = new ProgramDAL();
             pal.UpdateUser(use, currentUser.UserEmail);
 
-            RegisterViewModel rvm = new RegisterViewModel();
-            rvm.EmployeeName = getEmployeeName(User.Identity.Name);
-            rvm.fm = InitilizeFarmers();
-            return View(rvm);
+            if (!User.Identity.Name.Equals(use.UserEmail))//Sign out if user changes email
+            {
+                return RedirectToAction("SignOut", "Account");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            //MessageBox.Show("New display name " + use.DisplayName);          
         }
 
         private string ValidateUpdate(String check, String old)
@@ -119,11 +126,35 @@ namespace ST1109348.Controllers
             fm.farmerView = FarmerModel.farmerList;
 
             InitializeCurrentUser();
+            if (String.IsNullOrEmpty(currentUser.DisplayName))
+            {
+                currentUser.DisplayName = currentUser.UserEmail;
+            }
+            setCurrentUserNames();
             fm.CurrentUser = currentUser;
 
             return fm;;
         }
 
+        private void setCurrentUserNames()
+        {
+            Boolean foundSpace = false;
+            for (int i = 0; i < currentUser.FullName.Length; i++)
+            {
+                if (currentUser.FullName.Substring(i, 1).Equals(" "))
+                {
+                    currentUser.FirstName = currentUser.FullName.Substring(0, i);
+                    currentUser.LastName = currentUser.FullName.Substring(i);
+                    foundSpace = true;
+                    break;
+                }
+            }
+
+            if (!foundSpace)
+            {
+                currentUser.FirstName = currentUser.FullName;
+            }
+        }
         private void InitializeCurrentUser()
         {
             currentUser = new UserModel();
@@ -136,6 +167,7 @@ namespace ST1109348.Controllers
                     currentUser = item;
                 }
             }
+            setCurrentUserNames();
             currentUser.UserType = UserModel.LoggedInUserRole;
         }
 

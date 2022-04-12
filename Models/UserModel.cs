@@ -24,7 +24,10 @@ namespace ST1109348.Models
         public static String LoggedInUserRole { get; set; }
 
         public string FullName { get; set; }
-        public string Job { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string DisplayName { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
 

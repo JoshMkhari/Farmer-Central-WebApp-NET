@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Windows;
 
 namespace ST1109348.Models
 {
@@ -74,6 +75,7 @@ namespace ST1109348.Models
                     use.Address = Convert.ToString(dr["Address"].ToString());
                     use.FullName = Convert.ToString(dr["FullName"].ToString());
                     use.Phone = Convert.ToString(dr["PhoneNumber"].ToString());
+                    use.DisplayName = Convert.ToString(dr["DisplayName"].ToString());
                     userList.Add(use);
                 }
 
@@ -87,7 +89,7 @@ namespace ST1109348.Models
         //Update User
         public void UpdateUser(UserModel use, String OldEmail)
         {
-
+            MessageBox.Show("We running with update " + use.DisplayName);
             using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
             {
                 SqlCommand cmd = new SqlCommand("SP_UpdateUser", con);
@@ -96,7 +98,7 @@ namespace ST1109348.Models
                 cmd.Parameters.AddWithValue("@Address", use.Address);
                 cmd.Parameters.AddWithValue("@Phone", use.Phone);
                 cmd.Parameters.AddWithValue("@UserEmail", use.UserEmail);
-                cmd.Parameters.AddWithValue("@UserName", use.UserName);
+                cmd.Parameters.AddWithValue("@DisplayName", use.DisplayName);
                 cmd.Parameters.AddWithValue("@OldEmail", OldEmail);
 
                 con.Open();

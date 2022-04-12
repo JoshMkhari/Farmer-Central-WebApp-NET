@@ -65,8 +65,8 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-4 label ">Username</div>
-                                <div class="col-lg-9 col-md-8">@Model.fm.CurrentUser.UserName</div>
+                                <div class="col-lg-3 col-md-4 label ">Display Name</div>
+                                <div class="col-lg-9 col-md-8">@Model.fm.CurrentUser.DisplayName</div>
                             </div>
 
                             <div class="row">
@@ -94,63 +94,68 @@
                         <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                             <!-- Profile Edit Form -->
+                            @using (Html.BeginForm("MyProfile", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
                             <form>
-                                @using (Html.BeginForm("MyProfile", "Employee", new { id = Model.fm.CurrentUser.UserEmail }, FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                {
-                                    <div class="row mb-3">
-                                        <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <img src="assets/img/profile-img.jpg" alt="Profile">
-                                            <div class="pt-2">
-                                                <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                                <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="row mb-3">
-                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="fullName" value=@Model.fm.CurrentUser.FullName>
+                                <div class="row mb-3">
+                                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <img src="assets/img/profile-img.jpg" alt="Profile">
+                                        <div class="pt-2">
+                                            <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                                            <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="row mb-3">
-                                        <label for="UserName" class="col-md-4 col-lg-3 col-form-label">User Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="UserName" type="text" class="form-control" id="UserName" value=@Model.fm.CurrentUser.UserName>
-                                        </div>
+                                <div class="row mb-3">
+                                    <label for="FirstName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="FirstName" type="text" class="form-control" id="FirstName" value=@Model.fm.CurrentUser.FirstName>
                                     </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="LastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="LastName" type="text" class="form-control" id="LastName" value=@Model.fm.CurrentUser.LastName>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="DisplayName" class="col-md-4 col-lg-3 col-form-label">Display Name</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="DisplayName" type="text" class="form-control" id="DisplayName" value=@Model.fm.CurrentUser.DisplayName>
+                                    </div>
+                                </div>
 
-                                    <div class="row mb-3">
-                                        <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="address" type="text" class="form-control" id="Address" value=@Model.fm.CurrentUser.Address>
-                                        </div>
+                                <div class="row mb-3">
+                                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="address" type="text" class="form-control" id="Address" value=@Model.fm.CurrentUser.Address>
                                     </div>
+                                </div>
 
-                                    <div class="row mb-3">
-                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone" value=@Model.fm.CurrentUser.Phone>
-                                        </div>
+                                <div class="row mb-3">
+                                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="phone" type="text" class="form-control" id="Phone" value=@Model.fm.CurrentUser.Phone>
                                     </div>
-                                    @Html.AntiForgeryToken()
-                                    @Html.ValidationSummary("", new { @class = "text-danger" })
-                                    <div class="row mb-3">
-                                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" value=@Model.fm.CurrentUser.UserEmail>
-                                        </div>
+                                </div>
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <div class="row mb-3">
+                                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="email" type="email" class="form-control" id="Email" value=@Model.fm.CurrentUser.UserEmail>
                                     </div>
+                                </div>
 
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                                    </div>
-                                }
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
                             </form><!-- End Profile Edit Form -->
-
-                        </div>
+                            }
+                            </div>
 
                         <div class="tab-pane fade pt-3" id="profile-settings">
 
