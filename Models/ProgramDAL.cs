@@ -133,5 +133,35 @@ namespace ST1109348.Models
 
         }
 
+        //Product Related
+        public IEnumerable<FarmerModel> GetAllProducts()
+        {
+            List<ProductModel> productList = new List<ProductModel>();
+            using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
+            {
+                SqlCommand cmd = new SqlCommand("SP_GetAllProducts", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    ProductModel prod = new ProductModel();
+                    use.UserID = Convert.ToString(dr["Id"].ToString());
+                    use.UserEmail = Convert.ToString(dr["Email"].ToString());
+                    use.UserName = Convert.ToString(dr["UserName"].ToString());
+                    use.Address = Convert.ToString(dr["Address"].ToString());
+                    use.FullName = Convert.ToString(dr["FullName"].ToString());
+                    use.Phone = Convert.ToString(dr["PhoneNumber"].ToString());
+                    use.DisplayName = Convert.ToString(dr["DisplayName"].ToString());
+                    userList.Add(use);
+                }
+
+                con.Close();
+            }
+
+            return userList;
+
+        }
+
     }
 }
