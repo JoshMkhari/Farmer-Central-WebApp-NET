@@ -12,13 +12,33 @@ namespace ST1109348.Models
         public string UserID { get; set; }
         [Required]
         public string UserName { get; set; }
-        public static List<UserModel> userList = new List<UserModel>();
+
+        public string UserEmail { get; set; }
+
+        public int UserRole { get; set; }
+
+        public string UserType { get; set; }
+
+        public static List<UserModel> UserList { get; set; }
+
+        public static String LoggedInUserRole { get; set; }
+
+        public string FullName { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string DisplayName { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
 
 
         public static void populateUserList()
         {
             ProgramDAL progDal = new ProgramDAL();
-            userList = progDal.GetAllUsers().ToList();
+            List<UserModel> users = new List<UserModel>();
+
+            users = progDal.GetAllUsers().ToList();
+            UserList = users;
         }
     }
 }

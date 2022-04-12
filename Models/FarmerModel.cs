@@ -11,30 +11,35 @@ namespace ST1109348.Models
     {
         [Required]
         public string FarmerID { get; set; }
-        public string FarmerUserName { get; set; }
+        public string FarmerEmail { get; set; }
+
+        public string FarmerPassword { get; set; }
 
         public static List<FarmerModel> farmerList = new List<FarmerModel>();
 
         public List<FarmerModel> farmerView;
+
+        //For interface purposes
+        public UserModel CurrentUser { get; set; }
 
         public static void populateFarmerList()
         {
             ProgramDAL progDal = new ProgramDAL();
             farmerList = progDal.GetAllFarmers().ToList();
 
-            foreach (var user in UserModel.userList)
+
+            foreach (var user in UserModel.UserList)
             {
                 for (int i = 0; i < farmerList.Count; i++)
                 {
                     if (farmerList.ElementAt(i).FarmerID.Equals(user.UserID))
                     {
-                        farmerList.ElementAt(i).FarmerUserName = user.UserName;
+                        farmerList.ElementAt(i).FarmerEmail = user.UserEmail;
                     }
                 }
             }
 
-            MessageBox.Show("farmer Id " + farmerList.ElementAt(0).FarmerID + ": is for user " + farmerList.ElementAt(0).FarmerUserName);
-
+        
         }
 
 

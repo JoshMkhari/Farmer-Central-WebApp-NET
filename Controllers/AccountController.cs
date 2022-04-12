@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -80,6 +81,49 @@ namespace ST1109348.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //check type and send to correct area
+                    if (String.IsNullOrEmpty(returnUrl))
+                    {
+                        //User.Identity.Name
+                        String userID ="";
+                        int userRole = 0;
+                        ProgramDAL progDal = new ProgramDAL();
+                        //If anything goes wrong learn Discards
+                        _ = new List<UserModel>();
+                        List<UserModel> users = progDal.GetAllUsers().ToList();
+                        foreach (var item in users)
+                        {
+                            if (item.UserEmail.Equals(model.Email))
+                            {
+                                userID = item.UserID;
+                                break;
+                            }
+                        }
+                        users = progDal.GetAllRoles().ToList();
+                        
+                        foreach (var item in users)
+                        {
+                            if (item.UserID.Equals(userID))
+                            {
+                                userRole = item.UserRole;
+                                break;
+                            }
+                        }
+                        switch (userRole)
+                        {
+                            case 1://Employee Logging in
+                                UserModel.LoggedInUserRole = "Employee";
+                                return RedirectToAction("Index", "Employee");
+                            case 2: //Farmer Logging in
+                                UserModel.LoggedInUserRole = "Farmer";
+                                return RedirectToAction("Index", "Farmer");
+                            case 3://Admin Logging in
+                                UserModel.LoggedInUserRole = "Admin";
+                                return RedirectToAction("Index", "Admin");
+
+                        }
+
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -157,14 +201,13 @@ namespace ST1109348.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Employee");
                 }
                 AddErrors(result);
             }
@@ -245,20 +288,22 @@ namespace ST1109348.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            MessageBox.Show("Code is " + model.Code);
             if (!ModelState.IsValid)
             {
+
                 return View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("Login", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("Login", "Account");
             }
             AddErrors(result);
             return View();
@@ -392,10 +437,17 @@ namespace ST1109348.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            MessageBox.Show("success");
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
+
+        public ActionResult SignOut()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Login", "Account");
+        }
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -450,7 +502,7 @@ namespace ST1109348.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
