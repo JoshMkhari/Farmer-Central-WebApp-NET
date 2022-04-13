@@ -29,8 +29,7 @@ namespace ST1109348.Controllers
             FarmerModel.populateFarmerList();
 
             rvm = new RegisterViewModel();
-            rvm.fm = InitilizeFarmers();
-            rvm.rpm = new ResetPasswordViewModel();
+            rvm.farmer = InitilizeFarmers();
             return View(rvm);
 
         }
@@ -87,8 +86,6 @@ namespace ST1109348.Controllers
 
         public ActionResult Farmers()
         {
-            RegisterViewModel rvm = new RegisterViewModel();
-            rvm.fm = InitilizeFarmers();
             return View(rvm);
         }
 

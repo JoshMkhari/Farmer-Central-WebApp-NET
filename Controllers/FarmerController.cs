@@ -23,12 +23,10 @@ namespace ST1109348.Controllers
             ProductModel.PopulateProductsList();
 
             rvm = new RegisterViewModel();
-            rvm.fm = InitilizeFarmers();
-            rvm.rpm = new ResetPasswordViewModel();
-
-
+            rvm.farmer = InitilizeFarmers();
+            rvm.Product = new ProductModel();
             myProducts = pm.PopulateMyProducts(currentUser);
-            rvm.productList= myProducts;
+            rvm.ProductList= myProducts;
             return View(rvm);
         }
 
@@ -84,12 +82,28 @@ namespace ST1109348.Controllers
         }
         public ActionResult Products()
         {
-            // MessageBox.Show("Last name " + rvm.fm.CurrentUser.LastName);
-            return View();
+            ProgramDAL pal = new ProgramDAL();
+            rvm.CategoryList = pal.GetAllCategories().ToList();
+            rvm.MovementList = pal.GetAllMovments().ToList();
+            return View(rvm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Products(RegisterViewModel model)
+        {
+            //model.Product
+            if (ModelState.IsValid)
+            {
+                //pass model on to programDal
+
+                MessageBox.Show("good news");
+            }
+            return RedirectToAction("Index", "Farmer");
         }
         public ActionResult MyProfile()
         {
-            MessageBox.Show("Last name " + rvm.fm.CurrentUser.FirstName);
+            MessageBox.Show("Last name " + rvm.farmer.CurrentUser.FirstName);
             return View(rvm);
         }
         private string ValidateUpdate(String check, String old)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,16 +9,28 @@ namespace ST1109348.Models
     public class ProductModel
     {
         public int ProductID { get; set; }
+
+        [Required]
+        [Display(Name = "Select Movement Type")]
         public string MovementID { get; set; }
+        [Required]
+        [Display(Name = "Select Category Name")]
         public string CategoryID { get; set; }
         public string UserID { get; set; }
+
+        [Required]
+        [Display(Name = "Enter Product Name")]
         public string Name { get; set; }
         public int Quantity { get; set; }
+
+        [Required]
+        [Display(Name = "Enter Producttion Date")]
         public DateTime ProductionDate { get; set; }
+        [Required]
+        [Display(Name = "Enter Expiry Date")]
         public DateTime ExpirationDate { get; set; }
         public DateTime FreezeByDate { get; set; }
         public DateTime SellByDate { get; set; }
-
         public static List<ProductModel> ProductList { get; set; }
         public static void PopulateProductsList()
         {
