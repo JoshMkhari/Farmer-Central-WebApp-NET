@@ -11,7 +11,6 @@ namespace ST1109348.Models
     {
         //Desktop Connection Strings
         string connectionStringLocalDEV = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
         //Laptop Connection Strings
         //string connectionStringLocalDEV = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
@@ -89,7 +88,6 @@ namespace ST1109348.Models
         //Update User
         public void UpdateUser(UserModel use, String OldEmail)
         {
-            MessageBox.Show("We running with update " + use.DisplayName);
             using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
             {
                 SqlCommand cmd = new SqlCommand("SP_UpdateUser", con);
@@ -154,14 +152,68 @@ namespace ST1109348.Models
                     prod.Quantity = Convert.ToInt32(dr["Quantity"].ToString());
                     prod.ProductionDate = Convert.ToDateTime(dr["ProductionDate"].ToString());
                     prod.ExpirationDate = Convert.ToDateTime(dr["ExpiryDate"].ToString());
-                    prod.FreezeByDate = Convert.ToDateTime(dr["FreezeByDate"].ToString());
-                    prod.SellByDate = Convert.ToDateTime(dr["SellByDate"].ToString());
+
+                    prod.FreezeByDate = checkNull(dr["FreezeByDate"].ToString());
+                    prod.SellByDate = checkNull(dr["SellByDate"].ToString());
                     productList.Add(prod);
                 }
 
                 con.Close();
             }
             return productList;
+        }
+
+        private String checkNull(string date)
+        {
+            if (String.IsNullOrEmpty(date))
+            {
+                return " ";
+            }
+            else
+                return date;
+        }
+        public void AddProduct(ProductModel product, String UserID)
+        {
+            
+            using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
+            {
+                SqlCommand cmd = new SqlCommand("SP_AddProduct", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@UserID", UserID);
+                cmd.Parameters.AddWithValue("@MovementID", product.MovementID);
+                cmd.Parameters.AddWithValue("@CategoryID", product.CategoryID);
+                cmd.Parameters.AddWithValue("@Name", product.Name);
+                cmd.Parameters.AddWithValue("@Quantity", product.Quantity);
+                cmd.Parameters.AddWithValue("@ProductionDate", product.ProductionDate);
+                cmd.Parameters.AddWithValue("@ExpiryDate", product.ExpirationDate);
+
+                
+                if (String.IsNullOrEmpty(product.FreezeByDate) || product.FreezeByDate.Equals(" "))
+                {
+
+                }
+                else
+                {
+                cmd.Parameters.AddWithValue("@FreezeByDate", product.FreezeByDate);
+                }
+                
+                if (String.IsNullOrEmpty(product.SellByDate) || product.SellByDate.Equals(" "))
+                {
+
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@SellByDate", product.SellByDate);
+                }
+
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
+            
         }
 
         public IEnumerable<MovementModel> GetAllMovments()

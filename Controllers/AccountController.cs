@@ -288,7 +288,6 @@ namespace ST1109348.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            MessageBox.Show("Code is " + model.Code);
             if (!ModelState.IsValid)
             {
 
@@ -437,7 +436,7 @@ namespace ST1109348.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            MessageBox.Show("success");
+            
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login", "Account");
         }

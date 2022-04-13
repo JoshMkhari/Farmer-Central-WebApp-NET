@@ -20,7 +20,7 @@ namespace ST1109348.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private UserModel currentUser;
+        private static UserModel currentUser;
         private static RegisterViewModel rvm;
 
         public ActionResult Index()

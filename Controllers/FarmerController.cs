@@ -13,8 +13,9 @@ namespace ST1109348.Controllers
     {
         // GET: Farmer
         private static RegisterViewModel rvm;
-        private UserModel currentUser;
+        private static UserModel currentUser;
         private List<ProductModel> myProducts;
+        private static ProductModel currentProduct;
         public ActionResult Index()
         {
             UserModel.populateUserList();
@@ -90,20 +91,45 @@ namespace ST1109348.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Products(RegisterViewModel model)
+        public ActionResult Products(RegisterViewModel model, FormCollection formData)
         {
-            //model.Product
-            if (ModelState.IsValid)
+  
+            //try
             {
-                //pass model on to programDal
+                ProgramDAL pal = new ProgramDAL();
+                currentProduct = new ProductModel();
+                model.Product.ProductionDate = Convert.ToDateTime(checkDate(formData["productionValue"] == "" ? null : formData["productionValue"]));
+                model.Product.ExpirationDate = Convert.ToDateTime(checkDate(formData["expirationValue"] == "" ? null : formData["expirationValue"]));
 
-                MessageBox.Show("good news");
+                model.Product.FreezeByDate = checkDate(formData["freezeByValue"] == "" ? null : formData["freezeByValue"]);
+                model.Product.SellByDate = checkDate(formData["sellByValue"] == "" ? null : formData["sellByValue"]);
+                
+                pal.AddProduct(model.Product, currentUser.UserID);
+                return RedirectToAction("Index", "Farmer");
             }
-            return RedirectToAction("Index", "Farmer");
+            //catch (Exception)
+            //{
+            //    return RedirectToAction("Products", "Farmer");
+           // }
+            
+        }
+
+        private String checkDate(string date)
+        {
+            DateTime convert = new DateTime();
+            try
+            {
+                convert = Convert.ToDateTime(date);
+                return date;
+            }
+            catch (Exception)
+            {
+                return " ";
+            }
         }
         public ActionResult MyProfile()
         {
-            MessageBox.Show("Last name " + rvm.farmer.CurrentUser.FirstName);
+           
             return View(rvm);
         }
         private string ValidateUpdate(String check, String old)

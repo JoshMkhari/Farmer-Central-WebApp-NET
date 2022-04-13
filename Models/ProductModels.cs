@@ -29,8 +29,13 @@ namespace ST1109348.Models
         [Required]
         [Display(Name = "Enter Expiry Date")]
         public DateTime ExpirationDate { get; set; }
-        public DateTime FreezeByDate { get; set; }
-        public DateTime SellByDate { get; set; }
+        [Display(Name = "Enter Freeze By Date")]
+        public String FreezeByDate { get; set; }
+        [Display(Name = "Enter Sell By Date")]
+        public String SellByDate { get; set; }
+
+        public Boolean FreezeByEmpty;
+        public Boolean SellByEmpty;
         public static List<ProductModel> ProductList { get; set; }
         public static void PopulateProductsList()
         {
@@ -72,7 +77,6 @@ namespace ST1109348.Models
                 if (prod.UserID.Equals(currentUser.UserID))
                 {
                     myProducts.Add(prod);
-                    break;
                 }
             }
 

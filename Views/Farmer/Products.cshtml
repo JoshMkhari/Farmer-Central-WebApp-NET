@@ -48,7 +48,7 @@
                                 </div>
                                 <p />
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.Name, new { @class = "col-md-2 control-label" })
+                                    @Html.LabelFor(m => m.Product.Name, new { @class = "col-md-5 control-label" })
                                     <div class="col-md-10">
                                         @Html.TextBoxFor(m => m.Product.Name, new { @class = "form-control" })
                                     </div>
@@ -72,8 +72,8 @@
                                     @Html.LabelFor(m => m.Product.ProductionDate, new { @class = "col-md-2 control-label" })
                                     <div class="col-md-4">
                                         <div class="md-form md-outline input-with-post-icon datepicker">
-                                            <input placeholder="Select date" type="date" id="datePicker" class="form-control">
- 
+                                            <input placeholder="Select date" type="date" id="ProductionDate" class="form-control">
+                                            <input type="hidden" id="productionValue" name="productionValue" value="3487">
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +82,8 @@
                                     @Html.LabelFor(m => m.Product.ExpirationDate, new { @class = "col-md-2 control-label" })
                                     <div class="col-md-4">
                                         <div class="md-form md-outline input-with-post-icon datepicker">
-                                            <input placeholder="Select date" type="date" id="datePicker" class="form-control">
+                                            <input placeholder="Select date" type="date" id="ExpirationDate" class="form-control">
+                                            <input type="hidden" id="expirationValue" name="expirationValue" value="3487">
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +92,8 @@
                                     @Html.LabelFor(m => m.Product.FreezeByDate, new { @class = "col-md-2 control-label" })
                                     <div class="col-md-4">
                                         <div class="md-form md-outline input-with-post-icon datepicker">
-                                            <input placeholder="Select date" type="date" id="datePicker" class="form-control">
+                                            <input placeholder="Select date" type="date" id="FreezeByDate" class="form-control">
+                                            <input type="hidden" id="freezeByValue" name="freezeByValue" value="3487">
                                         </div>
                                     </div>
                                 </div>
@@ -100,14 +102,15 @@
                                     @Html.LabelFor(m => m.Product.SellByDate, new { @class = "col-md-2 control-label" })
                                     <div class="col-md-4">
                                         <div class="md-form md-outline input-with-post-icon datepicker">
-                                            <input placeholder="Select date" type="date" id="datePicker" class="form-control">
+                                            <input placeholder="Select date" type="date" id="SellByDate" class="form-control">
+                                            <input type="hidden" id="sellByValue" name="sellByValue" value="3487">
                                         </div>
                                     </div>
                                 </div>
                                 <p />
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
-                                        <button class="btn btn-primary w-100" value="Product" type="submit">Add Product</button>
+                                        <button class="btn btn-primary w-100" value="Product" type="submit" onclick="myFunction()">Add Product</button>
                                     </div>
                                 </div>
 
@@ -300,5 +303,14 @@
 
         </div>
     </div>
+
+    <script>
+        function myFunction() {
+            document.getElementById("productionValue").value = document.getElementById("ProductionDate").value;
+            document.getElementById("expirationValue").value = document.getElementById("ExpirationDate").value;
+            document.getElementById("freezeByValue").value = document.getElementById("FreezeByDate").value;
+            document.getElementById("sellByValue").value = document.getElementById("SellByDate").value;
+        }
+    </script>
 </section>
 
