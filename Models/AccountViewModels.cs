@@ -80,8 +80,9 @@ namespace ST1109348.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public FarmerModel fm;
-        public ResetPasswordViewModel rpm;
+        public FarmerModel fm { get; set; }
+        public ResetPasswordViewModel rpm { get; set; }
+        public List<ProductModel> productList { get; set; }
     }
 
     public class ResetPasswordViewModel

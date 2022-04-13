@@ -14,14 +14,21 @@ namespace ST1109348.Controllers
         // GET: Farmer
         private static RegisterViewModel rvm;
         private UserModel currentUser;
+        private List<ProductModel> myProducts;
         public ActionResult Index()
         {
             UserModel.populateUserList();
             FarmerModel.populateFarmerList();
+            ProductModel pm = new ProductModel();
+            ProductModel.PopulateProductsList();
 
             rvm = new RegisterViewModel();
             rvm.fm = InitilizeFarmers();
             rvm.rpm = new ResetPasswordViewModel();
+
+
+            myProducts = pm.PopulateMyProducts(currentUser);
+            rvm.productList= myProducts;
             return View(rvm);
         }
 

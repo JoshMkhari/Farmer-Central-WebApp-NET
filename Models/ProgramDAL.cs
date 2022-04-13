@@ -134,7 +134,7 @@ namespace ST1109348.Models
         }
 
         //Product Related
-        public IEnumerable<FarmerModel> GetAllProducts()
+        public IEnumerable<ProductModel> GetAllProducts()
         {
             List<ProductModel> productList = new List<ProductModel>();
             using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
@@ -146,22 +146,66 @@ namespace ST1109348.Models
                 while (dr.Read())
                 {
                     ProductModel prod = new ProductModel();
-                    use.UserID = Convert.ToString(dr["Id"].ToString());
-                    use.UserEmail = Convert.ToString(dr["Email"].ToString());
-                    use.UserName = Convert.ToString(dr["UserName"].ToString());
-                    use.Address = Convert.ToString(dr["Address"].ToString());
-                    use.FullName = Convert.ToString(dr["FullName"].ToString());
-                    use.Phone = Convert.ToString(dr["PhoneNumber"].ToString());
-                    use.DisplayName = Convert.ToString(dr["DisplayName"].ToString());
-                    userList.Add(use);
+                    prod.ProductID = Convert.ToInt32(dr["ProductId"].ToString());
+                    prod.MovementID = Convert.ToString(dr["MovementId"].ToString());
+                    prod.CategoryID = Convert.ToString(dr["CategoryId"].ToString());
+                    prod.UserID = Convert.ToString(dr["Id"].ToString());
+                    prod.Name = Convert.ToString(dr["Name"].ToString());
+                    prod.Quantity = Convert.ToInt32(dr["Quantity"].ToString());
+                    prod.ProductionDate = Convert.ToDateTime(dr["ProductionDate"].ToString());
+                    prod.ExpirationDate = Convert.ToDateTime(dr["ExpiryDate"].ToString());
+                    prod.FreezeByDate = Convert.ToDateTime(dr["FreezeByDate"].ToString());
+                    prod.SellByDate = Convert.ToDateTime(dr["SellByDate"].ToString());
+                    productList.Add(prod);
                 }
 
                 con.Close();
             }
-
-            return userList;
-
+            return productList;
         }
 
+        public IEnumerable<MovementModel> GetAllMovments()
+        {
+            List<MovementModel> movementList = new List<MovementModel>();
+            using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
+            {
+                SqlCommand cmd = new SqlCommand("SP_GetAllMovements", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    MovementModel movement = new MovementModel();
+                    movement.Id = Convert.ToInt32(dr["MovementId"].ToString());
+                    movement.Name = Convert.ToString(dr["MovemenetName"].ToString());
+                    movementList.Add(movement);
+                }
+
+                con.Close();
+            }
+            return movementList;
+        }
+
+        public IEnumerable<CategoryModel> GetAllCategories()
+        {
+            List<CategoryModel> categoryList = new List<CategoryModel>();
+            using (SqlConnection con = new SqlConnection(connectionStringLocalDEV))
+            {
+                SqlCommand cmd = new SqlCommand("SP_GetAllCategory", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    CategoryModel category = new CategoryModel();
+                    category.Id = Convert.ToInt32(dr["CategoryId"].ToString());
+                    category.Name = Convert.ToString(dr["CategoryName"].ToString());
+                    categoryList.Add(category);
+                }
+
+                con.Close();
+            }
+            return categoryList;
+        }
     }
 }

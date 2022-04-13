@@ -181,7 +181,7 @@
     <Compile Include="Models\FarmerModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\ProductModels.cs" />
     <Compile Include="Models\ProgramDAL.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
