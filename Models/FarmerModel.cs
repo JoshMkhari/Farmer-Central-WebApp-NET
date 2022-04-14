@@ -16,7 +16,7 @@ namespace ST1109348.Models
         public string FarmerPassword { get; set; }
         public static List<FarmerModel> farmerList = new List<FarmerModel>();
 
-        public List<FarmerModel> farmerView;
+        public List<FarmerModel> farmerView { get; set; }
 
 
         //For interface purposes
