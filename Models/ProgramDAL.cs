@@ -150,8 +150,10 @@ namespace ST1109348.Models
                     prod.UserID = Convert.ToString(dr["Id"].ToString());
                     prod.Name = Convert.ToString(dr["Name"].ToString());
                     prod.Quantity = Convert.ToInt32(dr["Quantity"].ToString());
+                    prod.Weight = Convert.ToInt32(dr["Weight"].ToString());
                     prod.ProductionDate = Convert.ToDateTime(dr["ProductionDate"].ToString());
                     prod.ExpirationDate = Convert.ToDateTime(dr["ExpiryDate"].ToString());
+
 
                     prod.FreezeByDate = checkNull(dr["FreezeByDate"].ToString());
                     prod.SellByDate = checkNull(dr["SellByDate"].ToString());
@@ -185,6 +187,7 @@ namespace ST1109348.Models
                 cmd.Parameters.AddWithValue("@CategoryID", product.CategoryID);
                 cmd.Parameters.AddWithValue("@Name", product.Name);
                 cmd.Parameters.AddWithValue("@Quantity", product.Quantity);
+                cmd.Parameters.AddWithValue("@Weight", product.Weight);
                 cmd.Parameters.AddWithValue("@ProductionDate", product.ProductionDate);
                 cmd.Parameters.AddWithValue("@ExpiryDate", product.ExpirationDate);
 

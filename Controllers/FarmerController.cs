@@ -93,8 +93,8 @@ namespace ST1109348.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Products(RegisterViewModel model, FormCollection formData)
         {
-  
-            //try
+
+            try
             {
                 ProgramDAL pal = new ProgramDAL();
                 currentProduct = new ProductModel();
@@ -107,11 +107,11 @@ namespace ST1109348.Controllers
                 pal.AddProduct(model.Product, currentUser.UserID);
                 return RedirectToAction("Index", "Farmer");
             }
-            //catch (Exception)
-            //{
-            //    return RedirectToAction("Products", "Farmer");
-           // }
-            
+            catch (Exception)
+            {
+                return RedirectToAction("Products", "Farmer");
+            }
+
         }
 
         private String checkDate(string date)

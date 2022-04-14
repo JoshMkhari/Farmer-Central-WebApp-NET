@@ -21,7 +21,11 @@ namespace ST1109348.Models
         [Required]
         [Display(Name = "Enter Product Name")]
         public string Name { get; set; }
+        [Required]
         public int Quantity { get; set; }
+        [Required]
+        [Display(Name = "Enter Weight in grams")]
+        public int Weight { get; set; }
 
         [Required]
         [Display(Name = "Enter Producttion Date")]
