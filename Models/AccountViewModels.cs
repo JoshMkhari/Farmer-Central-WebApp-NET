@@ -79,13 +79,14 @@ namespace ST1109348.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
         public FarmerModel farmer { get; set; }
         public List<ProductModel> ProductList { get; set; }
         public ProductModel Product { get; set; }
         [Required]
         public List<CategoryModel> CategoryList { get; set; }
         public List<MovementModel> MovementList { get; set; }
+        public List<StockModel> MyStockList { get; set;}
+
     }
 
     public class ResetPasswordViewModel

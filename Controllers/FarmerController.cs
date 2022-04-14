@@ -15,7 +15,6 @@ namespace ST1109348.Controllers
         private static RegisterViewModel rvm;
         private static UserModel currentUser;
         private List<ProductModel> myProducts;
-        private static ProductModel currentProduct;
         public ActionResult Index()
         {
             UserModel.populateUserList();
@@ -28,6 +27,7 @@ namespace ST1109348.Controllers
             rvm.Product = new ProductModel();
             myProducts = pm.PopulateMyProducts(currentUser);
             rvm.ProductList= myProducts;
+            rvm.MyStockList = pm.PopulateMyStock(myProducts);
             return View(rvm);
         }
 
@@ -97,13 +97,18 @@ namespace ST1109348.Controllers
             try
             {
                 ProgramDAL pal = new ProgramDAL();
-                currentProduct = new ProductModel();
                 model.Product.ProductionDate = Convert.ToDateTime(checkDate(formData["productionValue"] == "" ? null : formData["productionValue"]));
                 model.Product.ExpirationDate = Convert.ToDateTime(checkDate(formData["expirationValue"] == "" ? null : formData["expirationValue"]));
-
                 model.Product.FreezeByDate = checkDate(formData["freezeByValue"] == "" ? null : formData["freezeByValue"]);
                 model.Product.SellByDate = checkDate(formData["sellByValue"] == "" ? null : formData["sellByValue"]);
-                
+                MessageBox.Show("Movement ID " + model.Product.MovementID);
+                if (model.Product.MovementID.Equals("3"))
+                {
+                    if (model.Product.Quantity>0)
+                    {
+                        model.Product.Quantity *= -1;
+                    }
+                }
                 pal.AddProduct(model.Product, currentUser.UserID);
                 return RedirectToAction("Index", "Farmer");
             }

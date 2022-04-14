@@ -19,22 +19,38 @@
 <div class="col-12">
     <div class="card recent-sales overflow-auto">
         <div class="card-body">
-            <h5 class="card-title">Farmers <span>| All</span></h5>
-            <table class="table table-striped">
+            <h5 class="card-title">Products <span>| All</span></h5>
+            <table class="table table-striped datatable">
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Email</th>
+                        <th scope="col">Farmer Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Weight</th>
+                        <th scope="col">Movement</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Production</th>
+                        <th scope="col">Freeze By Date</th>
+                        <th scope="col">Sell By Date</th>
+                        <th scope="col">Expiration Date</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    @foreach (var mod in Model.fm.farmerView)
+                    @foreach (var mod in Model.ProductList)
                     {
-                        <tr>
-                            <td>@mod.FarmerID</td>
-                            <td>@mod.FarmerEmail</td>
-                        </tr>
+                    <tr>
+                        <td>@mod.FarmerName</td>
+                        <td>@mod.CategoryID</td>
+                        <td>@mod.Name</td>
+                        <td>@mod.Weight</td>
+                        <td>@mod.MovementID</td>
+                        <td>@mod.Quantity</td>
+                        <td>@mod.ProductionDate</td>
+                        <td>@mod.FreezeByDate</td>
+                        <td>@mod.SellByDate</td>
+                        <td>@mod.ExpirationDate</td>
+                    </tr>
                     }
                 </tbody>
             </table>

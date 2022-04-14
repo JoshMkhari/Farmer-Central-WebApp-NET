@@ -27,9 +27,12 @@ namespace ST1109348.Controllers
         {
             UserModel.populateUserList();
             FarmerModel.populateFarmerList();
+            ProductModel.PopulateProductsList();
+
 
             rvm = new RegisterViewModel();
             rvm.farmer = InitilizeFarmers();
+            rvm.ProductList = ProductModel.ProductList;
             return View(rvm);
 
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Windows;
 
 namespace ST1109348.Models
 {
@@ -10,6 +11,7 @@ namespace ST1109348.Models
     {
         public int ProductID { get; set; }
 
+        public string FarmerName { get; set; }
         [Required]
         [Display(Name = "Select Movement Type")]
         public string MovementID { get; set; }
@@ -40,7 +42,12 @@ namespace ST1109348.Models
 
         public Boolean FreezeByEmpty;
         public Boolean SellByEmpty;
-        public static List<ProductModel> ProductList { get; set; }
+
+
+        //Used to track movements
+        public static List<ProductModel> ProductList { get; set;}
+
+        public static List<ProductModel> StockList { get; set; }
         public static void PopulateProductsList()
         {
             ProgramDAL progDal = new ProgramDAL();
@@ -70,6 +77,14 @@ namespace ST1109348.Models
                     }
                 }
 
+                foreach (var farmer in FarmerModel.farmerList)
+                {
+                    if (product.UserID.Equals(farmer.FarmerID))
+                    {
+                        product.FarmerName = farmer.DisplayName;
+                    }
+                }
+
             }
         }
 
@@ -86,8 +101,51 @@ namespace ST1109348.Models
 
             return myProducts;
         }
+
+        public List<StockModel> PopulateMyStock(List<ProductModel> myProducts)
+        {
+            List<StockModel> stockTrack = new List<StockModel>();
+            List<string> stockNames = new List<string>();
+            for (int s = 0; s < myProducts.Count; s++)
+            {
+                var currentProduct = myProducts.ElementAt(s);
+
+                int stock = currentProduct.Quantity;
+                for (int i = s+1; i < myProducts.Count; i++)
+                {
+                    
+                    var compareProduct = myProducts.ElementAt(i);
+                    if (currentProduct.Name.Equals(compareProduct.Name))
+                    {
+                        if (currentProduct.Weight == compareProduct.Weight)
+                        {
+                            stock += compareProduct.Quantity;
+                        }
+                    }
+                }
+                if (!stockNames.Contains(currentProduct.Name+ currentProduct.Weight))
+                {
+                    stockNames.Add(currentProduct.Name + currentProduct.Weight);
+                    stockTrack.Add(new StockModel()
+                    {
+                        Name = currentProduct.Name +" "+ currentProduct.Weight+"g",
+                        Category = currentProduct.CategoryID,
+                        Stock = stock
+                    });
+                }
+                
+            }
+            return stockTrack;
+        }
     }
 
+    public class StockModel
+    {
+        public String Name { get; set; }
+
+        public String Category { get; set; }
+        public int Stock { get; set; }
+    }
     public class MovementModel
     {
         public int Id { get; set; }

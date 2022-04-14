@@ -16,13 +16,14 @@
 </div><!-- End Page Title -->
 <p />
 <!-- Farmers Table -->
-<div class="col-12">
+<div class="col-auto">
     <div class="card recent-sales overflow-auto">
         <div class="card-body">
-            <h5 class="card-title">My Products <span>| All</span></h5>
-            <table class="table table-striped datatable">
+            <h5 class="card-title">Products <span>| Movements</span></h5>
+            <table class="table table-hover datatable">
                 <thead>
                     <tr>
+                        <th scope="col">#</th>
                         <th scope="col">Category</th>
                         <th scope="col">Name</th>
                         <th scope="col">Weight</th>
@@ -38,17 +39,18 @@
 
                     @foreach (var mod in Model.ProductList)
                     {
-                    <tr>
-                        <td>@mod.CategoryID</td>
-                        <td>@mod.Name</td>
-                        <td>@mod.Weight</td>
-                        <td>@mod.MovementID</td>
-                        <td>@mod.Quantity</td>
-                        <td>@mod.ProductionDate</td>
-                        <td>@mod.FreezeByDate</td>
-                        <td>@mod.SellByDate</td>
-                        <td>@mod.ExpirationDate</td>
-                    </tr>
+                        <tr>
+                            <td>@mod.ProductID</td>
+                            <td>@mod.CategoryID</td>
+                            <td>@mod.Name</td>
+                            <td>@mod.Weight</td>
+                            <td>@mod.MovementID</td>
+                            <td>@mod.Quantity</td>
+                            <td>@mod.ProductionDate</td>
+                            <td>@mod.FreezeByDate</td>
+                            <td>@mod.SellByDate</td>
+                            <td>@mod.ExpirationDate</td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -56,4 +58,33 @@
         </div>
 
     </div>
+    <p />
 </div><!-- End Recent Sales -->
+
+<div class="card recent-sales overflow-auto">
+    <div class="card-body">
+        <h5 class="card-title">Stock <span>| All</span></h5>
+        <table class="table table-hover datatable">
+            <thead>
+                <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var mod in Model.MyStockList)
+                {
+                    <tr>
+                        <td>@mod.Category</td>
+                        <td>@mod.Name</td>
+                        <td>@mod.Stock</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
