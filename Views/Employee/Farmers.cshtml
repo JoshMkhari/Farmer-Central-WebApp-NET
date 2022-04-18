@@ -89,14 +89,91 @@
 
                                                 @foreach (var mod in Model.farmer.farmerView)
                                                 {
-                                                <tr>
-                                                    <td>@mod.DisplayName</td>
-                                                    <td>@mod.FarmerEmail</td>
-                                                </tr>
+                                                    <tr>
+                                                        <td>@mod.DisplayName</td>
+                                                        <td>@mod.FarmerEmail</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#@mod.DisplayName">
+                                                                <i class="ri ri-eye-2-line"></i>
+                                                            </button>
+
+                                                            <div class="modal fade" id="@mod.DisplayName" tabindex="-1">
+                                                                <div class="modal-dialog modal-fullscreen">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">View Products</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <h5 class="card-title">Products <span>| @mod.DisplayName</span></h5>
+                                                                            <table class="table table-striped datatable">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th scope="col">Category</th>
+                                                                                        <th scope="col">Name</th>
+                                                                                        <th scope="col">Weight</th>
+                                                                                        <th scope="col">Movement</th>
+                                                                                        <th scope="col">Quantity</th>
+                                                                                        <th scope="col">Production</th>
+                                                                                        <th scope="col">Freeze By Date</th>
+                                                                                        <th scope="col">Sell By Date</th>
+                                                                                        <th scope="col">Expiration Date</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    @foreach (var product in mod.CurrentFarmerProductList)
+                                                                                    {
+                                                                                        <tr>
+                                                                                            <td>@product.CategoryID</td>
+                                                                                            <td>@product.Name</td>
+                                                                                            <td>@product.Weight</td>
+                                                                                            <td>@product.MovementID</td>
+                                                                                            <td>@product.Quantity</td>
+                                                                                            <td>@product.ProductionDate</td>
+                                                                                            <td>@product.FreezeByDate</td>
+                                                                                            <td>@product.SellByDate</td>
+                                                                                            <td>@product.ExpirationDate</td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!-- End Full Screen Modal-->
+                                                            <!-- Basic Modal -->
+                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#_@mod.DisplayName">
+                                                                <i class="bx bxs-trash"></i>
+                                                            </button>
+                                                            <div class="modal fade" id="_@mod.DisplayName" tabindex="-1">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Delete @mod.DisplayName Account</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            This action is irreversible and will remove @mod.DisplayName alongside all their data including products.
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                            @using (Html.BeginForm("Delete", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                                            {
+                                                                                <button type="submit" class="btn btn-danger">Delete @mod.FarmerEmail</button>
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!-- End Basic Modal-->
+                                                        </td>
+                                                    </tr>
                                                 }
                                             </tbody>
                                         </table>
-
                                     </div>
 
                                 </div>

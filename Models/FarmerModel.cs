@@ -16,6 +16,7 @@ namespace ST1109348.Models
         public string FarmerPassword { get; set; }
         public static List<FarmerModel> farmerList = new List<FarmerModel>();
 
+        public List<ProductModel> CurrentFarmerProductList;
         public List<FarmerModel> farmerView { get; set; }
 
 
@@ -25,6 +26,7 @@ namespace ST1109348.Models
         public static void populateFarmerList()
         {
             ProgramDAL progDal = new ProgramDAL();
+            ProductModel pm = new ProductModel();
             farmerList = progDal.GetAllFarmers().ToList();
             foreach (var user in UserModel.UserList)
             {
@@ -32,18 +34,24 @@ namespace ST1109348.Models
                 {
                     if (farmerList.ElementAt(i).FarmerID.Equals(user.UserID))
                     {
+
                         farmerList.ElementAt(i).FarmerEmail = user.UserEmail;
                         if (String.IsNullOrEmpty(user.DisplayName))
                         {
                             farmerList.ElementAt(i).DisplayName = user.UserEmail;
                         }
                         else
-                            farmerList.ElementAt(i).DisplayName = user.DisplayName;
+                            farmerList.ElementAt(i).DisplayName = user.DisplayName;                     
                     }
                 }
             }
-
+            
+            for (int i = 0; i < farmerList.Count; i++)
+            {
+                farmerList.ElementAt(i).CurrentFarmerProductList = pm.PopulateMyProducts(farmerList.ElementAt(i).FarmerID);
+            };
         
+            
         }
 
 

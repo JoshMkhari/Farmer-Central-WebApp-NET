@@ -50,6 +50,7 @@ namespace ST1109348.Models
         public static List<ProductModel> StockList { get; set; }
         public static void PopulateProductsList()
         {
+
             ProgramDAL progDal = new ProgramDAL();
             MovementModel.MovementList = new List<MovementModel>();
             CategoryModel.CategoryList = new List<CategoryModel>();
@@ -57,7 +58,6 @@ namespace ST1109348.Models
             ProductList = progDal.GetAllProducts().ToList();
             MovementModel.MovementList = progDal.GetAllMovments().ToList();
             CategoryModel.CategoryList = progDal.GetAllCategories().ToList();
-
             foreach (var product in ProductList)
             {
                 foreach (var category in CategoryModel.CategoryList)
@@ -88,17 +88,16 @@ namespace ST1109348.Models
             }
         }
 
-        public List<ProductModel> PopulateMyProducts(UserModel currentUser)
+        public List<ProductModel> PopulateMyProducts(String currentUser)
         {
             List<ProductModel> myProducts = new List<ProductModel>();
             foreach (var prod in ProductList)
             {
-                if (prod.UserID.Equals(currentUser.UserID))
+                if (prod.UserID.Equals(currentUser))
                 {
                     myProducts.Add(prod);
                 }
             }
-
             return myProducts;
         }
 

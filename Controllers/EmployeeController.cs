@@ -25,10 +25,12 @@ namespace ST1109348.Controllers
 
         public ActionResult Index()
         {
+            ProductModel.PopulateProductsList();
             UserModel.populateUserList();
             FarmerModel.populateFarmerList();
-            ProductModel.PopulateProductsList();
+            
 
+           
 
             rvm = new RegisterViewModel();
             rvm.farmer = InitilizeFarmers();
@@ -120,6 +122,13 @@ namespace ST1109348.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult Delete(String id)
+        {
+            MessageBox.Show("person we deleting is " + id); 
+            //Sign out user and store 
+            return RedirectToAction("Index", "Employee");
+        }
         private FarmerModel InitilizeFarmers()
         {
             FarmerModel fm = new FarmerModel();

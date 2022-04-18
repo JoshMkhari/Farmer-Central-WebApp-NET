@@ -25,7 +25,7 @@ namespace ST1109348.Controllers
             rvm = new RegisterViewModel();
             rvm.farmer = InitilizeFarmers();
             rvm.Product = new ProductModel();
-            myProducts = pm.PopulateMyProducts(currentUser);
+            myProducts = pm.PopulateMyProducts(currentUser.UserID);
             rvm.ProductList= myProducts;
             rvm.MyStockList = pm.PopulateMyStock(myProducts);
             return View(rvm);
