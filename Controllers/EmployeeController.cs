@@ -28,8 +28,8 @@ namespace ST1109348.Controllers
             ProductModel.PopulateProductsList();
             UserModel.populateUserList();
             FarmerModel.populateFarmerList();
-            
 
+            
            
 
             rvm = new RegisterViewModel();
@@ -99,27 +99,29 @@ namespace ST1109348.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Farmers(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+            if (!string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Password) && !string.IsNullOrEmpty(model.ConfirmPassword))
+                if (model.ConfirmPassword.Equals(model.Password))
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    {
+                        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                        var result = await UserManager.CreateAsync(user, model.Password);
+                        if (result.Succeeded)
+                        {
+                            //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // edit asp net user roles
-                    //AspNetUserRoles
+                            // edit asp net user roles
+                            //AspNetUserRoles
+                            MessageBox.Show("eror please");
+                            ProgramDAL pal = new ProgramDAL();
+                            pal.AddFarmer(user.Id);
 
-                    ProgramDAL pal = new ProgramDAL();
-                    pal.AddFarmer(user.Id);
-
-                    return RedirectToAction("Index", "Employee");
+                            return RedirectToAction("Index", "Employee");
+                        }
+                        AddErrors(result);
+                    }
                 }
-                AddErrors(result);
-            }
-
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("Farmers", "Employee");
         }
 
         [HttpPost]
