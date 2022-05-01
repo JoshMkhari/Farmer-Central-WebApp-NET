@@ -119,7 +119,7 @@ namespace ST1109348.Controllers
                                 return RedirectToAction("Index", "Farmer");
                             case 3://Admin Logging in
                                 UserModel.LoggedInUserRole = "Admin";
-                                return RedirectToAction("Index", "Admin");
+                                return RedirectToAction("Index", "Employee");
 
                         }
 
