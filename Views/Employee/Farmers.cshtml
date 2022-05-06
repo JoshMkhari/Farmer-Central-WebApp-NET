@@ -84,7 +84,7 @@
                                             </thead>
                                             <tbody>
 
-                                                @foreach (var mod in Model.farmer.farmerView)
+                                                @foreach (var mod in Model.Farmer.FarmerView)
                                                 {
                                                     <tr>
                                                         <td>@mod.DisplayName</td>
@@ -122,10 +122,10 @@
                                                                                     @foreach (var product in mod.CurrentFarmerProductList)
                                                                                     {
                                                                                         <tr>
-                                                                                            <td>@product.CategoryID</td>
+                                                                                            <td>@product.CategoryId</td>
                                                                                             <td>@product.Name</td>
                                                                                             <td>@product.Weight</td>
-                                                                                            <td>@product.MovementID</td>
+                                                                                            <td>@product.MovementId</td>
                                                                                             <td>@product.Quantity</td>
                                                                                             <td>@product.ProductionDate</td>
                                                                                             <td>@product.FreezeByDate</td>

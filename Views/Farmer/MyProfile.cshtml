@@ -22,8 +22,8 @@
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                     <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                    <h2>@Model.farmer.CurrentUser.FullName</h2>
-                    <h3>@Model.farmer.CurrentUser.UserType</h3>
+                    <h2>@Model.Farmer.CurrentUser.FullName</h2>
+                    <h3>@Model.Farmer.CurrentUser.UserType</h3>
                 </div>
             </div>
 
@@ -57,32 +57,32 @@
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                <div class="col-lg-9 col-md-8">@Model.farmer.CurrentUser.FullName</div>
+                                <div class="col-lg-9 col-md-8">@Model.Farmer.CurrentUser.FullName</div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label ">Display Name</div>
-                                <div class="col-lg-9 col-md-8">@Model.farmer.CurrentUser.DisplayName</div>
+                                <div class="col-lg-9 col-md-8">@Model.Farmer.CurrentUser.DisplayName</div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">User Type</div>
-                                <div class="col-lg-9 col-md-8">@Model.farmer.CurrentUser.UserType</div>
+                                <div class="col-lg-9 col-md-8">@Model.Farmer.CurrentUser.UserType</div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Address</div>
-                                <div class="col-lg-9 col-md-8">@Model.farmer.CurrentUser.Address</div>
+                                <div class="col-lg-9 col-md-8">@Model.Farmer.CurrentUser.Address</div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Phone</div>
-                                <div class="col-lg-9 col-md-8">@Model.farmer.CurrentUser.Phone</div>
+                                <div class="col-lg-9 col-md-8">@Model.Farmer.CurrentUser.Phone</div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Email</div>
-                                <div class="col-lg-9 col-md-8">@Model.farmer.CurrentUser.UserEmail</div>
+                                <div class="col-lg-9 col-md-8">@Model.Farmer.CurrentUser.UserEmail</div>
                             </div>
 
                         </div>
@@ -108,33 +108,33 @@
                                     <div class="row mb-3">
                                         <label for="FirstName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="FirstName" type="text" class="form-control" id="FirstName" value=@Model.farmer.CurrentUser.FirstName>
+                                            <input name="FirstName" type="text" class="form-control" id="FirstName" value=@Model.Farmer.CurrentUser.FirstName>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="LastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="LastName" type="text" class="form-control" id="LastName" value=@Model.farmer.CurrentUser.LastName>
+                                            <input name="LastName" type="text" class="form-control" id="LastName" value=@Model.Farmer.CurrentUser.LastName>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="DisplayName" class="col-md-4 col-lg-3 col-form-label">Display Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="DisplayName" type="text" class="form-control" id="DisplayName" value=@Model.farmer.CurrentUser.DisplayName>
+                                            <input name="DisplayName" type="text" class="form-control" id="DisplayName" value=@Model.Farmer.CurrentUser.DisplayName>
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="address" type="text" class="form-control" id="Address" value=@Model.farmer.CurrentUser.Address>
+                                            <input name="address" type="text" class="form-control" id="Address" value=@Model.Farmer.CurrentUser.Address>
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone" value=@Model.farmer.CurrentUser.Phone>
+                                            <input name="phone" type="text" class="form-control" id="Phone" value=@Model.Farmer.CurrentUser.Phone>
                                         </div>
                                     </div>
                                     @Html.AntiForgeryToken()
@@ -142,7 +142,7 @@
                                     <div class="row mb-3">
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" value=@Model.farmer.CurrentUser.UserEmail>
+                                            <input name="email" type="email" class="form-control" id="Email" value=@Model.Farmer.CurrentUser.UserEmail>
                                         </div>
                                     </div>
 

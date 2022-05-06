@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Windows;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -87,23 +84,23 @@ namespace ST1109348.Controllers
                         //User.Identity.Name
                         String userID ="";
                         int userRole = 0;
-                        ProgramDAL progDal = new ProgramDAL();
+                        ProgramDal progDal = new ProgramDal();
                         //If anything goes wrong learn Discards
                         _ = new List<UserModel>();
-                        List<UserModel> users = progDal.GetAllUsers().ToList();
+                        List<UserModel> users = ProgramDal.GetAllUsers().ToList();
                         foreach (var item in users)
                         {
                             if (item.UserEmail.Equals(model.Email))
                             {
-                                userID = item.UserID;
+                                userID = item.UserId;
                                 break;
                             }
                         }
-                        users = progDal.GetAllRoles().ToList();
+                        users = ProgramDal.GetAllRoles().ToList();
                         
                         foreach (var item in users)
                         {
-                            if (item.UserID.Equals(userID))
+                            if (item.UserId.Equals(userID))
                             {
                                 userRole = item.UserRole;
                                 break;

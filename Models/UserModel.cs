@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 
 namespace ST1109348.Models
 {
     public class UserModel
     {
         [Required]
-        public string UserID { get; set; }
-        [Required]
-        public string UserName { get; set; }
+        public string UserId { get; set; }
 
         public string UserEmail { get; set; }
 
@@ -19,9 +15,9 @@ namespace ST1109348.Models
 
         public string UserType { get; set; }
 
-        public static List<UserModel> UserList { get; set; }
+        public static List<UserModel> UserList { get; private set; }
 
-        public static String LoggedInUserRole { get; set; }
+        public static string LoggedInUserRole { get; set; }
 
         public string FullName { get; set; }
 
@@ -32,12 +28,9 @@ namespace ST1109348.Models
         public string Address { get; set; }
 
 
-        public static void populateUserList()
+        public static void PopulateUserList()
         {
-            ProgramDAL progDal = new ProgramDAL();
-            List<UserModel> users = new List<UserModel>();
-
-            users = progDal.GetAllUsers().ToList();
+            var users = ProgramDal.GetAllUsers().ToList();
             UserList = users;
         }
     }

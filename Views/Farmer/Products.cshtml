@@ -37,9 +37,9 @@
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.CategoryID, new { @class = "col-md-5 control-label" })
+                                    @Html.LabelFor(m => m.Product.CategoryId, new { @class = "col-md-5 control-label" })
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(m => m.Product.CategoryID, new SelectList(Model.CategoryList, "Id", "Name"))
+                                        @Html.DropDownListFor(m => m.Product.CategoryId, new SelectList(Model.CategoryList, "Id", "Name"))
                                     </div>
                                 </div>
                                 <p />
@@ -58,9 +58,9 @@
                                 </div>
                                 <p />
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.MovementID, new { @class = "col-md-5 control-label" })
+                                    @Html.LabelFor(m => m.Product.MovementId, new { @class = "col-md-5 control-label" })
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(m => m.Product.MovementID, new SelectList(Model.MovementList, "Id", "Name"))
+                                        @Html.DropDownListFor(m => m.Product.MovementId, new SelectList(Model.MovementList, "Id", "Name"))
                                     </div>
                                 </div>
                                 <p />

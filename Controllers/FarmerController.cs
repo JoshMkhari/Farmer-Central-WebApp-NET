@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Windows;
+using static System.String;
 
 namespace ST1109348.Controllers
 {
@@ -12,81 +11,87 @@ namespace ST1109348.Controllers
     public class FarmerController : Controller
     {
         // GET: Farmer
-        private static RegisterViewModel rvm;
-        private static UserModel currentUser;
-        private List<ProductModel> myProducts;
+        private static RegisterViewModel _rvm;
+        private static UserModel _currentUser;
+        private List<ProductModel> _myProducts;
         public ActionResult Index()
         {
-            UserModel.populateUserList();
-            FarmerModel.populateFarmerList();
-            ProductModel pm = new ProductModel();
+            UserModel.PopulateUserList();
+            FarmerModel.PopulateFarmerList();
+            var pm = new ProductModel();
             ProductModel.PopulateProductsList();
 
-            rvm = new RegisterViewModel();
-            rvm.farmer = InitilizeFarmers();
-            rvm.Product = new ProductModel();
-            myProducts = pm.PopulateMyProducts(currentUser.UserID);
-            rvm.ProductList= myProducts;
-            rvm.MyStockList = pm.PopulateMyStock(myProducts);
-            return View(rvm);
+            _rvm = new RegisterViewModel
+            {
+                Farmer = InitializeFarmers(),
+                Product = new ProductModel()
+            };
+            _myProducts = ProductModel.PopulateMyProducts(_currentUser.UserId);
+            _rvm.ProductList= _myProducts;
+            _rvm.MyStockList = ProductModel.PopulateMyStock(_myProducts);
+            return View(_rvm);
         }
 
-        private FarmerModel InitilizeFarmers()
+        private FarmerModel InitializeFarmers()
         {
-            FarmerModel fm = new FarmerModel();
-            fm.farmerView = FarmerModel.farmerList;
+            var fm = new FarmerModel
+            {
+                FarmerView = FarmerModel.FarmerList
+            };
 
             InitializeCurrentUser();
-            if (String.IsNullOrEmpty(currentUser.DisplayName))
+            if (IsNullOrEmpty(_currentUser.DisplayName))
             {
-                currentUser.DisplayName = currentUser.UserEmail;
+                _currentUser.DisplayName = _currentUser.UserEmail;
             }
-            setCurrentUserNames();
-            fm.CurrentUser = currentUser;
+            SetCurrentUserNames();
+            fm.CurrentUser = _currentUser;
 
-            return fm; ;
+            return fm;
         }
 
-        private void setCurrentUserNames()
+        private static void SetCurrentUserNames()
         {
-            Boolean foundSpace = false;
-            for (int i = 0; i < currentUser.FullName.Length; i++)
+            var foundSpace = false;
+            for (var i = 0; i < _currentUser.FullName.Length; i++)
             {
-                if (currentUser.FullName.Substring(i, 1).Equals(" "))
-                {
-                    currentUser.FirstName = currentUser.FullName.Substring(0, i);
-                    currentUser.LastName = currentUser.FullName.Substring(i);
-                    foundSpace = true;
-                    break;
-                }
+                if (!_currentUser.FullName.Substring(i, 1).Equals(" ")) continue;
+                _currentUser.FirstName = _currentUser.FullName.Substring(0, i);
+                _currentUser.LastName = _currentUser.FullName.Substring(i);
+                foundSpace = true;
+                break;
             }
 
             if (!foundSpace)
             {
-                currentUser.FirstName = currentUser.FullName;
+                _currentUser.FirstName = _currentUser.FullName;
             }
         }
         private void InitializeCurrentUser()
         {
-            currentUser = new UserModel();
-            currentUser.UserEmail = User.Identity.Name;
-
-            foreach (var item in UserModel.UserList)
+            _currentUser = new UserModel
             {
-                if (item.UserEmail.Equals(currentUser.UserEmail))
+                UserEmail = User.Identity.Name
+            };
+
+            var index = 0;
+            for (; index < UserModel.UserList.Count; index++)
+            {
+                var item = UserModel.UserList[index];
+                if (item.UserEmail.Equals(_currentUser.UserEmail))
                 {
-                    currentUser = item;
+                    _currentUser = item;
                 }
             }
-            setCurrentUserNames();
-            currentUser.UserType = UserModel.LoggedInUserRole;
+
+            SetCurrentUserNames();
+            _currentUser.UserType = UserModel.LoggedInUserRole;
         }
         public ActionResult Products()
         {
-            ProgramDAL pal = new ProgramDAL();
-            rvm.CategoryList = pal.GetAllCategories().ToList();
-            rvm.MovementList = pal.GetAllMovments().ToList();
-            return View(rvm);
+            _rvm.CategoryList = ProgramDal.GetAllCategories().ToList();
+            _rvm.MovementList = ProgramDal.GetAllMovements().ToList();
+            return View(_rvm);
         }
 
         [HttpPost]
@@ -96,20 +101,19 @@ namespace ST1109348.Controllers
 
             try
             {
-                ProgramDAL pal = new ProgramDAL();
-                model.Product.ProductionDate = Convert.ToDateTime(checkDate(formData["productionValue"] == "" ? null : formData["productionValue"]));
-                model.Product.ExpirationDate = Convert.ToDateTime(checkDate(formData["expirationValue"] == "" ? null : formData["expirationValue"]));
-                model.Product.FreezeByDate = checkDate(formData["freezeByValue"] == "" ? null : formData["freezeByValue"]);
-                model.Product.SellByDate = checkDate(formData["sellByValue"] == "" ? null : formData["sellByValue"]);
+                model.Product.ProductionDate = Convert.ToDateTime(CheckDate(formData["productionValue"] == "" ? null : formData["productionValue"]));
+                model.Product.ExpirationDate = Convert.ToDateTime(CheckDate(formData["expirationValue"] == "" ? null : formData["expirationValue"]));
+                model.Product.FreezeByDate = CheckDate(formData["freezeByValue"] == "" ? null : formData["freezeByValue"]);
+                model.Product.SellByDate = CheckDate(formData["sellByValue"] == "" ? null : formData["sellByValue"]);
                 //MessageBox.Show("Movement ID " + model.Product.MovementID);
-                if (model.Product.MovementID.Equals("3"))
+                if (model.Product.MovementId.Equals("3"))
                 {
                     if (model.Product.Quantity>0)
                     {
                         model.Product.Quantity *= -1;
                     }
                 }
-                pal.AddProduct(model.Product, currentUser.UserID);
+                ProgramDal.AddProduct(model.Product, _currentUser.UserId);
                 return RedirectToAction("Index", "Farmer");
             }
             catch (Exception)
@@ -119,12 +123,10 @@ namespace ST1109348.Controllers
 
         }
 
-        private String checkDate(string date)
+        private static string CheckDate(string date)
         {
-            DateTime convert = new DateTime();
             try
             {
-                convert = Convert.ToDateTime(date);
                 return date;
             }
             catch (Exception)
@@ -135,49 +137,37 @@ namespace ST1109348.Controllers
         public ActionResult MyProfile()
         {
            
-            return View(rvm);
+            return View(_rvm);
         }
-        private string ValidateUpdate(String check, String old)
+        private static string ValidateUpdate(string check, string old)
         {
-            if (String.IsNullOrEmpty(check))
+            if (IsNullOrEmpty(check))
             {
                 return old;
             }
-            else if (check.Equals(old))
-            {
-                return old;
-            }
-            else
-                return check;
+
+            return check.Equals(old) ? old : check;
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult MyProfile(FormCollection formData)
         {
-            UserModel use = new UserModel();
+            var use = new UserModel();
             InitializeCurrentUser();
 
             //check if details have changed or are empty
-            use.FirstName = ValidateUpdate(formData["FirstName"] == "" ? null : formData["FirstName"], currentUser.FirstName);
-            use.LastName = ValidateUpdate(formData["LastName"] == "" ? null : formData["LastName"], currentUser.LastName);
-            use.Address = ValidateUpdate(formData["Address"] == "" ? null : formData["Address"], currentUser.Address);
-            use.Phone = ValidateUpdate(formData["Phone"] == "" ? null : formData["Phone"], currentUser.Phone);
-            use.UserEmail = ValidateUpdate(formData["Email"] == "" ? null : formData["Email"], currentUser.UserEmail);
-            use.DisplayName = ValidateUpdate(formData["DisplayName"] == "" ? null : formData["DisplayName"], currentUser.DisplayName);
+            use.FirstName = ValidateUpdate(formData["FirstName"] == "" ? null : formData["FirstName"], _currentUser.FirstName);
+            use.LastName = ValidateUpdate(formData["LastName"] == "" ? null : formData["LastName"], _currentUser.LastName);
+            use.Address = ValidateUpdate(formData["Address"] == "" ? null : formData["Address"], _currentUser.Address);
+            use.Phone = ValidateUpdate(formData["Phone"] == "" ? null : formData["Phone"], _currentUser.Phone);
+            use.UserEmail = ValidateUpdate(formData["Email"] == "" ? null : formData["Email"], _currentUser.UserEmail);
+            use.DisplayName = ValidateUpdate(formData["DisplayName"] == "" ? null : formData["DisplayName"], _currentUser.DisplayName);
 
             use.FullName = use.FirstName + " " + use.LastName;
-            ProgramDAL pal = new ProgramDAL();
-            pal.UpdateUser(use, currentUser.UserEmail);
+            ProgramDal.UpdateUser(use, _currentUser.UserEmail);
 
-            if (!User.Identity.Name.Equals(use.UserEmail))//Sign out if user changes email
-            {
-                return RedirectToAction("SignOut", "Account");
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return !User.Identity.Name.Equals(use.UserEmail) ? RedirectToAction("SignOut", "Account") : RedirectToAction("Index");
             //MessageBox.Show("New display name " + use.DisplayName);          
         }
     }

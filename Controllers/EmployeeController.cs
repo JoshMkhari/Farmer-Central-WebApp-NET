@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Windows;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using ST1109348.Models;
+using static System.String;
 
 
 namespace ST1109348.Controllers
@@ -18,80 +13,68 @@ namespace ST1109348.Controllers
     [Authorize(Roles = "Employee, Admin")]
     public class EmployeeController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-        private static UserModel currentUser;
-        private static RegisterViewModel rvm;
+        private readonly ApplicationUserManager _userManager;
+        private static UserModel _currentUser;
+        private static RegisterViewModel _rvm;
 
         public ActionResult Index()
         {
             ProductModel.PopulateProductsList();
-            UserModel.populateUserList();
-            FarmerModel.populateFarmerList();
-
-            
-           
-
-            rvm = new RegisterViewModel();
-            rvm.farmer = InitilizeFarmers();
-            rvm.ProductList = ProductModel.ProductList;
-            return View(rvm);
+            UserModel.PopulateUserList();
+            FarmerModel.PopulateFarmerList();
+            _rvm = new RegisterViewModel
+            {
+                Farmer = InitializeFarmers(),
+                ProductList = ProductModel.ProductList
+            };
+            return View(_rvm);
 
         }
 
         public ActionResult MyProfile()
         {
            // MessageBox.Show("Last name " + rvm.fm.CurrentUser.LastName);
-            return View(rvm);
+            return View(_rvm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult MyProfile(FormCollection formData)
         {
-            UserModel use = new UserModel();
             InitializeCurrentUser();
+            var use = new UserModel
+            {
+                //check if details have changed or are empty
+                FirstName = ValidateUpdate(formData["FirstName"] == "" ? null : formData["FirstName"], _currentUser.FirstName),
+                LastName = ValidateUpdate(formData["LastName"] == "" ? null : formData["LastName"], _currentUser.LastName),
+                Address = ValidateUpdate(formData["Address"] == "" ? null : formData["Address"], _currentUser.Address),
+                Phone = ValidateUpdate(formData["Phone"] == "" ? null : formData["Phone"], _currentUser.Phone),
+                UserEmail = ValidateUpdate(formData["Email"] == "" ? null : formData["Email"], _currentUser.UserEmail),
+                DisplayName = ValidateUpdate(formData["DisplayName"] == "" ? null : formData["DisplayName"], _currentUser.DisplayName)
+            };
 
-            //check if details have changed or are empty
-            use.FirstName = ValidateUpdate(formData["FirstName"] == "" ? null : formData["FirstName"], currentUser.FirstName);
-            use.LastName = ValidateUpdate(formData["LastName"] == "" ? null : formData["LastName"], currentUser.LastName);
-            use.Address = ValidateUpdate(formData["Address"] == "" ? null : formData["Address"], currentUser.Address);
-            use.Phone = ValidateUpdate(formData["Phone"] == "" ? null : formData["Phone"], currentUser.Phone);
-            use.UserEmail = ValidateUpdate(formData["Email"] == "" ? null : formData["Email"], currentUser.UserEmail);
-            use.DisplayName = ValidateUpdate(formData["DisplayName"] == "" ? null : formData["DisplayName"], currentUser.DisplayName);
 
             use.FullName = use.FirstName +" " + use.LastName;
-            ProgramDAL pal = new ProgramDAL();
-            pal.UpdateUser(use, currentUser.UserEmail);
+            ProgramDal.UpdateUser(use, _currentUser.UserEmail);
 
-            if (!User.Identity.Name.Equals(use.UserEmail))//Sign out if user changes email
-            {
-                return RedirectToAction("SignOut", "Account");
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return !User.Identity.Name.Equals(use.UserEmail) ? RedirectToAction("SignOut", "Account") : RedirectToAction("Index");
             //MessageBox.Show("New display name " + use.DisplayName);          
         }
 
 
-        private string ValidateUpdate(String check, String old)
+        private static string ValidateUpdate(string check, string old)
         {
-            if (String.IsNullOrEmpty(check))
+            if (IsNullOrEmpty(check))
             {
                 return old;
             }
-            else if(check.Equals(old))
-            {
-                return old;
-            }else 
-                return check;
+
+            return check.Equals(old) ? old : check;
         }
 
         public ActionResult Farmers()
         {
-            return View(rvm);
+            return View(_rvm);
         }
 
         // POST: /Account/Register
@@ -99,113 +82,88 @@ namespace ST1109348.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Farmers(RegisterViewModel model)
         {
-            if (!string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Password) && !string.IsNullOrEmpty(model.ConfirmPassword))
-                if (model.ConfirmPassword.Equals(model.Password))
+            if (IsNullOrEmpty(model.Email) || IsNullOrEmpty(model.Password) || IsNullOrEmpty(model.ConfirmPassword))
+                return RedirectToAction("Farmers", "Employee");
+            if (!model.ConfirmPassword.Equals(model.Password)) return RedirectToAction("Farmers", "Employee");
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
                 {
-                    {
-                        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                        var result = await UserManager.CreateAsync(user, model.Password);
-                        if (result.Succeeded)
-                        {
-                            //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                            // edit asp net user roles
-                            //AspNetUserRoles
-                            //MessageBox.Show("eror please");
-                            ProgramDAL pal = new ProgramDAL();
-                            pal.AddFarmer(user.Id);
+                    // edit asp net user roles
+                    //AspNetUserRoles
+                    //MessageBox.Show("error please");
+                    ProgramDal.AddFarmer(user.Id);
 
-                            return RedirectToAction("Index", "Employee");
-                        }
-                        AddErrors(result);
-                    }
+                    return RedirectToAction("Index", "Employee");
                 }
+                AddErrors(result);
+            }
             // If we got this far, something failed, redisplay form
             return RedirectToAction("Farmers", "Employee");
         }
 
         [HttpPost]
-        public ActionResult Delete(String id)
+        public ActionResult Delete(string id)
         {
             //MessageBox.Show("person we deleting is " + id); 
             //Sign out user and store 
             return RedirectToAction("Index", "Employee");
         }
-        private FarmerModel InitilizeFarmers()
+        private FarmerModel InitializeFarmers()
         {
-            FarmerModel fm = new FarmerModel();
-            fm.farmerView = FarmerModel.farmerList;
+            var fm = new FarmerModel
+            {
+                FarmerView = FarmerModel.FarmerList
+            };
 
             InitializeCurrentUser();
-            if (String.IsNullOrEmpty(currentUser.DisplayName))
+            if (IsNullOrEmpty(_currentUser.DisplayName))
             {
-                currentUser.DisplayName = currentUser.UserEmail;
+                _currentUser.DisplayName = _currentUser.UserEmail;
             }
-            setCurrentUserNames();
-            fm.CurrentUser = currentUser;
+            SetCurrentUserNames();
+            fm.CurrentUser = _currentUser;
 
-            return fm;;
+            return fm;
         }
 
-        private void setCurrentUserNames()
+        private static void SetCurrentUserNames()
         {
-            Boolean foundSpace = false;
-            for (int i = 0; i < currentUser.FullName.Length; i++)
+            var foundSpace = false;
+            for (var i = 0; i < _currentUser.FullName.Length; i++)
             {
-                if (currentUser.FullName.Substring(i, 1).Equals(" "))
-                {
-                    currentUser.FirstName = currentUser.FullName.Substring(0, i);
-                    currentUser.LastName = currentUser.FullName.Substring(i);
-                    foundSpace = true;
-                    break;
-                }
+                if (!_currentUser.FullName.Substring(i, 1).Equals(" ")) continue;
+                _currentUser.FirstName = _currentUser.FullName.Substring(0, i);
+                _currentUser.LastName = _currentUser.FullName.Substring(i);
+                foundSpace = true;
+                break;
             }
 
             if (!foundSpace)
             {
-                currentUser.FirstName = currentUser.FullName;
+                _currentUser.FirstName = _currentUser.FullName;
             }
         }
         private void InitializeCurrentUser()
         {
-            currentUser = new UserModel();
-            currentUser.UserEmail = User.Identity.Name;
-
-            foreach (var item in UserModel.UserList)
+            _currentUser = new UserModel
             {
-                if (item.UserEmail.Equals(currentUser.UserEmail))
-                {
-                    currentUser = item;
-                }
+                UserEmail = User.Identity.Name
+            };
+
+            foreach (var item in UserModel.UserList.Where(item => item.UserEmail.Equals(_currentUser.UserEmail)))
+            {
+                _currentUser = item;
             }
-            setCurrentUserNames();
-            currentUser.UserType = UserModel.LoggedInUserRole;
+            SetCurrentUserNames();
+            _currentUser.UserType = UserModel.LoggedInUserRole;
         }
 
 
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+        private ApplicationUserManager UserManager => _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
         private void AddErrors(IdentityResult result)
         {
