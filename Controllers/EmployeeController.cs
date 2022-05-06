@@ -111,7 +111,7 @@ namespace ST1109348.Controllers
 
                             // edit asp net user roles
                             //AspNetUserRoles
-                            MessageBox.Show("eror please");
+                            //MessageBox.Show("eror please");
                             ProgramDAL pal = new ProgramDAL();
                             pal.AddFarmer(user.Id);
 
@@ -127,7 +127,7 @@ namespace ST1109348.Controllers
         [HttpPost]
         public ActionResult Delete(String id)
         {
-            MessageBox.Show("person we deleting is " + id); 
+            //MessageBox.Show("person we deleting is " + id); 
             //Sign out user and store 
             return RedirectToAction("Index", "Employee");
         }

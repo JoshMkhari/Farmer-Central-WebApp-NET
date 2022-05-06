@@ -101,7 +101,7 @@ namespace ST1109348.Controllers
                 model.Product.ExpirationDate = Convert.ToDateTime(checkDate(formData["expirationValue"] == "" ? null : formData["expirationValue"]));
                 model.Product.FreezeByDate = checkDate(formData["freezeByValue"] == "" ? null : formData["freezeByValue"]);
                 model.Product.SellByDate = checkDate(formData["sellByValue"] == "" ? null : formData["sellByValue"]);
-                MessageBox.Show("Movement ID " + model.Product.MovementID);
+                //MessageBox.Show("Movement ID " + model.Product.MovementID);
                 if (model.Product.MovementID.Equals("3"))
                 {
                     if (model.Product.Quantity>0)
