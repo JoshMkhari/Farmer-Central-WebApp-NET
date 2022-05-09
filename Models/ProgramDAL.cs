@@ -7,11 +7,11 @@ namespace ST1109348.Models
 {
     public class ProgramDal
     {
-        //Desktop Connection Strings
-        //string connectionStringLocalDEV = "Data Source=DESKTOP-PLRUMT6\\SQLEXPRESS;Initial Catalog=ST10119348PROG7311;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        //Laptop Connection Strings
-        //string connectionStringLocalDEV = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-ST1109348-20220402012207;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
+
+        //Desktop
+        //private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
+        //Laptop
+        private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=1017Josh;";
 
 
         //Farmer Related 
