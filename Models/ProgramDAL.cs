@@ -9,9 +9,9 @@ namespace ST1109348.Models
     {
 
         //Desktop
-        //private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
+        private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
         //Laptop
-        private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=1017Josh;";
+        //private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=1017Josh;";
 
 
         //Farmer Related 

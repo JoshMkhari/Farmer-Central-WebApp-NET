@@ -33,7 +33,6 @@ namespace ST1109348.Controllers
 
         public ActionResult MyProfile()
         {
-           // MessageBox.Show("Last name " + rvm.fm.CurrentUser.LastName);
             return View(_rvm);
         }
 
