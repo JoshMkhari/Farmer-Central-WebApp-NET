@@ -206,6 +206,7 @@ namespace ST1109348.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index", "Employee");
+                    
                 }
                 AddErrors(result);
             }
