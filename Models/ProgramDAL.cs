@@ -162,7 +162,8 @@ namespace ST1109348.Models
                         ProductionDate = Convert.ToDateTime(dr["ProductionDate"].ToString()),
                         ExpirationDate = Convert.ToDateTime(dr["ExpiryDate"].ToString()),
                         FreezeByDate = CheckNull(dr["FreezeByDate"].ToString()),
-                        SellByDate = CheckNull(dr["SellByDate"].ToString())
+                        SellByDate = CheckNull(dr["SellByDate"].ToString()),
+                        DateAdded = CheckNull(dr["DateAdded"].ToString())
                     };
 
 
@@ -194,6 +195,7 @@ namespace ST1109348.Models
                 cmd.Parameters.AddWithValue("@Weight", product.Weight);
                 cmd.Parameters.AddWithValue("@ProductionDate", product.ProductionDate);
                 cmd.Parameters.AddWithValue("@ExpiryDate", product.ExpirationDate);
+                cmd.Parameters.AddWithValue("@DateAdded", DateTime.Today);
 
                 
                 if (IsNullOrEmpty(product.FreezeByDate) || product.FreezeByDate.Equals(" "))

@@ -17,10 +17,6 @@ namespace ST1109348.Controllers
         public ActionResult Index()
         {
             UserModel.PopulateUserList();
-            FarmerModel.PopulateFarmerList();
-            var pm = new ProductModel();
-            ProductModel.PopulateProductsList();
-
             _rvm = new RegisterViewModel
             {
                 Farmer = InitializeFarmers(),

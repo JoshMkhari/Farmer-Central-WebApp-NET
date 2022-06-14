@@ -108,6 +108,7 @@ namespace ST1109348.Controllers
                         }
                         switch (userRole)
                         {
+                            
                             case 1://Employee Logging in
                                 UserModel.LoggedInUserRole = "Employee";
                                 return RedirectToAction("Index", "Employee");

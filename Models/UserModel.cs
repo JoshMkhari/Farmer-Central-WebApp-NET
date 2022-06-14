@@ -30,8 +30,12 @@ namespace ST1109348.Models
 
         public static void PopulateUserList()
         {
+            ProductModel.PopulateProductsList();
             var users = ProgramDal.GetAllUsers().ToList();
             UserList = users;
+            FarmerModel.PopulateFarmerList();
+            ProductModel.PopulateProductsList();
         }
+        
     }
 }

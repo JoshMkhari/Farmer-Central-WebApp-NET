@@ -38,15 +38,12 @@ namespace ST1109348.Models
         public string FreezeByDate { get; set; }
         [Display(Name = "Enter Sell By Date")]
         public string SellByDate { get; set; }
-
-        public bool FreezeByEmpty;
-        public bool SellByEmpty;
+        public string DateAdded { get; set; }
 
 
         //Used to track movements
         public static List<ProductModel> ProductList { get; private set;}
-
-        public static List<ProductModel> StockList { get; set; }
+        
         public static void PopulateProductsList()
         {
 
