@@ -134,14 +134,6 @@ namespace ST1109348.Controllers
             // If we got this far, something failed, redisplay form
             return RedirectToAction("Farmers", "Employee");
         }
-
-        [HttpPost]
-        public ActionResult Delete(string id)
-        {
-            //MessageBox.Show("person we deleting is " + id); 
-            //Sign out user and store 
-            return RedirectToAction("Index", "Employee");
-        }
         private FarmerModel InitializeFarmers()
         {
             var fm = new FarmerModel
