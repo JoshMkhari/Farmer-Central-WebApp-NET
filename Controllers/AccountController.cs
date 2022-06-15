@@ -19,6 +19,7 @@ namespace ST1109348.Controllers
 
         public AccountController()
         {
+            
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -56,6 +57,7 @@ namespace ST1109348.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }

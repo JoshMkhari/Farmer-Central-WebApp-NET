@@ -10,7 +10,7 @@ namespace ST1109348.Models
         public string FarmerId { get; set; }
         public string FarmerEmail { get; private set; }
         public string DisplayName { get; private set; }
-        public string FarmerPassword { get; set; }
+        
         public static List<FarmerModel> FarmerList = new List<FarmerModel>();
 
         public List<ProductModel> CurrentFarmerProductList;
@@ -38,7 +38,6 @@ namespace ST1109348.Models
                 FarmerList.ElementAt(i).CurrentFarmerProductList = ProductModel.PopulateMyProducts(FarmerList.ElementAt(i).FarmerId);
             }
         }
-
-
+        
     }
 }

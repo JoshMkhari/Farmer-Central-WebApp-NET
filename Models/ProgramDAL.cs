@@ -9,11 +9,9 @@ namespace ST1109348.Models
     {
 
         //Desktop
-        //private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
+        private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
         //Laptop
-        private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=1017Josh;";
-
-
+        //private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=1017Josh;";
         //Farmer Related 
         public static IEnumerable<FarmerModel> GetAllFarmers()
         {
@@ -63,7 +61,8 @@ namespace ST1109348.Models
         public static IEnumerable<UserModel> GetAllUsers()
         {
             var userList = new List<UserModel>();
-            using (     var con = new SqlConnection(ConnectionStringLocalDev))
+            var imagesList = new List<ImageModel>();
+            using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
                 var cmd = new SqlCommand("SP_GetAllUsers", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -82,10 +81,39 @@ namespace ST1109348.Models
                     };
                     userList.Add(use);
                 }
-
+                con.Close();
+                
+                cmd = new SqlCommand("SP_GetAllImages", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                
+                dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var img = new ImageModel()
+                    {
+                        Id = Convert.ToInt32(dr["ID"].ToString()),
+                        Name = Convert.ToString(dr["NAME"].ToString()),
+                        ContentType = dr["CONTENT_TYPE"].ToString(),
+                        Data = (byte[])dr["Data"],
+                        UserId = Convert.ToString(dr["User_ID"].ToString()),
+                    };
+                    imagesList.Add(img);
+                }
                 con.Close();
             }
 
+            foreach (var user in userList)
+            {
+                foreach (var img in imagesList)
+                {
+                    if (user.UserId.Equals(img.UserId))
+                    {
+                        user.ProfilePicture = img;
+                        break;
+                    }
+                }
+            }
             return userList;
 
         }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using static System.String;
 
@@ -159,9 +160,19 @@ namespace ST1109348.Controllers
             use.Phone = ValidateUpdate(formData["Phone"] == "" ? null : formData["Phone"], _currentUser.Phone);
             use.UserEmail = ValidateUpdate(formData["Email"] == "" ? null : formData["Email"], _currentUser.UserEmail);
             use.DisplayName = ValidateUpdate(formData["DisplayName"] == "" ? null : formData["DisplayName"], _currentUser.DisplayName);
-
+            
             use.FullName = use.FirstName + " " + use.LastName;
             ProgramDal.UpdateUser(use, _currentUser.UserEmail);
+
+            HttpPostedFileBase file = Request.Files["ImageData"];
+            if (file != null)
+            {
+                Console.WriteLine("THIS IS FILE NAME " + file.FileName);
+                Console.WriteLine("THIS IS FILE Type " + file.ContentType);
+            }
+            //HttpPostedFileBase file = formData["ImageData"];
+            
+            
 
             return !User.Identity.Name.Equals(use.UserEmail) ? RedirectToAction("SignOut", "Account") : RedirectToAction("Index");
             //MessageBox.Show("New display name " + use.DisplayName);          

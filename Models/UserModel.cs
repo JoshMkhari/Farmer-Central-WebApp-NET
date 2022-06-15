@@ -26,7 +26,8 @@ namespace ST1109348.Models
         public string DisplayName { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-
+        
+        public ImageModel ProfilePicture { get; set; }
 
         public static void PopulateUserList()
         {
