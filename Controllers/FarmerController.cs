@@ -1,6 +1,7 @@
 ﻿using ST1109348.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -162,14 +163,28 @@ namespace ST1109348.Controllers
             use.DisplayName = ValidateUpdate(formData["DisplayName"] == "" ? null : formData["DisplayName"], _currentUser.DisplayName);
             
             use.FullName = use.FirstName + " " + use.LastName;
-            ProgramDal.UpdateUser(use, _currentUser.UserEmail);
 
+            use.UserId = _currentUser.UserId;
             HttpPostedFileBase file = Request.Files["ImageData"];
-            if (file != null)
+            ImageModel imageModel = new ImageModel();
+            if (!String.IsNullOrEmpty(file.FileName))
             {
                 Console.WriteLine("THIS IS FILE NAME " + file.FileName);
                 Console.WriteLine("THIS IS FILE Type " + file.ContentType);
+
+                imageModel.Name = file.FileName;
+                imageModel.ContentType = file.ContentType;
+                using (var stream = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(stream);
+                    imageModel.Data = stream.ToArray();
+                }
+                //COMPARE TO CURRENT USER FILE
             }
+
+            use.ProfilePicture = imageModel;
+            
+            ProgramDal.UpdateUser(use, _currentUser.UserEmail);
             //HttpPostedFileBase file = formData["ImageData"];
             
             

@@ -135,6 +135,16 @@ namespace ST1109348.Models
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
+                
+                cmd = new SqlCommand("SP_AddImage", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Name", use.ProfilePicture.Name);
+                cmd.Parameters.AddWithValue("@ContentType", use.ProfilePicture.ContentType);
+                cmd.Parameters.AddWithValue("@DATA", use.ProfilePicture.Data);
+                cmd.Parameters.AddWithValue("@UserId", use.UserId);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
             }
         }
 

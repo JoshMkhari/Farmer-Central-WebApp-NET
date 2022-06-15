@@ -26,6 +26,7 @@ namespace ST1109348.Controllers
                 Farmer = InitializeFarmers(),
                 ProductList = ProductModel.ProductList
             };
+            
             ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
             return View(_rvm);
 
