@@ -9,9 +9,9 @@ namespace ST1109348.Models
     {
 
         //Desktop
-        private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
+        //private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
         //Laptop
-        //private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=1017Josh;";
+        private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=1017Josh;";
 
 
         //Farmer Related 
@@ -41,17 +41,17 @@ namespace ST1109348.Models
 
         }
 
-        public static void AddFarmer(string userId)
+        public static void AddUser(string userId, string roleId)
         {
             if (IsNullOrEmpty(userId))
                 throw new ArgumentException("Value cannot be null or empty.", nameof(userId));
             using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
-                var cmd = new SqlCommand("SP_AddFarmer", con);
+                var cmd = new SqlCommand("SP_AddUerRole", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@UserID", userId);
-                cmd.Parameters.AddWithValue("@RoleID", "2");
+                cmd.Parameters.AddWithValue("@RoleID", roleId);
 
                 con.Open();
                 cmd.ExecuteNonQuery();

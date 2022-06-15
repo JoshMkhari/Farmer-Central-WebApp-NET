@@ -92,8 +92,41 @@ namespace ST1109348.Controllers
                     // edit asp net user roles
                     //AspNetUserRoles
                     //MessageBox.Show("error please");
-                    ProgramDal.AddFarmer(user.Id);
+                    ProgramDal.AddUser(user.Id,"2");
 
+                    return RedirectToAction("Index", "Employee");
+                }
+                AddErrors(result);
+            }
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Farmers", "Employee");
+        }
+        
+        public ActionResult Employees()
+        {
+            return View(_rvm);
+        }
+
+        // POST: /Account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Employees(RegisterViewModel model)
+        {
+            if (IsNullOrEmpty(model.Email) || IsNullOrEmpty(model.Password) || IsNullOrEmpty(model.ConfirmPassword))
+                return RedirectToAction("Employees", "Employee");
+            if (!model.ConfirmPassword.Equals(model.Password)) return RedirectToAction("Employees", "Employee");
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // edit asp net user roles
+                    //AspNetUserRoles
+                    //MessageBox.Show("error please");
+                    //ProgramDal.AddFarmer(user.Id);
+                    ProgramDal.AddUser(user.Id,"1");
                     return RedirectToAction("Index", "Employee");
                 }
                 AddErrors(result);

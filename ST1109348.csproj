@@ -400,6 +400,7 @@
     <Content Include="Theme\assets\vendor\remixicon\remixicon.symbol.svg" />
     <Content Include="Theme\assets\vendor\simple-datatables\simple-datatables.js" />
     <Content Include="Theme\assets\vendor\simple-datatables\style.css" />
+    <Content Include="Views\Employee\Employees.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
