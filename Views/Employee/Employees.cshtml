@@ -1,10 +1,10 @@
 @model ST1109348.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Farmers";
+    ViewBag.Title = "Employees";
 }
 
 <div class="pagetitle">
-    <h1>Farmers</h1>
+    <h1>Employees</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href=@Url.Action("Index", "Employee")>Dashboard</a></li>
@@ -25,10 +25,7 @@
                         <li class="nav-item">
                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Add</button>
                         </li>
-
-                        <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Manage</button>
-                        </li>
+                        
                     </ul>
                     <div class="tab-content pt-2">
 
@@ -67,158 +64,7 @@
                                 </div>
                             }
                         </div>
-
-                        <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-
-                            <!-- Farmer List-->
-                            <div class="col-12">
-                                <div class="card recent-sales overflow-auto">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Farmers <span>| All</span></h5>
-                                        <table class="table table-striped datatable">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Farmer Name</th>
-                                                    <th scope="col">Farmer Email</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                @foreach (var mod in Model.Farmer.FarmerView)
-                                                {
-                                                    <tr>
-                                                        <td>@mod.DisplayName</td>
-                                                        <td>@mod.FarmerEmail</td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#@mod.DisplayName">
-                                                                <i class="ri ri-eye-2-line"></i>
-                                                            </button>
-
-                                                            <div class="modal fade" id="@mod.DisplayName" tabindex="-1">
-                                                                <div class="modal-dialog modal-fullscreen">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title">View Products</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <h5 class="card-title">Products <span>| @mod.DisplayName</span></h5>
-                                                                            <table class="table table-striped datatable">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th scope="col">Category</th>
-                                                                                        <th scope="col">Name</th>
-                                                                                        <th scope="col">Weight</th>
-                                                                                        <th scope="col">Movement</th>
-                                                                                        <th scope="col">Quantity</th>
-                                                                                        <th scope="col">Production</th>
-                                                                                        <th scope="col">Freeze By Date</th>
-                                                                                        <th scope="col">Sell By Date</th>
-                                                                                        <th scope="col">Expiration Date</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-
-                                                                                    @foreach (var product in mod.CurrentFarmerProductList)
-                                                                                    {
-                                                                                        <tr>
-                                                                                            <td>@product.CategoryId</td>
-                                                                                            <td>@product.Name</td>
-                                                                                            <td>@product.Weight</td>
-                                                                                            <td>@product.MovementId</td>
-                                                                                            <td>@product.Quantity</td>
-                                                                                            <td>@product.ProductionDate</td>
-                                                                                            <td>@product.FreezeByDate</td>
-                                                                                            <td>@product.SellByDate</td>
-                                                                                            <td>@product.ExpirationDate</td>
-                                                                                        </tr>
-                                                                                    }
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div><!-- End Full Screen Modal-->
-                                                            <!-- Basic Modal -->
-                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#_@mod.DisplayName">
-                                                                <i class="bx bxs-trash"></i>
-                                                            </button>
-                                                            <div class="modal fade" id="_@mod.DisplayName" tabindex="-1">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title">Delete @mod.DisplayName Account</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            This action is irreversible and will remove @mod.DisplayName alongside all their data including products.
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                            @using (Html.BeginForm("Delete", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                                                            {
-                                                                                <button type="submit" class="btn btn-danger">Delete @mod.FarmerEmail</button>
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div><!-- End Basic Modal-->
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-                            </div><!-- End Recent Sales -->
-
-                        </div>
-
-                        <div class="tab-pane fade pt-3" id="profile-settings">
-
-                            <!-- Settings Form -->
-                            <form>
-
-                                <div class="row mb-3">
-                                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                                            <label class="form-check-label" for="changesMade">
-                                                Changes made to your account
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                                            <label class="form-check-label" for="newProducts">
-                                                Information on new products and services
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="proOffers">
-                                            <label class="form-check-label" for="proOffers">
-                                                Marketing and promo offers
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                                            <label class="form-check-label" for="securityNotify">
-                                                Security alerts
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                                </div>
-                            </form><!-- End settings Form -->
-
-                        </div>
+                        
 
                         <div class="tab-pane fade pt-3" id="profile-change-password">
                             <!-- Change Password Form -->
