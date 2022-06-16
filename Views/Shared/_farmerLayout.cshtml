@@ -29,8 +29,7 @@
 
     <!-- Template Main CSS File -->
     <link href="~/Theme/assets/css/style.css" rel="stylesheet">
-
-    @Styles.Render("~/Theme/assets//css/style.css")
+    
     @*@Scripts.Render("~/bundles/modernizr")*@
 
 </head>
@@ -86,7 +85,7 @@
             </ul>
         </nav>
         @*End Icons Navigation*@
-    </header> End Header
+    </header> <!-- End Header -->
     ======= Sidebar =======
     <aside id="sidebar" class="sidebar">
 
@@ -109,52 +108,16 @@
 
         </ul>
 
-    </aside>
-    @*End Sidebar*@
-    <div class="container body-content">
-        .
-        <p />
-        <p />
-        <p />
-        <p />
-        <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />
-        @RenderBody()
-        <hr />
-    </div>
+    </aside>!-- End Sidebar-->
 
+<main id="main" class="main">
+    <section class="section dashboard">
+            <div class="container body-content">
+                @RenderBody()
+            </div>
+    </section>
+
+    </main><!-- End #main -->
     <script src="~/Theme/assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="~/Theme/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/Theme/assets/vendor/chart.js/chart.min.js"></script>
@@ -170,5 +133,6 @@
     @Scripts.Render("~/Scripts/jquery.validate.min.js")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>
