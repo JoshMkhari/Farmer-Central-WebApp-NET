@@ -319,9 +319,25 @@ namespace ST1109348.Models
         {
             return IsNullOrEmpty(date) ? " " : date;
         }
-        public static void AddProduct(ProductModel product, string userId)
+
+        private static void AddProductImage(ImageModel img, int prodID)
         {
-            
+            using (var con = new SqlConnection(ConnectionStringLocalDev))
+            {
+                //Check if an image already exists for current user
+                var cmd = new SqlCommand("SP_AddProductImage", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Name", img.Name);
+                cmd.Parameters.AddWithValue("@ContentType", img.ContentType);
+                cmd.Parameters.AddWithValue("@DATA", img.Data);
+                cmd.Parameters.AddWithValue("@ProductId", prodID);//Get Product ID
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        public static void AddProduct(ProductModel product, string userId, int prodID)
+        {
             using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
                 var cmd = new SqlCommand("SP_AddProduct", con);
@@ -337,7 +353,6 @@ namespace ST1109348.Models
                 cmd.Parameters.AddWithValue("@ExpiryDate", product.ExpirationDate);
                 cmd.Parameters.AddWithValue("@DateAdded", DateTime.Today);
 
-                
                 if (IsNullOrEmpty(product.FreezeByDate) || product.FreezeByDate.Equals(" "))
                 {
 
@@ -355,14 +370,12 @@ namespace ST1109348.Models
                 {
                     cmd.Parameters.AddWithValue("@SellByDate", product.SellByDate);
                 }
-
-
                 con.Open();
+                
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
-
-            
+            AddProductImage(product.ProductPicture,prodID);
         }
 
         public static IEnumerable<MovementModel> GetAllMovements()

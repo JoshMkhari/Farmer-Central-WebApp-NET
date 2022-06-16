@@ -99,7 +99,6 @@ namespace ST1109348.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Products(RegisterViewModel model, FormCollection formData)
         {
-
             try
             {
                 model.Product.ProductionDate = Convert.ToDateTime(CheckDate(formData["productionValue"] == "" ? null : formData["productionValue"]));
@@ -114,7 +113,12 @@ namespace ST1109348.Controllers
                         model.Product.Quantity *= -1;
                     }
                 }
-                ProgramDal.AddProduct(model.Product, _currentUser.UserId);
+                model.Product.ProductPicture = UserModel.SystemImages.ElementAt(0);
+
+                var dal = new ProgramDal();
+                
+                var prodId = dal.GetAllProducts().Count()+1;
+                ProgramDal.AddProduct(model.Product, _currentUser.UserId,prodId);
                 return RedirectToAction("Index", "Farmer");
             }
             catch (Exception)

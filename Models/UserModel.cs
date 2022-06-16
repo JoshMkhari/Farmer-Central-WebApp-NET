@@ -30,6 +30,8 @@ namespace ST1109348.Models
         
         public ImageModel ProfilePicture { get; set; }
 
+        
+        public static List<ImageModel> SystemImages { get; set; }
         public static void PopulateUserList()
         {
             ProductModel.PopulateProductsList();
@@ -44,6 +46,8 @@ namespace ST1109348.Models
                     defaultImage = img;
                 }
             }
+
+            SystemImages = new List<ImageModel> { defaultImage };
             foreach (var user in users)
             {
                 if (string.IsNullOrEmpty(user.ProfilePicture.Name))
