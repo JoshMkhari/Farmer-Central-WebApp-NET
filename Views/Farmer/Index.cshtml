@@ -40,7 +40,7 @@
                     @foreach (var mod in Model.ProductList)
                     {
                         <tr>
-                            <td><img width="50" height="50" src="@($"data:image/png;base64,{Convert.ToBase64String(mod.ProductPicture.Data, 0, mod.ProductPicture.Data.Length)}")" alt="ProductPicture"/></td>
+                            <td><img class="rounded-circle" width="50" height="50"  src="@($"data:image/png;base64,{Convert.ToBase64String(mod.ProductPicture.Data, 0, mod.ProductPicture.Data.Length)}")" alt="ProductPicture"/></td>
                             <td>@mod.CategoryId</td>
                             <td>@mod.Name</td>
                             <td>@mod.Weight</td>

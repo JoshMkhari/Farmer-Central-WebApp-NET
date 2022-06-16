@@ -124,7 +124,7 @@
                                                                                     {
                                                                                         <tr>
                                                                                             <td>@product.CategoryId</td>
-                                                                                             <td><img width="50" height="50" src="@($"data:image/png;base64,{Convert.ToBase64String(product.ProductPicture.Data, 0, product.ProductPicture.Data.Length)}")" alt="ProductPicture"/></td>
+                                                                                             <td><img class="rounded-circle" width="50" height="50" src="@($"data:image/png;base64,{Convert.ToBase64String(product.ProductPicture.Data, 0, product.ProductPicture.Data.Length)}")" alt="ProductPicture"/></td>
                                                                                             <td>@product.Name</td>
                                                                                             <td>@product.Weight</td>
                                                                                             <td>@product.MovementId</td>
