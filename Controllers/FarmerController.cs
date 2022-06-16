@@ -29,25 +29,21 @@ namespace ST1109348.Controllers
             _rvm.MyStockList = ProductModel.PopulateMyStock(_myProducts);
             //<img src="~/Theme/assets/img/logo.png" alt="">
 
-            if (!IsNullOrEmpty(_currentUser.ProfilePicture.Name))
+            if (IsNullOrEmpty(_currentUser.ProfilePicture.Name))
             {
-                ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);  
-            }
-            else
-            {
-                var userImages = ProgramDal.GetAllImages();
-                var profilePic = new ImageModel();
-                foreach (var img in userImages)
+                var systemImages = ProgramDal.GetAllSystemImages();
+                foreach (var img in systemImages)
                 {
                     if (img.Name.Equals("219986.png"))
                     {
-                        profilePic = img;
+                        _currentUser.ProfilePicture = img;
                         break;
                     }
                 }
-                ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(profilePic.Data, 0, profilePic.Data.Length);
+                
             }
-            
+            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
+
             return View(_rvm);
         }
 

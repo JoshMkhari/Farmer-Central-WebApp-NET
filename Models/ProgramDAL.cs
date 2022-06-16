@@ -55,13 +55,12 @@ namespace ST1109348.Models
                 con.Close();
             }
         }
-
-        public static IEnumerable<ImageModel> GetAllImages()
+        public static IEnumerable<ImageModel> GetAllSystemImages()
         {
             var imagesList = new List<ImageModel>();
             using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
-                var cmd = new SqlCommand("SP_GetAllImages", con);
+                var cmd = new SqlCommand("SP_GetAllSystemImages", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 con.Open();
                 
@@ -70,8 +69,32 @@ namespace ST1109348.Models
                 {
                     var img = new ImageModel()
                     {
-                        Id = Convert.ToInt32(dr["ID"].ToString()),
-                        Name = Convert.ToString(dr["NAME"].ToString()),
+                        Name = dr["NAME"].ToString(),
+                        ContentType = dr["CONTENT_TYPE"].ToString(),
+                        Data = (byte[])dr["Data"],
+                        Type = Convert.ToInt32(dr["Type"].ToString()),
+                    };
+                    imagesList.Add(img);
+                }
+                con.Close();
+            }
+            return imagesList;
+        }
+        public static IEnumerable<ImageModel> GetAllUserImages()
+        {
+            var imagesList = new List<ImageModel>();
+            using (var con = new SqlConnection(ConnectionStringLocalDev))
+            {
+                var cmd = new SqlCommand("SP_GetAllUserImages", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var img = new ImageModel()
+                    {
+                        Name = dr["NAME"].ToString(),
                         ContentType = dr["CONTENT_TYPE"].ToString(),
                         Data = (byte[])dr["Data"],
                         UserId = Convert.ToString(dr["User_ID"].ToString()),
@@ -80,7 +103,6 @@ namespace ST1109348.Models
                 }
                 con.Close();
             }
-
             return imagesList;
         }
         //User Related
@@ -111,7 +133,7 @@ namespace ST1109348.Models
             }
             
             //Check if an image is already set for the current user
-            var imagesList = (List<ImageModel>)GetAllImages();
+            var imagesList = (List<ImageModel>)GetAllUserImages();
             
             foreach (var user in userList)
             {
@@ -130,11 +152,11 @@ namespace ST1109348.Models
 
         }
         
-        private static void UpdateImage(UserModel use)
+        private static void UpdateUserImage(UserModel use)
         {
             using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
-                var cmd = new SqlCommand("SP_UpdateImage", con);
+                var cmd = new SqlCommand("SP_UpdateUserImage", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Name", use.ProfilePicture.Name);
                 cmd.Parameters.AddWithValue("@ContentType", use.ProfilePicture.ContentType);
@@ -162,7 +184,7 @@ namespace ST1109348.Models
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
-            var imagesList = (List<ImageModel>)GetAllImages();
+            var imagesList = (List<ImageModel>)GetAllUserImages();
 
             var found = false;
             //foreach (var VARIABLE in COLLECTION)
@@ -178,21 +200,21 @@ namespace ST1109348.Models
             if (found)
             {
                 //Update user image
-                UpdateImage(use);
+                UpdateUserImage(use);
             }
             else
             {
                 //Adds an image
-                AddImage(use);
+                AddUserImage(use);
             }
             
         }
-        public static void AddImage(UserModel use)
+        public static void AddUserImage(UserModel use)
         {
             using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
                 //Check if an image already exists for current user
-                var cmd = new SqlCommand("SP_AddImage", con);
+                var cmd = new SqlCommand("SP_AddUserImage", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Name", use.ProfilePicture.Name);
                 cmd.Parameters.AddWithValue("@ContentType", use.ProfilePicture.ContentType);

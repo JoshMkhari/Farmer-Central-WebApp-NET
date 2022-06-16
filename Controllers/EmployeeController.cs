@@ -29,27 +29,20 @@ namespace ST1109348.Controllers
                 ProductList = ProductModel.ProductList
             };
             
-            if (!IsNullOrEmpty(_currentUser.ProfilePicture.Name))
+            if (IsNullOrEmpty(_currentUser.ProfilePicture.Name))
             {
-                Console.WriteLine("WE In ISNUL EMPTY");
-                ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);  
-            }
-            else
-            {
-                var userImages = ProgramDal.GetAllImages();
-                ImageModel profilePic = new ImageModel();
-                foreach (var img in userImages)
+                var systemImages = ProgramDal.GetAllSystemImages();
+                foreach (var img in systemImages)
                 {
-                    Console.WriteLine("current user " + _currentUser.UserEmail);
                     if (img.Name.Equals("219986.png"))
                     {
-                        Console.WriteLine("Found image");
-                        profilePic = img;
+                        _currentUser.ProfilePicture = img;
                         break;
                     }
                 }
-                ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(profilePic.Data, 0, profilePic.Data.Length);
+                
             }
+            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
             return View(_rvm);
 
         }
