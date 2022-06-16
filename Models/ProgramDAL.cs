@@ -181,6 +181,7 @@ namespace ST1109348.Models
             }
             else
             {
+                //Adds an image
                 AddImage(use);
             }
             
