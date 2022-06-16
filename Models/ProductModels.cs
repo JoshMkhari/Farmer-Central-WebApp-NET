@@ -125,6 +125,8 @@ namespace ST1109348.Models
         {
             var stockTrack = new List<StockModel>();
             var stockNames = new List<string>();
+            var outgoingCount = 0;
+            var incomingCount = 0;
             for (var s = 0; s < myProducts.Count; s++)
             {
                 var currentProduct = myProducts.ElementAt(s);
@@ -143,14 +145,43 @@ namespace ST1109348.Models
 
                 if (stockNames.Contains(currentProduct.Name + currentProduct.Weight)) continue;
                 stockNames.Add(currentProduct.Name + currentProduct.Weight);
+
                 stockTrack.Add(new StockModel()
                 {
                     Name = currentProduct.Name +" "+ currentProduct.Weight+"g",
                     Category = currentProduct.CategoryId,
                     Stock = stock
                 });
-
+                switch (currentProduct.MovementId)
+                {
+                    case "Incoming":
+                        incomingCount++;
+                        break;
+                    case "Outgoing":
+                        outgoingCount++;
+                        break;
+                }
             }
+
+            if (stockTrack.Count > 0)
+            {
+                stockTrack.ElementAt(0).incoming = incomingCount;
+                stockTrack.ElementAt(0).outgoing = outgoingCount;
+            }
+            else
+            {
+                stockTrack.Add(new StockModel()
+                {
+                    Name = " ",
+                    Category = " ",
+                    Stock = 0
+                });
+
+                stockTrack.ElementAt(0).incoming = 0;
+                stockTrack.ElementAt(0).outgoing = 0;
+            }
+
+
             return stockTrack;
         }
     }
@@ -161,6 +192,9 @@ namespace ST1109348.Models
 
         public string Category { get; set; }
         public int Stock { get; set; }
+        public int outgoing { get; set; }
+        public int incoming { get; set; }
+        
     }
     public class MovementModel
     {

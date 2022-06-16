@@ -15,6 +15,69 @@
     </nav>
 </div><!-- End Page Title -->
 <p />
+        <div class="col-lg-8">
+          <div class="row">
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+                  <div class="card-body">
+                  <h5 class="card-title">Stock <span>| Total</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>@Model.MyStockList.Count</h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Outgoing Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card revenue-card">
+                  <div class="card-body">
+                  <h5 class="card-title">Outgoing <span>| All time</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>@Model.MyStockList.ElementAt(0).outgoing</h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Outgoing Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                  <div class="card-body">
+                  <h5 class="card-title">Incoming <span>| Current</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>@Model.MyStockList.ElementAt(0).incoming</h6>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
 <!-- Farmers Table -->
 <div class="col-auto">
     <div class="card recent-sales overflow-auto">
@@ -61,30 +124,32 @@
     <p />
 </div><!-- End Recent Sales -->
 
-<div class="card recent-sales overflow-auto">
-    <div class="card-body">
-        <h5 class="card-title">Stock <span>| All</span></h5>
-        <table class="table table-hover datatable">
-            <thead>
-                <tr>
-                    <th scope="col">Category</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
+          <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                  <h5 class="card-title">Stock <span>| All</span></h5>
+                  <table class="table table-hover datatable">
+                      <thead>
+                      <tr>
+                          <th scope="col">Category</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Quantity</th>
+                      </tr>
+                      </thead>
+                      <tbody>
 
-                @foreach (var mod in Model.MyStockList)
-                {
-                    <tr>
-                        <td>@mod.Category</td>
-                        <td>@mod.Name</td>
-                        <td>@mod.Stock</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                      @foreach (var mod in Model.MyStockList)
+                      {
+                          <tr>
+                              <td>@mod.Category</td>
+                              <td>@mod.Name</td>
+                              <td>@mod.Stock</td>
+                          </tr>
+                      }
+                      </tbody>
+                  </table>
 
-    </div>
+              </div>
 
-</div>
+          </div>
+          </div>
+           </div><!-- End Left side columns -->

@@ -28,6 +28,8 @@ namespace ST1109348.Controllers
             _rvm.ProductList= _myProducts;
             _rvm.MyStockList = ProductModel.PopulateMyStock(_myProducts);
 
+
+
             ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
 
             return View(_rvm);
@@ -116,7 +118,6 @@ namespace ST1109348.Controllers
                 model.Product.ProductPicture = UserModel.SystemImages.ElementAt(0);
 
                 var dal = new ProgramDal();
-                
                 var prodId = dal.GetAllProducts().Count()+1;
                 ProgramDal.AddProduct(model.Product, _currentUser.UserId,prodId);
                 return RedirectToAction("Index", "Farmer");
