@@ -22,25 +22,25 @@
             <h5 class="card-title">Products <span>| Movements</span></h5>
             <table class="table table-hover datatable">
                 <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Weight</th>
-                        <th scope="col">Movement</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Production</th>
-                        <th scope="col">Freeze By Date</th>
-                        <th scope="col">Sell By Date</th>
-                        <th scope="col">Expiration Date</th>
-                    </tr>
+                <tr>
+                    <th scope="col">Preview</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Weight</th>
+                    <th scope="col">Movement</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Production</th>
+                    <th scope="col">Freeze By Date</th>
+                    <th scope="col">Sell By Date</th>
+                    <th scope="col">Expiration Date</th>
+                </tr>
                 </thead>
                 <tbody>
 
                     @foreach (var mod in Model.ProductList)
                     {
                         <tr>
-                            <td>@mod.ProductId</td>
+                            <td><img width="50" height="50" src="@($"data:image/png;base64,{Convert.ToBase64String(mod.ProductPicture.Data, 0, mod.ProductPicture.Data.Length)}")" alt="ProductPicture"/></td>
                             <td>@mod.CategoryId</td>
                             <td>@mod.Name</td>
                             <td>@mod.Weight</td>

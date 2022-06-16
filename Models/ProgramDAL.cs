@@ -80,6 +80,31 @@ namespace ST1109348.Models
             }
             return imagesList;
         }
+        public static IEnumerable<ImageModel> GetAllProductImages()
+        {
+            var imagesList = new List<ImageModel>();
+            using (var con = new SqlConnection(ConnectionStringLocalDev))
+            {
+                var cmd = new SqlCommand("SP_GetAllProductImages", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var img = new ImageModel()
+                    {
+                        Name = dr["NAME"].ToString(),
+                        ContentType = dr["CONTENT_TYPE"].ToString(),
+                        Data = (byte[])dr["Data"],
+                        UserId = Convert.ToString(dr["User_ID"].ToString()),
+                    };
+                    imagesList.Add(img);
+                }
+                con.Close();
+            }
+            return imagesList;
+        }
         public static IEnumerable<ImageModel> GetAllUserImages()
         {
             var imagesList = new List<ImageModel>();
@@ -146,7 +171,6 @@ namespace ST1109348.Models
                     }
                 }
             }
-            
             
             return userList;
 
@@ -278,15 +302,16 @@ namespace ST1109348.Models
                         ExpirationDate = Convert.ToDateTime(dr["ExpiryDate"].ToString()),
                         FreezeByDate = CheckNull(dr["FreezeByDate"].ToString()),
                         SellByDate = CheckNull(dr["SellByDate"].ToString()),
-                        DateAdded = CheckNull(dr["DateAdded"].ToString())
+                        DateAdded = CheckNull(dr["DateAdded"].ToString()),
+                        ProductPicture = new ImageModel()
                     };
-
-
                     productList.Add(prod);
                 }
 
                 con.Close();
             }
+            
+            
             return productList;
         }
 

@@ -39,6 +39,7 @@ namespace ST1109348.Models
         [Display(Name = "Enter Sell By Date")]
         public string SellByDate { get; set; }
         public string DateAdded { get; set; }
+        public ImageModel ProductPicture { get; set; }
 
 
         //Used to track movements
@@ -52,6 +53,27 @@ namespace ST1109348.Models
             CategoryModel.CategoryList = new List<CategoryModel>();
             ProductList = new List<ProductModel>();
             ProductList = progDal.GetAllProducts().ToList();
+            
+            var defaultImage = new ImageModel();
+            var systemImages = ProgramDal.GetAllSystemImages();
+            foreach (var img in systemImages)
+            {
+                if (img.Name.Equals("219986.png"))
+                {
+                   
+                    defaultImage = img;
+                }
+            }
+            foreach (var product in ProductList)
+            {
+                if (string.IsNullOrEmpty(product.ProductPicture.Name))
+                {
+                    product.ProductPicture = defaultImage;
+                }
+            }
+
+            //Get images
+            
             MovementModel.MovementList = ProgramDal.GetAllMovements().ToList();
             CategoryModel.CategoryList = ProgramDal.GetAllCategories().ToList();
             foreach (var product in ProductList)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -33,6 +34,23 @@ namespace ST1109348.Models
         {
             ProductModel.PopulateProductsList();
             var users = ProgramDal.GetAllUsers().ToList();
+            var defaultImage = new ImageModel();
+            var systemImages = ProgramDal.GetAllSystemImages();
+            foreach (var img in systemImages)
+            {
+                if (img.Name.Equals("219986.png"))
+                {
+                   
+                    defaultImage = img;
+                }
+            }
+            foreach (var user in users)
+            {
+                if (string.IsNullOrEmpty(user.ProfilePicture.Name))
+                {
+                    user.ProfilePicture = defaultImage;
+                }
+            }
             UserList = users;
             FarmerModel.PopulateFarmerList();
             ProductModel.PopulateProductsList();

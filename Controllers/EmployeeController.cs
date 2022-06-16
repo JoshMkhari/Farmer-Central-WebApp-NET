@@ -28,20 +28,6 @@ namespace ST1109348.Controllers
                 Farmer = InitializeFarmers(),
                 ProductList = ProductModel.ProductList
             };
-            
-            if (IsNullOrEmpty(_currentUser.ProfilePicture.Name))
-            {
-                var systemImages = ProgramDal.GetAllSystemImages();
-                foreach (var img in systemImages)
-                {
-                    if (img.Name.Equals("219986.png"))
-                    {
-                        _currentUser.ProfilePicture = img;
-                        break;
-                    }
-                }
-                
-            }
             ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
             return View(_rvm);
 
@@ -107,6 +93,7 @@ namespace ST1109348.Controllers
 
         public ActionResult Farmers()
         {
+            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
             return View(_rvm);
         }
 
@@ -140,6 +127,7 @@ namespace ST1109348.Controllers
         
         public ActionResult Employees()
         {
+            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
             return View(_rvm);
         }
 

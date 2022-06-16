@@ -21,7 +21,8 @@
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                    <img src="@ViewBag.Base64String" alt="Profile" class="rounded-circle">
+                    <img class="rounded-circle" src="@($"data:image/png;base64,{Convert.ToBase64String(Model.Farmer.CurrentUser.ProfilePicture.Data, 0, Model.Farmer.CurrentUser.ProfilePicture.Data.Length)}")" alt="ProductPicture"/>
+                                    
                     <h2>@Model.Farmer.CurrentUser.FullName</h2>
                     <h3>@Model.Farmer.CurrentUser.UserType</h3>
                 </div>
