@@ -127,6 +127,8 @@ namespace ST1109348.Models
             var stockNames = new List<string>();
             var outgoingCount = 0;
             var incomingCount = 0;
+            var categoryTrack = new[] { 0, 0, 0, 0, 0, 0,0};
+            var categoryName = new[] { "Fruit", "Vegetable", "Milk", "Dairy", "Eggs", "Meat and Poultry","Grains"};
             for (var s = 0; s < myProducts.Count; s++)
             {
                 var currentProduct = myProducts.ElementAt(s);
@@ -134,7 +136,6 @@ namespace ST1109348.Models
                 var stock = currentProduct.Quantity;
                 for (var i = s+1; i < myProducts.Count; i++)
                 {
-                    
                     var compareProduct = myProducts.ElementAt(i);
                     if (!currentProduct.Name.Equals(compareProduct.Name)) continue;
                     if (currentProduct.Weight == compareProduct.Weight)
@@ -161,12 +162,39 @@ namespace ST1109348.Models
                         outgoingCount++;
                         break;
                 }
+
+                switch (currentProduct.CategoryId)
+                {
+                    case "Fruit":
+                        categoryTrack[0] += 1;
+                        break;
+                    case "Vegetable":
+                        categoryTrack[1] += 1;
+                        break;
+                    case "Milk":
+                        categoryTrack[2] += 1;
+                        break;
+                    case "Dairy":
+                        categoryTrack[3] += 1;
+                        break;
+                    case "Eggs":
+                        categoryTrack[4] += 1;
+                        break;
+                    case "Meat and Poultry":
+                        categoryTrack[5] += 1;
+                        break;
+                    default:
+                        categoryTrack[6] += 1;
+                        break;
+                }
             }
 
             if (stockTrack.Count > 0)
             {
                 stockTrack.ElementAt(0).incoming = incomingCount;
                 stockTrack.ElementAt(0).outgoing = outgoingCount;
+                stockTrack.ElementAt(0).pieChart = categoryTrack;
+                stockTrack.ElementAt(0).allCats = categoryName;
             }
             else
             {
@@ -179,9 +207,14 @@ namespace ST1109348.Models
 
                 stockTrack.ElementAt(0).incoming = 0;
                 stockTrack.ElementAt(0).outgoing = 0;
+                stockTrack.ElementAt(0).pieChart[0] = new int();
+                for (int i = 0; i < 7; i++)
+                {
+                    stockTrack.ElementAt(0).pieChart[0] = 0;
+                }
+
+                stockTrack.ElementAt(0).allCats = categoryName;
             }
-
-
             return stockTrack;
         }
     }
@@ -194,7 +227,9 @@ namespace ST1109348.Models
         public int Stock { get; set; }
         public int outgoing { get; set; }
         public int incoming { get; set; }
-        
+        public int[] pieChart{ get; set; }
+        public string[] allCats{ get; set; }
+
     }
     public class MovementModel
     {

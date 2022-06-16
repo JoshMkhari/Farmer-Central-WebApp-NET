@@ -198,7 +198,7 @@
       </div>
 
       <div class="card-body pb-0">
-        <h5 class="card-title">Website Traffic <span>| Today</span></h5>
+        <h5 class="card-title">Categories <span>| weighting</span></h5>
 
         <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
@@ -213,7 +213,7 @@
                       left: 'center'
                     },
                     series: [{
-                      name: 'Access From',
+                      name: 'Products',
                       type: 'pie',
                       radius: ['40%', '70%'],
                       avoidLabelOverlap: false,
@@ -232,25 +232,33 @@
                         show: false
                       },
                       data: [{
-                          value: 1048,
-                          name: 'Search Engine'
+                          value: @Model.MyStockList.ElementAt(0).pieChart[0],
+                          name: 'Fruit'
                         },
                         {
-                          value: 735,
-                          name: 'Direct'
+                          value: @Model.MyStockList.ElementAt(0).pieChart[1],
+                          name: 'Vegetable'
                         },
                         {
-                          value: 580,
-                          name: 'Email'
+                          value: @Model.MyStockList.ElementAt(0).pieChart[2],
+                          name: 'Milk'
                         },
                         {
-                          value: 484,
-                          name: 'Union Ads'
+                          value: @Model.MyStockList.ElementAt(0).pieChart[3],
+                          name: 'Dairy'
                         },
                         {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
+                          value: @Model.MyStockList.ElementAt(0).pieChart[4],
+                          name: 'Eggs'
+                        },
+                        {
+                          value: @Model.MyStockList.ElementAt(0).pieChart[5],
+                          name: 'Meat and Poultry'
+                        },
+                        {
+                          value: @Model.MyStockList.ElementAt(0).pieChart[6],
+                          name: 'Grains'
+                        }                        
                       ]
                     }]
                   });
