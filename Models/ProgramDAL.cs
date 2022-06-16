@@ -31,7 +31,6 @@ namespace ST1109348.Models
 
                     userList.Add(use);
                 }
-
                 con.Close();
             }
 
@@ -57,11 +56,37 @@ namespace ST1109348.Models
             }
         }
 
+        public static IEnumerable<ImageModel> GetAllImages()
+        {
+            var imagesList = new List<ImageModel>();
+            using (var con = new SqlConnection(ConnectionStringLocalDev))
+            {
+                var cmd = new SqlCommand("SP_GetAllImages", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var img = new ImageModel()
+                    {
+                        Id = Convert.ToInt32(dr["ID"].ToString()),
+                        Name = Convert.ToString(dr["NAME"].ToString()),
+                        ContentType = dr["CONTENT_TYPE"].ToString(),
+                        Data = (byte[])dr["Data"],
+                        UserId = Convert.ToString(dr["User_ID"].ToString()),
+                    };
+                    imagesList.Add(img);
+                }
+                con.Close();
+            }
+
+            return imagesList;
+        }
         //User Related
         public static IEnumerable<UserModel> GetAllUsers()
         {
             var userList = new List<UserModel>();
-            var imagesList = new List<ImageModel>();
             using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
                 var cmd = new SqlCommand("SP_GetAllUsers", con);
@@ -82,26 +107,10 @@ namespace ST1109348.Models
                     userList.Add(use);
                 }
                 con.Close();
-                
-                cmd = new SqlCommand("SP_GetAllImages", con);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                con.Open();
-                
-                dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    var img = new ImageModel()
-                    {
-                        Id = Convert.ToInt32(dr["ID"].ToString()),
-                        Name = Convert.ToString(dr["NAME"].ToString()),
-                        ContentType = dr["CONTENT_TYPE"].ToString(),
-                        Data = (byte[])dr["Data"],
-                        UserId = Convert.ToString(dr["User_ID"].ToString()),
-                    };
-                    imagesList.Add(img);
-                }
-                con.Close();
             }
+            
+            //Check if an image is already set for the current user
+            var imagesList = (List<ImageModel>)GetAllImages();
 
             foreach (var user in userList)
             {
@@ -114,10 +123,27 @@ namespace ST1109348.Models
                     }
                 }
             }
+            
+            
             return userList;
 
         }
-
+        
+        private static void UpdateImage(UserModel use)
+        {
+            using (var con = new SqlConnection(ConnectionStringLocalDev))
+            {
+                var cmd = new SqlCommand("SP_UpdateImage", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Name", use.ProfilePicture.Name);
+                cmd.Parameters.AddWithValue("@ContentType", use.ProfilePicture.ContentType);
+                cmd.Parameters.AddWithValue("@DATA", use.ProfilePicture.Data);
+                cmd.Parameters.AddWithValue("@UserId", use.UserId);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
         //Update User
         public static void UpdateUser(UserModel use, string oldEmail)
         {
@@ -131,12 +157,40 @@ namespace ST1109348.Models
                 cmd.Parameters.AddWithValue("@UserEmail", use.UserEmail);
                 cmd.Parameters.AddWithValue("@DisplayName", use.DisplayName);
                 cmd.Parameters.AddWithValue("@OldEmail", oldEmail);
-
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
-                
-                cmd = new SqlCommand("SP_AddImage", con);
+            }
+            var imagesList = (List<ImageModel>)GetAllImages();
+
+            var found = false;
+            //foreach (var VARIABLE in COLLECTION)
+            foreach (var img in imagesList)
+            {
+                if (img.UserId.Equals(use.UserId))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found)
+            {
+                //Update user image
+                UpdateImage(use);
+            }
+            else
+            {
+                AddImage(use);
+            }
+            
+        }
+        public static void AddImage(UserModel use)
+        {
+            using (var con = new SqlConnection(ConnectionStringLocalDev))
+            {
+                //Check if an image already exists for current user
+                var cmd = new SqlCommand("SP_AddImage", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Name", use.ProfilePicture.Name);
                 cmd.Parameters.AddWithValue("@ContentType", use.ProfilePicture.ContentType);
@@ -147,7 +201,6 @@ namespace ST1109348.Models
                 con.Close();
             }
         }
-
         //Roles Related
         public static IEnumerable<UserModel> GetAllRoles()
         {

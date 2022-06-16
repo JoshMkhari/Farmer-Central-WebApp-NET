@@ -27,6 +27,9 @@ namespace ST1109348.Controllers
             _myProducts = ProductModel.PopulateMyProducts(_currentUser.UserId);
             _rvm.ProductList= _myProducts;
             _rvm.MyStockList = ProductModel.PopulateMyStock(_myProducts);
+            //<img src="~/Theme/assets/img/logo.png" alt="">
+            Console.WriteLine("LOOK AT ME "+ _currentUser.ProfilePicture.Name);
+            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
             return View(_rvm);
         }
 
@@ -134,7 +137,7 @@ namespace ST1109348.Controllers
         }
         public ActionResult MyProfile()
         {
-           
+            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
             return View(_rvm);
         }
         private static string ValidateUpdate(string check, string old)
@@ -167,11 +170,8 @@ namespace ST1109348.Controllers
             use.UserId = _currentUser.UserId;
             HttpPostedFileBase file = Request.Files["ImageData"];
             ImageModel imageModel = new ImageModel();
-            if (!String.IsNullOrEmpty(file.FileName))
+            if (file != null && !IsNullOrEmpty(file.FileName))
             {
-                Console.WriteLine("THIS IS FILE NAME " + file.FileName);
-                Console.WriteLine("THIS IS FILE Type " + file.ContentType);
-
                 imageModel.Name = file.FileName;
                 imageModel.ContentType = file.ContentType;
                 using (var stream = new MemoryStream())
