@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -27,13 +29,34 @@ namespace ST1109348.Controllers
                 ProductList = ProductModel.ProductList
             };
             
-            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
+            if (!IsNullOrEmpty(_currentUser.ProfilePicture.Name))
+            {
+                Console.WriteLine("WE In ISNUL EMPTY");
+                ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);  
+            }
+            else
+            {
+                var userImages = ProgramDal.GetAllImages();
+                ImageModel profilePic = new ImageModel();
+                foreach (var img in userImages)
+                {
+                    Console.WriteLine("current user " + _currentUser.UserEmail);
+                    if (img.Name.Equals("219986.png"))
+                    {
+                        Console.WriteLine("Found image");
+                        profilePic = img;
+                        break;
+                    }
+                }
+                ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(profilePic.Data, 0, profilePic.Data.Length);
+            }
             return View(_rvm);
 
         }
 
         public ActionResult MyProfile()
         {
+            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
             return View(_rvm);
         }
 
@@ -55,6 +78,23 @@ namespace ST1109348.Controllers
 
 
             use.FullName = use.FirstName +" " + use.LastName;
+            use.UserId = _currentUser.UserId;
+            HttpPostedFileBase file = Request.Files["ImageData"];
+            ImageModel imageModel = new ImageModel();
+            if (file != null && !IsNullOrEmpty(file.FileName))
+            {
+                imageModel.Name = file.FileName;
+                imageModel.ContentType = file.ContentType;
+                using (var stream = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(stream);
+                    imageModel.Data = stream.ToArray();
+                }
+                //COMPARE TO CURRENT USER FILE
+            }
+
+            use.ProfilePicture = imageModel;
+            
             ProgramDal.UpdateUser(use, _currentUser.UserEmail);
 
             return !User.Identity.Name.Equals(use.UserEmail) ? RedirectToAction("SignOut", "Account") : RedirectToAction("Index");

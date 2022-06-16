@@ -102,7 +102,8 @@ namespace ST1109348.Models
                         Address = Convert.ToString(dr["Address"].ToString()),
                         FullName = Convert.ToString(dr["FullName"].ToString()),
                         Phone = Convert.ToString(dr["PhoneNumber"].ToString()),
-                        DisplayName = Convert.ToString(dr["DisplayName"].ToString())
+                        DisplayName = Convert.ToString(dr["DisplayName"].ToString()),
+                        ProfilePicture = new ImageModel()
                     };
                     userList.Add(use);
                 }
@@ -111,7 +112,7 @@ namespace ST1109348.Models
             
             //Check if an image is already set for the current user
             var imagesList = (List<ImageModel>)GetAllImages();
-
+            
             foreach (var user in userList)
             {
                 foreach (var img in imagesList)
