@@ -28,45 +28,41 @@ namespace ST1109348.Controllers
                 Farmer = InitializeFarmers(),
                 ProductList = ProductModel.ProductList
             };
-            if (_rvm.ProductList.Count == 0)
+            
+            _rvm.CardList = new CardModel
             {
-                _rvm.ProductList.Add(new ProductModel());
-                Console.WriteLine("ProductList is 0");
-            }
-            Console.WriteLine("ProductList is incoming");
-            _rvm.ProductList.ElementAt(0).CardList = new CardModel();
-            _rvm.ProductList.ElementAt(0).CardList.incoming = 0;
-            Console.WriteLine("ProductList is outgoing");
-            _rvm.ProductList.ElementAt(0).CardList.outgoing = 0;
-            Console.WriteLine("ProductList is pieChart");
-            _rvm.ProductList.ElementAt(0).CardList.pieChart = new int[7];
-
+                incoming = 0,
+                outgoing = 0,
+                pieChart = new []{0,0,0,0,0,0,0}
+            };
+            
             foreach (var farmer in _rvm.Farmer.FarmerView)
             {
+                Console.WriteLine("ProductList is outgoing");
                 foreach (var currentProduct in farmer.CurrentFarmerProductList)
                 {
                     switch (currentProduct.CategoryId)
                     {
                         case "Fruit":
-                            _rvm.ProductList.ElementAt(0).CardList.pieChart[0] += 1;
+                            _rvm.CardList.pieChart[0] += 1;
                             break;
                         case "Vegetable":
-                            _rvm.ProductList.ElementAt(0).CardList.pieChart[1] += 1;
+                            _rvm.CardList.pieChart[1] += 1;
                             break;
                         case "Milk":
-                            _rvm.ProductList.ElementAt(0).CardList.pieChart[2] += 1;
+                            _rvm.CardList.pieChart[2] += 1;
                             break;
                         case "Dairy":
-                            _rvm.ProductList.ElementAt(0).CardList.pieChart[3] += 1;
+                            _rvm.CardList.pieChart[3] += 1;
                             break;
                         case "Eggs":
-                            _rvm.ProductList.ElementAt(0).CardList.pieChart[4] += 1;
+                            _rvm.CardList.pieChart[4] += 1;
                             break;
                         case "Meat and Poultry":
-                            _rvm.ProductList.ElementAt(0).CardList.pieChart[5] += 1;
+                            _rvm.CardList.pieChart[5] += 1;
                             break;
                         default:
-                            _rvm.ProductList.ElementAt(0).CardList.pieChart[6] += 1;
+                            _rvm.CardList.pieChart[6] += 1;
                             break;
                     }
                 }

@@ -87,7 +87,7 @@ namespace ST1109348.Models
         public List<MovementModel> MovementList { get; set; }
         public List<StockModel> MyStockList { get; set;}
         
-
+        public CardModel CardList { get; set;}
     }
 
     public class ResetPasswordViewModel
@@ -109,6 +109,7 @@ namespace ST1109348.Models
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
+
     }
 
     public class ForgotPasswordViewModel
