@@ -76,64 +76,73 @@ namespace ST1109348.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            try
             {
-                case SignInStatus.Success:
-                    //check type and send to correct area
-                    if (String.IsNullOrEmpty(returnUrl))
-                    {
-                        //User.Identity.Name
-                        String userID ="";
-                        int userRole = 0;
-                        ProgramDal progDal = new ProgramDal();
-                        //If anything goes wrong learn Discards
-                        _ = new List<UserModel>();
-                        List<UserModel> users = ProgramDal.GetAllUsers().ToList();
-                        foreach (var item in users)
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                switch (result)
+                {
+                    
+                    case SignInStatus.Success:
+                        //check type and send to correct area
+                        if (String.IsNullOrEmpty(returnUrl))
                         {
-                            if (item.UserEmail.Equals(model.Email))
+                            //User.Identity.Name
+                            String userID ="";
+                            int userRole = 0;
+                            ProgramDal progDal = new ProgramDal();
+                            //If anything goes wrong learn Discards
+                            _ = new List<UserModel>();
+                            List<UserModel> users = ProgramDal.GetAllUsers().ToList();
+                            foreach (var item in users)
                             {
-                                userID = item.UserId;
-                                break;
+                                if (item.UserEmail.Equals(model.Email))
+                                {
+                                    userID = item.UserId;
+                                    break;
+                                }
                             }
-                        }
-                        users = ProgramDal.GetAllRoles().ToList();
+                            users = ProgramDal.GetAllRoles().ToList();
                         
-                        foreach (var item in users)
-                        {
-                            if (item.UserId.Equals(userID))
+                            foreach (var item in users)
                             {
-                                userRole = item.UserRole;
-                                break;
+                                if (item.UserId.Equals(userID))
+                                {
+                                    userRole = item.UserRole;
+                                    break;
+                                }
                             }
-                        }
-                        switch (userRole)
-                        {
+                            switch (userRole)
+                            {
                             
-                            case 1://Employee Logging in
-                                UserModel.LoggedInUserRole = "Employee";
-                                return RedirectToAction("Index", "Employee");
-                            case 2: //Farmer Logging in
-                                UserModel.LoggedInUserRole = "Farmer";
-                                return RedirectToAction("Index", "Farmer");
-                            case 3://Admin Logging in
-                                UserModel.LoggedInUserRole = "Admin";
-                                return RedirectToAction("Index", "Employee");
+                                case 1://Employee Logging in
+                                    UserModel.LoggedInUserRole = "Employee";
+                                    return RedirectToAction("Index", "Employee");
+                                case 2: //Farmer Logging in
+                                    UserModel.LoggedInUserRole = "Farmer";
+                                    return RedirectToAction("Index", "Farmer");
+                                case 3://Admin Logging in
+                                    UserModel.LoggedInUserRole = "Admin";
+                                    return RedirectToAction("Index", "Employee");
+                            }
 
                         }
-
-                    }
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View(model);
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("We here?");
+                return View(model);
+            }
+
         }
 
         //

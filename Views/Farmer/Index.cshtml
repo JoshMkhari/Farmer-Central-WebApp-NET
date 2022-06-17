@@ -51,7 +51,7 @@
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>@Model.ProductList.ElementAt(0).CardList.outgoing</h6>
+                      <h6>@Model.CardList.outgoing</h6>
                     </div>
                   </div>
                 </div>
@@ -72,7 +72,7 @@
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>@Model.ProductList.ElementAt(0).CardList.incoming</h6>
+                      <h6>@Model.CardList.incoming</h6>
 
                     </div>
                   </div>
@@ -224,31 +224,31 @@
                         show: false
                       },
                       data: [{
-                          value: @Model.ProductList.ElementAt(0).CardList.pieChart[0],
+                          value: @Model.CardList.pieChart[0],
                           name: 'Fruit'
                         },
                         {
-                          value: @Model.ProductList.ElementAt(0).CardList.pieChart[1],
+                          value: @Model.CardList.pieChart[1],
                           name: 'Vegetable'
                         },
                         {
-                          value: @Model.ProductList.ElementAt(0).CardList.pieChart[2],
+                          value: @Model.CardList.pieChart[2],
                           name: 'Milk'
                         },
                         {
-                          value: @Model.ProductList.ElementAt(0).CardList.pieChart[3],
+                          value: @Model.CardList.pieChart[3],
                           name: 'Dairy'
                         },
                         {
-                          value: @Model.ProductList.ElementAt(0).CardList.pieChart[4],
+                          value: @Model.CardList.pieChart[4],
                           name: 'Eggs'
                         },
                         {
-                          value: @Model.ProductList.ElementAt(0).CardList.pieChart[5],
+                          value: @Model.CardList.pieChart[5],
                           name: 'Meat and Poultry'
                         },
                         {
-                          value: @Model.ProductList.ElementAt(0).CardList.pieChart[6],
+                          value: @Model.CardList.pieChart[6],
                           name: 'Grains'
                         }                        
                       ]

@@ -118,11 +118,10 @@ namespace ST1109348.Models
                     myProducts.Add(prod);
                 }
             }
-
             return myProducts;
         }
 
-        public static List<StockModel> PopulateMyStock(List<ProductModel> myProducts)
+        public static List<StockModel> PopulateMyStock(List<ProductModel> myProducts, RegisterViewModel rvm)
         {
             var stockTrack = new List<StockModel>();
             var stockNames = new List<string>();
@@ -200,29 +199,6 @@ namespace ST1109348.Models
                     allCats = categoryName
                 };
             }
-            else
-            {
-                stockTrack.Add(new StockModel()
-                {
-                    Name = " ",
-                    Category = " ",
-                    Stock = 0
-                });
-                myProducts.Add(new ProductModel());
-                myProducts.ElementAt(0).CardList = new CardModel
-                {
-                    incoming = 0,
-                    outgoing = 0,
-                    pieChart = new int[7]
-                };
-                for (var i = 0; i < 7; i++)
-                {
-                    myProducts.ElementAt(0).CardList.pieChart[0] = 0;
-                }
-
-                myProducts.ElementAt(0).CardList.allCats = categoryName;
-            }
-           
             return stockTrack;
         }
     }

@@ -86,8 +86,8 @@ namespace ST1109348.Models
         public List<CategoryModel> CategoryList { get; set; }
         public List<MovementModel> MovementList { get; set; }
         public List<StockModel> MyStockList { get; set;}
-        
-        public CardModel CardList { get; set;}
+
+        public CardModel CardList { get; set; }
     }
 
     public class ResetPasswordViewModel

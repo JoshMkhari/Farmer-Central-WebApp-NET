@@ -28,14 +28,14 @@ namespace ST1109348.Controllers
                 Farmer = InitializeFarmers(),
                 ProductList = ProductModel.ProductList
             };
-            
             _rvm.CardList = new CardModel
-            {
-                incoming = 0,
-                outgoing = 0,
-                pieChart = new []{0,0,0,0,0,0,0}
-            };
-            
+                {
+                    incoming = 0,
+                    outgoing = 0,
+                    pieChart = new []{0,0,0,0,0,0,0}
+                };
+
+
             foreach (var farmer in _rvm.Farmer.FarmerView)
             {
                 Console.WriteLine("ProductList is outgoing");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using static System.String;
 
 namespace ST1109348.Models
@@ -324,12 +325,27 @@ namespace ST1109348.Models
             return IsNullOrEmpty(date) ? " " : date;
         }
 
-        private static void AddProductImage(ImageModel img, int prodID)
+        private static void AddProductImage()
         {
+            var dal = new ProgramDal();
+            var prodList = dal.GetAllProducts();
+            var prodID = prodList.ElementAt(prodList.Count() - 1).ProductId;
+            var systemImageList = GetAllSystemImages();
+            var img = new ImageModel();
+            foreach (var image in systemImageList)
+            {
+                if (image.Name.Equals("219986.png"))
+                {
+                    Console.WriteLine("Image was FOUND");
+                    img = image;
+                    break;
+                }
+            }
+            
             using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
-                //Check if an image already exists for current user
                 var cmd = new SqlCommand("SP_AddProductImage", con);
+                
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Name", img.Name);
                 cmd.Parameters.AddWithValue("@ContentType", img.ContentType);
@@ -340,7 +356,7 @@ namespace ST1109348.Models
                 con.Close();
             }
         }
-        public static void AddProduct(ProductModel product, string userId, int prodID)
+        public static void AddProduct(ProductModel product, string userId)
         {
             using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
@@ -379,7 +395,7 @@ namespace ST1109348.Models
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
-            AddProductImage(product.ProductPicture,prodID);
+            AddProductImage();
         }
 
         public static IEnumerable<MovementModel> GetAllMovements()

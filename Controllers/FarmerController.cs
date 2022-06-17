@@ -26,9 +26,21 @@ namespace ST1109348.Controllers
             };
             _myProducts = ProductModel.PopulateMyProducts(_currentUser.UserId);
             _rvm.ProductList= _myProducts;
-            _rvm.MyStockList = ProductModel.PopulateMyStock(_myProducts);
+            _rvm.MyStockList = ProductModel.PopulateMyStock(_myProducts,_rvm);
 
-            Console.WriteLine("LOAD VIEW");
+            if (_rvm.MyStockList.Count == 0)
+            {
+                _rvm.CardList = new CardModel
+                {
+                    incoming = 0,
+                    outgoing = 0,
+                    pieChart = new []{0,0,0,0,0,0,0}
+                };
+            }
+            else
+            {
+                _rvm.CardList = _rvm.ProductList.ElementAt(0).CardList;
+            }
             return View(_rvm);
         }
 
@@ -121,8 +133,9 @@ namespace ST1109348.Controllers
                 model.Product.ProductPicture = UserModel.SystemImages.ElementAt(0);
 
                 var dal = new ProgramDal();
-                var prodId = dal.GetAllProducts().Count()+1;
-                ProgramDal.AddProduct(model.Product, _currentUser.UserId,prodId);
+                
+                Console.WriteLine();
+                ProgramDal.AddProduct(model.Product, _currentUser.UserId);
                 return RedirectToAction("Index", "Farmer");
             }
             catch (Exception)
