@@ -9,6 +9,8 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href=@Url.Action("Index")>Home</a></li>
+            <li class="breadcrumb-item">Users</li>
+            <li class="breadcrumb-item active">Profile</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -100,9 +102,7 @@
                                         <div class="col-md-8 col-lg-9">
                                             <img src="@ViewBag.Base64String" alt="Profile">
                                             <div class="pt-2">
-                                                <input type="file" name="ImageData" id="ImageData"/> 
-                                                <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                                <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                                                <input class="form-control" type="file" name="ImageData" id="ImageData"/>
                                             </div>
                                         </div>
                                     </div>

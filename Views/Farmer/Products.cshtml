@@ -10,124 +10,106 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href=@Url.Action("Index", "Farmer")>Dashboard</a></li>
             <li class="breadcrumb-item active">Products</li>
+            <li class="breadcrumb-item active">Add Product</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
 
+<div class="row">
+<!-- Start Left side columns -->
+<div class="col-lg-7">
 <section class="section profile">
     <div class="row">
-        <div class="col-xl-8">
-
-            <div class="card">
+        <div class="card">
                 <div class="card-body pt-3">
                     <!-- Bordered Tabs -->
                     <ul class="nav nav-tabs nav-tabs-bordered">
 
                         <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Add</button>
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Set Details</button>
                         </li>
                     </ul>
                     <div class="tab-content pt-2">
 
                         <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                            <h5 class="card-title">Add new Product</h5>
-
-                            @using (Html.BeginForm("Products", "Farmer", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            <h5 class="card-title">Product Details</h5>
+                            @using (Html.BeginForm("Products", "Farmer", FormMethod.Post, new { @class = "row g-3 needs-validation", role = "form" , @novalidate="novalidate"} ))
                             {
                                 @Html.AntiForgeryToken()
-                                @Html.ValidationSummary("", new { @class = "text-danger" })
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.CategoryId, new { @class = "col-md-5 control-label" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownListFor(m => m.Product.CategoryId, new SelectList(Model.CategoryList, "Id", "Name"))
+                                <!-- Category select drop down -->
+                                <div class="col-md-6 position-relative">
+                                    @Html.LabelFor(m => m.Product.CategoryId, new { @class = "form-label" })
+                                    @Html.DropDownListFor(m => m.Product.CategoryId, new SelectList(Model.CategoryList, "Id", "Name"), new { @class = "form-control" })
+                                </div>
+                                <!-- Text box for entering a product name -->
+                                <div class="col-md-6 position-relative">
+                                    @Html.LabelFor(m => m.Product.Name, new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Product.Name, new { @class = "form-control", required="required"})
+                                    <div class="invalid-tooltip">
+                                        Please enter a product name.
                                     </div>
                                 </div>
-                                <p />
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.Name, new { @class = "col-md-5 control-label" })
-                                    <div class="col-md-10">
-                                        @Html.TextBoxFor(m => m.Product.Name, new { @class = "form-control" })
-                                    </div>
+                                <!-- Text box for selecting a weight-->
+                                <div class="col-md-6 position-relative">
+                                    @Html.LabelFor(m => m.Product.Weight, new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Product.Weight, new { @class = "form-control" , @type="number", @required="required",@id = "WeightID"})
                                 </div>
-                                <p />
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.Weight, new { @class = "col-md-5 control-label" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(m => m.Product.Weight, new { @class = "form-control" })
-                                    </div>
+                                <!-- Text box for selecting a quantity -->
+                                <div class="col-md-6 position-relative">
+                                    @Html.LabelFor(m => m.Product.Quantity, new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Product.Quantity, new { @class = "form-control" , @type="number", @required="required",@id = "QuantityID"})
                                 </div>
-                                <p />
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.MovementId, new { @class = "col-md-5 control-label" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownListFor(m => m.Product.MovementId, new SelectList(Model.MovementList, "Id", "Name"))
-                                    </div>
+                                <!-- Movement Type select drop down-->
+                                <div class="col-md-6 position-relative">
+                                    @Html.LabelFor(m => m.Product.MovementId, new { @class = "form-label" })
+                                    @Html.DropDownListFor(m => m.Product.MovementId, new SelectList(Model.MovementList, "Id", "Name"),new { @class = "form-control" })
                                 </div>
-                                <p />
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.Quantity, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(m => m.Product.Quantity, new { @class = "form-control" })
+                                <h5 class="card-title">Product Dates</h5>
+                                <!-- Date selector for Production Date -->
+                                <div class="col-md-6 position-relative">
+                                    @Html.LabelFor(m => m.Product.ProductionDate, new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Product.ProductionDate, new { @class = "form-control" , @type="date", @required="required",@id = "ProductionDate"})
+                                    <div class="invalid-tooltip">
+                                        Please select a production date.
                                     </div>
+                                    <input type="hidden" id="productionValue" name="productionValue" value="3487">
                                 </div>
-                                <p />
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.ProductionDate, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-4">
-                                        <div class="md-form md-outline input-with-post-icon datepicker">
-                                            <input placeholder="Select date" type="date" id="ProductionDate" class="form-control">
-                                            <input type="hidden" id="productionValue" name="productionValue" value="3487">
-                                        </div>
+                                <!-- Date selector for Expiry Date -->
+                                <div class="col-md-6 position-relative">
+                                    @Html.LabelFor(m => m.Product.ExpirationDate, new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Product.ExpirationDate, new { @class = "form-control" , @type="date", @required="required",@id = "ExpirationDate"})
+                                    <div class="invalid-tooltip">
+                                        Please select a expiration date
                                     </div>
+                                    <input type="hidden" id="expirationValue" name="expirationValue" value="3487">
                                 </div>
-                                <p />
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.ExpirationDate, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-4">
-                                        <div class="md-form md-outline input-with-post-icon datepicker">
-                                            <input placeholder="Select date" type="date" id="ExpirationDate" class="form-control">
-                                            <input type="hidden" id="expirationValue" name="expirationValue" value="3487">
-                                        </div>
-                                    </div>
+                                <!-- Date selector for Freeze By Date-->
+                                <div class="col-md-6 position-relative">
+                                    @Html.LabelFor(m => m.Product.FreezeByDate, new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.Product.FreezeByDate, new { @class = "form-control" , @type="date",@id = "FreezeByDate"})
+                                    <input type="hidden" id="freezeByValue" name="freezeByValue" value="3487">
                                 </div>
-                                <p />
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.FreezeByDate, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-4">
-                                        <div class="md-form md-outline input-with-post-icon datepicker">
-                                            <input placeholder="Select date" type="date" id="FreezeByDate" class="form-control">
-                                            <input type="hidden" id="freezeByValue" name="freezeByValue" value="3487">
-                                        </div>
-                                    </div>
+                                <!-- Date selector for Sell By Date -->
+                                <div class="col-md-6 position-relative">
+                                    @Html.LabelFor(m => m.Product.SellByDate, new { @class = "col-md-5 control-label" })
+                                    @Html.TextBoxFor(m => m.Product.SellByDate, new { @class = "form-control" , @type="date",@id = "SellByDate"})
+                                    <input type="hidden" id="sellByValue" name="sellByValue" value="3487">
                                 </div>
-                                <p />
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Product.SellByDate, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-4">
-                                        <div class="md-form md-outline input-with-post-icon datepicker">
-                                            <input placeholder="Select date" type="date" id="SellByDate" class="form-control">
-                                            <input type="hidden" id="sellByValue" name="sellByValue" value="3487">
-                                        </div>
-                                    </div>
-                                </div>
-                                <p />
-                                <div class="form-group">
+                                <!-- Text box for entering a product name -->
+                                <p></p>
+                                <div class="col-md-6 position-relative">
                                     <div class="col-md-offset-2 col-md-10">
                                         <button class="btn btn-primary w-100" type="submit" onclick="myFunction()">Add Product</button>
                                     </div>
                                 </div>
-
                             }
                         </div>
-
                     </div><!-- End Bordered Tabs -->
-
                 </div>
             </div>
-
-        </div>
     </div>
 
+    
     <script>
         function myFunction() {
             document.getElementById("productionValue").value = document.getElementById("ProductionDate").value;
@@ -136,5 +118,30 @@
             document.getElementById("sellByValue").value = document.getElementById("SellByDate").value;
         }
     </script>
+    
 </section>
+</div><!-- End Left side columns -->
+  <div class="col-lg-5">
+              <!-- Recent Activity -->
+    <div class="card">
+      <div class="card-body">
+      <h5 class="card-title">Activity <span>|All </span></h5>
+    
+        <div class="activity">
+          @foreach(var prod in Model.ProductList)
+          {
+              <div class="activity-item d-flex">
+                  <div class="activite-label col-4">@prod.CategoryId</div>
+                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
+                  <div class="activity-content col">
+                      @prod.Name @prod.Weight<a>g </a> <a class="fw-bold text-dark">@prod.MovementId</a>
+                  </div>
+              </div><!-- End activity item-->
+              <p></p>
+          }
+        </div>
+      </div>
+              </div><!-- End Recent Activity -->
+  </div><!-- End Right side columns -->
+</div>
 

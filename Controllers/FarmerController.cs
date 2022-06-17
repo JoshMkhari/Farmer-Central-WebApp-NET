@@ -94,6 +94,11 @@ namespace ST1109348.Controllers
         {
             _rvm.CategoryList = ProgramDal.GetAllCategories().ToList();
             _rvm.MovementList = ProgramDal.GetAllMovements().ToList();
+
+            _rvm.Product.Quantity = 1;
+            _rvm.Product.Weight = 1;
+            _rvm.Product.ProductionDate = DateTime.Today;
+            _rvm.Product.ExpirationDate = DateTime.Today;
             return View(_rvm);
         }
 
@@ -103,17 +108,18 @@ namespace ST1109348.Controllers
         {
             try
             {
-                model.Product.ProductionDate = Convert.ToDateTime(CheckDate(formData["productionValue"] == "" ? null : formData["productionValue"]));
-                model.Product.ExpirationDate = Convert.ToDateTime(CheckDate(formData["expirationValue"] == "" ? null : formData["expirationValue"]));
+                model.Product.ProductionDate = Convert.ToDateTime(formData["productionValue"] == "" ? null : formData["productionValue"]);
+                model.Product.ExpirationDate = Convert.ToDateTime(formData["expirationValue"] == "" ? null : formData["expirationValue"]);
                 model.Product.FreezeByDate = CheckDate(formData["freezeByValue"] == "" ? null : formData["freezeByValue"]);
                 model.Product.SellByDate = CheckDate(formData["sellByValue"] == "" ? null : formData["sellByValue"]);
-                //MessageBox.Show("Movement ID " + model.Product.MovementID);
+                if (model.Product.Weight < 1 || model.Product.Quantity < 1)
+                {
+                    return RedirectToAction("Products", "Farmer");
+                }
+
                 if (model.Product.MovementId.Equals("3"))
                 {
-                    if (model.Product.Quantity>0)
-                    {
-                        model.Product.Quantity *= -1;
-                    }
+                    model.Product.Quantity *= -1;
                 }
                 model.Product.ProductPicture = UserModel.SystemImages.ElementAt(0);
 
