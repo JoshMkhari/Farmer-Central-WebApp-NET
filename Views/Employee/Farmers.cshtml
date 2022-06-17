@@ -35,28 +35,39 @@
                         <div class="tab-pane fade show active profile-overview" id="profile-overview">
                             <h5 class="card-title">Add new Farmer</h5>
 
-                            @using (Html.BeginForm("Farmers", "Employee", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            @using (Html.BeginForm("Farmers", "Employee", FormMethod.Post, new { @class = "form-horizontal needs-validation", role = "form",novalidate="novalidate" }))
                             {
                                 @Html.AntiForgeryToken()
-                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <!-- Text box for entering a email -->
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-10">
-                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10 position-relative">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control",required="required" })
+                                        <div class="invalid-tooltip">
+                                            Please enter a email.
+                                        </div>
                                     </div>
                                 </div>
                                 <p />
+                                <!-- Text box for entering a password -->
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-5 control-label" })
-                                    <div class="col-md-10">
-                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10 position-relative">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control",required="required" })
+                                        <div class="invalid-tooltip">
+                                            Please enter a password.
+                                        </div>
                                     </div>
                                 </div>
                                 <p />
+                                <!-- Text box for entering a email -->
                                 <div class="form-group">
-                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-10 control-label" })
-                                    <div class="col-md-10">
-                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-5 control-label" })
+                                    <div class="col-md-10 position-relative">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control",required="required" })
+                                        <div class="invalid-tooltip">
+                                            Please enter the above password.
+                                        </div>
                                     </div>
                                 </div>
                                 <p />

@@ -131,6 +131,7 @@ namespace ST1109348.Models
             var categoryName = new[] { "Fruit", "Vegetable", "Milk", "Dairy", "Eggs", "Meat and Poultry","Grains"};
             for (var s = 0; s < myProducts.Count; s++)
             {
+                Console.WriteLine("Inside For");
                 var currentProduct = myProducts.ElementAt(s);
 
                 var stock = currentProduct.Quantity;
@@ -188,9 +189,10 @@ namespace ST1109348.Models
                         break;
                 }
             }
-
+            Console.WriteLine("Stock track count " + stockTrack.Count);
             if (stockTrack.Count > 0)
             {
+                Console.WriteLine("Look over here if");
                 stockTrack.ElementAt(0).incoming = incomingCount;
                 stockTrack.ElementAt(0).outgoing = outgoingCount;
                 stockTrack.ElementAt(0).pieChart = categoryTrack;
@@ -198,16 +200,19 @@ namespace ST1109348.Models
             }
             else
             {
+                Console.WriteLine("Look over here else");
                 stockTrack.Add(new StockModel()
                 {
                     Name = " ",
                     Category = " ",
                     Stock = 0
                 });
-
+                
                 stockTrack.ElementAt(0).incoming = 0;
                 stockTrack.ElementAt(0).outgoing = 0;
-                stockTrack.ElementAt(0).pieChart[0] = new int();
+                Console.WriteLine("New Stock track count " + stockTrack.Count);
+                stockTrack.ElementAt(0).pieChart = new int[7];
+                Console.WriteLine("above for loop");
                 for (int i = 0; i < 7; i++)
                 {
                     stockTrack.ElementAt(0).pieChart[0] = 0;
@@ -215,6 +220,7 @@ namespace ST1109348.Models
 
                 stockTrack.ElementAt(0).allCats = categoryName;
             }
+           
             return stockTrack;
         }
     }
