@@ -173,11 +173,13 @@
               break;
             }
             <div class="activity-item d-flex">
+              <div class="activite-label col-4">@Model.ProductList.ElementAt(i).CategoryId</div>
               <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-              <div class="activity-content">
-                @Model.ProductList.ElementAt(i).Name <a class="fw-bold text-dark">@Model.ProductList.ElementAt(i).Quantity</a>
+              <div class="activity-content col">
+                @Model.ProductList.ElementAt(i).Name @Model.ProductList.ElementAt(i).Weight<a>g </a> <a class="fw-bold text-dark">@Model.ProductList.ElementAt(i).MovementId</a>
               </div>
             </div><!-- End activity item-->
+            <p></p>
           }
 
         </div>
