@@ -88,16 +88,18 @@
                                         <h5 class="card-title">Farmers <span>| All</span></h5>
                                         <table class="table table-striped datatable">
                                             <thead>
-                                                <tr>
-                                                    <th scope="col">Farmer Name</th>
-                                                    <th scope="col">Farmer Email</th>
-                                                </tr>
+                                            <tr>
+                                                <th scope="col">Farmer Profile</th>
+                                                <th scope="col">Farmer Name</th>
+                                                <th scope="col">Farmer Email</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
 
                                                 @foreach (var mod in Model.Farmer.FarmerView)
                                                 {
                                                     <tr>
+                                                        <td><img class="rounded-circle" width="50" height="50" src="@($"data:image/png;base64,{Convert.ToBase64String(mod.ProfilePicture.Data, 0, mod.ProfilePicture.Data.Length)}")" alt="ProductPicture"/></td>
                                                         <td>@mod.DisplayName</td>
                                                         <td>@mod.FarmerEmail</td>
                                                     </tr>

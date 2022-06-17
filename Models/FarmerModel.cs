@@ -15,7 +15,7 @@ namespace ST1109348.Models
 
         public List<ProductModel> CurrentFarmerProductList;
         public List<FarmerModel> FarmerView { get; set; }
-
+        public ImageModel ProfilePicture { get; set; }
 
         //For interface purposes
         public UserModel CurrentUser { get; set; }
@@ -30,6 +30,7 @@ namespace ST1109348.Models
                     if (!FarmerList.ElementAt(i).FarmerId.Equals(user.UserId)) continue;
                     FarmerList.ElementAt(i).FarmerEmail = user.UserEmail;
                     FarmerList.ElementAt(i).DisplayName = string.IsNullOrEmpty(user.DisplayName) ? user.UserEmail : user.DisplayName;
+                    FarmerList.ElementAt(i).ProfilePicture = user.ProfilePicture;
                 }
             }
             
