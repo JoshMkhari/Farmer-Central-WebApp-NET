@@ -192,7 +192,6 @@ namespace ST1109348.Models
             }
             if (stockTrack.Count > 0)
             {
-                myProducts.Add(new ProductModel());
                 myProducts.ElementAt(0).CardList = new CardModel
                 {
                     incoming = incomingCount,
@@ -209,6 +208,7 @@ namespace ST1109348.Models
                     Category = " ",
                     Stock = 0
                 });
+                myProducts.Add(new ProductModel());
                 myProducts.ElementAt(0).CardList = new CardModel
                 {
                     incoming = 0,

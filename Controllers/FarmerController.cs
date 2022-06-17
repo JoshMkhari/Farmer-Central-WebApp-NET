@@ -28,10 +28,7 @@ namespace ST1109348.Controllers
             _rvm.ProductList= _myProducts;
             _rvm.MyStockList = ProductModel.PopulateMyStock(_myProducts);
 
-
-
-            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
-
+            Console.WriteLine("LOAD VIEW");
             return View(_rvm);
         }
 
