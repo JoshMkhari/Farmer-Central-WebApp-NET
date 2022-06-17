@@ -10,10 +10,11 @@ namespace ST1109348.Models
     {
 
         //Desktop
-        private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
+        //private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=10171906Josh@;";
         //Laptop
         //private const string ConnectionStringLocalDev = "Server=localhost;Database=progTaskTwo;UID=sa;PWD=1017Josh;";
-        //Farmer Related 
+        private const string ConnectionStringLocalDev = "Server=tcp:farmercentralst10119348.database.windows.net,1433;Initial Catalog=progDB;Persist Security Info=False;User ID=joshmkhari;Password=d8vRLDgGGxbakT8;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
         public static IEnumerable<FarmerModel> GetAllFarmers()
         {
             var userList = new List<FarmerModel>();
