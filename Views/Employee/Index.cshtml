@@ -15,51 +15,197 @@
     </nav>
 </div><!-- End Page Title -->
 <p />
-<!-- Farmers Table -->
-<div class="col-12">
-    <div class="card recent-sales overflow-auto">
-        <div class="card-body">
-            <h5 class="card-title">Products <span>| All</span></h5>
-            <table class="table table-striped datatable">
-                <thead>
-                    <tr>
-                        <th scope="col">Farmer Name</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Preview</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Date Added</th>
-                        <th scope="col">Weight</th>
-                        <th scope="col">Movement</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Production</th>
-                        <th scope="col">Freeze By Date</th>
-                        <th scope="col">Sell By Date</th>
-                        <th scope="col">Expiration Date</th>
-                    </tr>
-                </thead>
-                <tbody>
+<div class="row">
+<!-- Start Left side columns -->
+<div class="col-9">
+    <div class="row">
+        <!-- Sales Card -->
+        <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+    
+                <div class="card-body">
+                    <h5 class="card-title">All Stock <span>| Farmers</span></h5>
+    
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-cart"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>@Model.ProductList.Count</h6>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div><!-- End Sales Card -->
+                
+    
+        <!-- Customers Card -->
+        <div class="col-xxl-4 col-xl-12">
+    
+            <div class="card info-card customers-card">
+    
+                <div class="card-body">
+                    <h5 class="card-title">Farmers <span>| All</span></h5>
+    
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>@Model.Farmer.FarmerView.Count</h6>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+    
+        </div><!-- End Customers Card -->
+        <!-- Farmers Table -->
+        <div class="col-auto">
+            <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                    <h5 class="card-title">Products <span>| All</span></h5>
+                    <table class="table table-striped datatable">
+                        <thead>
+                        <tr>
+                            <th scope="col">Farmer Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Profile</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Date Added</th>
+                            <th scope="col">Weight</th>
+                            <th scope="col">Movement</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Production</th>
+                            <th scope="col">Expiration Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                    @foreach (var mod in Model.ProductList)
-                    {
-                    <tr>
-                        <td>@mod.FarmerName</td>
-                        <td>@mod.CategoryId</td>
-                        <td><img class="rounded-circle" width="50" height="50" src="@($"data:image/png;base64,{Convert.ToBase64String(mod.ProductPicture.Data, 0, mod.ProductPicture.Data.Length)}")" alt="ProductPicture"/></td>
-                        <td>@mod.Name</td>
-                        <td>@mod.DateAdded</td>
-                        <td>@mod.Weight</td>
-                        <td>@mod.MovementId</td>
-                        <td>@mod.Quantity</td>
-                        <td>@mod.ProductionDate</td>
-                        <td>@mod.FreezeByDate</td>
-                        <td>@mod.SellByDate</td>
-                        <td>@mod.ExpirationDate</td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
+                        @foreach (var mod in Model.ProductList)
+                        {
+                            <tr>
+                                <td>@mod.FarmerName</td>
+                                <td>@mod.CategoryId</td>
+                                <td><img class="rounded-circle" width="50" height="50" src="@($"data:image/png;base64,{Convert.ToBase64String(mod.ProductPicture.Data, 0, mod.ProductPicture.Data.Length)}")" alt="ProductPicture"/></td>
+                                <td>@mod.Name</td>
+                                <td>@mod.DateAdded</td>
+                                <td>@mod.Weight</td>
+                                <td>@mod.MovementId</td>
+                                <td>@mod.Quantity</td>
+                                <td>@mod.ProductionDate</td>
+                                <td>@mod.ExpirationDate</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
 
+                </div>
+
+            </div>
         </div>
+    </div><!-- End Product list -->   
+</div><!-- End Left side columns -->
+  <!-- Start Right side columns -->
+  <div class="col-lg-3">
+              <!-- Recent Activity -->
+    <div class="card">
+      <div class="card-body">
+                  <h5 class="card-title">Activity <span>|Recent </span></h5>
+    
+        <div class="activity">
+          @for(var i = Model.ProductList.Count-1; i>=0;i--)
+          {
+            if (i == Model.ProductList.Count - 4)
+            {
+              break;
+            }
+            <div class="activity-item d-flex">
+              <div class="activite-label col-4">@Model.ProductList.ElementAt(i).FarmerName</div>
+              <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+              <div class="activity-content col">
+                <a class="fw-bold text-dark">@Model.ProductList.ElementAt(i).MovementId</a>
+              </div>
+            </div><!-- End activity item-->
+            <p></p>
+          }
+        </div>
+      </div>
+              </div><!-- End Recent Activity -->
+    <!-- Website Traffic -->
+    <div class="card">
 
-    </div>
-</div><!-- End Product list -->
+        <div class="card-body pb-0">
+        <h5 class="card-title">Farmers <span>| Allocated</span></h5>
+
+        <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+
+        <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#trafficChart")).setOption({
+                    tooltip: {
+                      trigger: 'item'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: 'Products',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [{
+                          value: @Model.MyStockList.ElementAt(0).pieChart[0],
+                          name: 'Fruit'
+                        },
+                        {
+                          value: @Model.MyStockList.ElementAt(0).pieChart[1],
+                          name: 'Vegetable'
+                        },
+                        {
+                          value: @Model.MyStockList.ElementAt(0).pieChart[2],
+                          name: 'Milk'
+                        },
+                        {
+                          value: @Model.MyStockList.ElementAt(0).pieChart[3],
+                          name: 'Dairy'
+                        },
+                        {
+                          value: @Model.MyStockList.ElementAt(0).pieChart[4],
+                          name: 'Eggs'
+                        },
+                        {
+                          value: @Model.MyStockList.ElementAt(0).pieChart[5],
+                          name: 'Meat and Poultry'
+                        },
+                        {
+                          value: @Model.MyStockList.ElementAt(0).pieChart[6],
+                          name: 'Grains'
+                        }                        
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+      </div>
+    </div><!-- End Website Traffic -->
+  </div><!-- End Right side columns -->
+</div>
+

@@ -28,6 +28,48 @@ namespace ST1109348.Controllers
                 Farmer = InitializeFarmers(),
                 ProductList = ProductModel.ProductList
             };
+            _rvm.MyStockList = new List<StockModel>();
+            _rvm.MyStockList.Add(new StockModel()
+            {
+                Name = " ",
+                Category = " ",
+                Stock = 0
+            });
+                
+            _rvm.MyStockList.ElementAt(0).incoming = 0;
+            _rvm.MyStockList.ElementAt(0).outgoing = 0;
+            _rvm.MyStockList.ElementAt(0).pieChart = new int[7];
+
+            foreach (var farmer in _rvm.Farmer.FarmerView)
+            {
+                foreach (var currentProduct in farmer.CurrentFarmerProductList)
+                {
+                    switch (currentProduct.CategoryId)
+                    {
+                        case "Fruit":
+                            _rvm.MyStockList.ElementAt(0).pieChart[0] += 1;
+                            break;
+                        case "Vegetable":
+                            _rvm.MyStockList.ElementAt(0).pieChart[1] += 1;
+                            break;
+                        case "Milk":
+                            _rvm.MyStockList.ElementAt(0).pieChart[2] += 1;
+                            break;
+                        case "Dairy":
+                            _rvm.MyStockList.ElementAt(0).pieChart[3] += 1;
+                            break;
+                        case "Eggs":
+                            _rvm.MyStockList.ElementAt(0).pieChart[4] += 1;
+                            break;
+                        case "Meat and Poultry":
+                            _rvm.MyStockList.ElementAt(0).pieChart[5] += 1;
+                            break;
+                        default:
+                            _rvm.MyStockList.ElementAt(0).pieChart[6] += 1;
+                            break;
+                    }
+                }
+            }
             return View(_rvm);
 
         }

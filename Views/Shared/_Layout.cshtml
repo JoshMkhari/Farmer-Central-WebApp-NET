@@ -51,7 +51,8 @@
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                                            <img class="rounded-circle" src="@($"data:image/png;base64,{Convert.ToBase64String(Model.Farmer.CurrentUser.ProfilePicture.Data, 0, Model.Farmer.CurrentUser.ProfilePicture.Data.Length)}")" alt="ProductPicture"/><span class="d-none d-md-block dropdown-toggle ps-2">@Model.Farmer.CurrentUser.DisplayName</span>
+                        <img class="rounded-circle" src="@($"data:image/png;base64,{Convert.ToBase64String(Model.Farmer.CurrentUser.ProfilePicture.Data, 0, Model.Farmer.CurrentUser.ProfilePicture.Data.Length)}")" alt="ProductPicture"/>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">@Model.Farmer.CurrentUser.DisplayName</span>
                     </a>
                     @*End Profile Iamge Icon*@
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -118,49 +119,14 @@
 
     </aside>
     @*End Sidebar*@
-    <div class="container body-content">
-        .
-        <p />
-        <p />
-        <p />
-        <p />
-        <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />    <p />
-        <p />
-        <p />
-        <p />
-        @RenderBody()
-        <hr />
-    </div>
+    <main id="main" class="main">
+    <section class="section dashboard">
+            <div class="container body-content">
+                @RenderBody()
+            </div>
+    </section>
+
+    </main><!-- End #main -->
 
     <script src="~/Theme/assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="~/Theme/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

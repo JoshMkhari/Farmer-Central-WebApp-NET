@@ -38,7 +38,7 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href=@Url.Action("Index", "Farmer") class="logo d-flex align-items-center">
-                <img width="50" height="50" src="@($"data:image/png;base64,{Convert.ToBase64String(Model.Farmer.CurrentUser.ProfilePicture.Data, 0, Model.Farmer.CurrentUser.ProfilePicture.Data.Length)}")" alt="ProductPicture"/>
+                <img src="~/Theme/assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">FarmerCentral</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
