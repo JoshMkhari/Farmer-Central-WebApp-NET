@@ -44,6 +44,7 @@ namespace ST1109348.Models
 
         //Used to track movements
         public static List<ProductModel> ProductList { get; private set;}
+        public CardModel CardList { get; set;}
         
         public static void PopulateProductsList()
         {
@@ -191,10 +192,14 @@ namespace ST1109348.Models
             }
             if (stockTrack.Count > 0)
             {
-                stockTrack.ElementAt(0).incoming = incomingCount;
-                stockTrack.ElementAt(0).outgoing = outgoingCount;
-                stockTrack.ElementAt(0).pieChart = categoryTrack;
-                stockTrack.ElementAt(0).allCats = categoryName;
+                myProducts.Add(new ProductModel());
+                myProducts.ElementAt(0).CardList = new CardModel
+                {
+                    incoming = incomingCount,
+                    outgoing = outgoingCount,
+                    pieChart = categoryTrack,
+                    allCats = categoryName
+                };
             }
             else
             {
@@ -204,16 +209,18 @@ namespace ST1109348.Models
                     Category = " ",
                     Stock = 0
                 });
-                
-                stockTrack.ElementAt(0).incoming = 0;
-                stockTrack.ElementAt(0).outgoing = 0;
-                stockTrack.ElementAt(0).pieChart = new int[7];
+                myProducts.ElementAt(0).CardList = new CardModel
+                {
+                    incoming = 0,
+                    outgoing = 0,
+                    pieChart = new int[7]
+                };
                 for (var i = 0; i < 7; i++)
                 {
-                    stockTrack.ElementAt(0).pieChart[0] = 0;
+                    myProducts.ElementAt(0).CardList.pieChart[0] = 0;
                 }
 
-                stockTrack.ElementAt(0).allCats = categoryName;
+                myProducts.ElementAt(0).CardList.allCats = categoryName;
             }
            
             return stockTrack;
@@ -226,10 +233,7 @@ namespace ST1109348.Models
 
         public string Category { get; set; }
         public int Stock { get; set; }
-        public int outgoing { get; set; }
-        public int incoming { get; set; }
-        public int[] pieChart{ get; set; }
-        public string[] allCats{ get; set; }
+
 
     }
     public class MovementModel

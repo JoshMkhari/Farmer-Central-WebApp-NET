@@ -100,7 +100,7 @@
                                     <div class="row mb-3">
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <img src="@ViewBag.Base64String" alt="Profile">
+                                            <img class="rounded-circle" src="@($"data:image/png;base64,{Convert.ToBase64String(Model.Farmer.CurrentUser.ProfilePicture.Data, 0, Model.Farmer.CurrentUser.ProfilePicture.Data.Length)}")" alt="ProductPicture"/>
                                             <div class="pt-2">
                                                 <input class="form-control" type="file" name="ImageData" id="ImageData"/>
                                             </div>

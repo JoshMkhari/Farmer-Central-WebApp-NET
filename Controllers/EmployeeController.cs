@@ -28,17 +28,18 @@ namespace ST1109348.Controllers
                 Farmer = InitializeFarmers(),
                 ProductList = ProductModel.ProductList
             };
-            _rvm.MyStockList = new List<StockModel>();
-            _rvm.MyStockList.Add(new StockModel()
+            if (_rvm.ProductList.Count == 0)
             {
-                Name = " ",
-                Category = " ",
-                Stock = 0
-            });
-                
-            _rvm.MyStockList.ElementAt(0).incoming = 0;
-            _rvm.MyStockList.ElementAt(0).outgoing = 0;
-            _rvm.MyStockList.ElementAt(0).pieChart = new int[7];
+                _rvm.ProductList.Add(new ProductModel());
+                Console.WriteLine("ProductList is 0");
+            }
+            Console.WriteLine("ProductList is incoming");
+            _rvm.ProductList.ElementAt(0).CardList = new CardModel();
+            _rvm.ProductList.ElementAt(0).CardList.incoming = 0;
+            Console.WriteLine("ProductList is outgoing");
+            _rvm.ProductList.ElementAt(0).CardList.outgoing = 0;
+            Console.WriteLine("ProductList is pieChart");
+            _rvm.ProductList.ElementAt(0).CardList.pieChart = new int[7];
 
             foreach (var farmer in _rvm.Farmer.FarmerView)
             {
@@ -47,25 +48,25 @@ namespace ST1109348.Controllers
                     switch (currentProduct.CategoryId)
                     {
                         case "Fruit":
-                            _rvm.MyStockList.ElementAt(0).pieChart[0] += 1;
+                            _rvm.ProductList.ElementAt(0).CardList.pieChart[0] += 1;
                             break;
                         case "Vegetable":
-                            _rvm.MyStockList.ElementAt(0).pieChart[1] += 1;
+                            _rvm.ProductList.ElementAt(0).CardList.pieChart[1] += 1;
                             break;
                         case "Milk":
-                            _rvm.MyStockList.ElementAt(0).pieChart[2] += 1;
+                            _rvm.ProductList.ElementAt(0).CardList.pieChart[2] += 1;
                             break;
                         case "Dairy":
-                            _rvm.MyStockList.ElementAt(0).pieChart[3] += 1;
+                            _rvm.ProductList.ElementAt(0).CardList.pieChart[3] += 1;
                             break;
                         case "Eggs":
-                            _rvm.MyStockList.ElementAt(0).pieChart[4] += 1;
+                            _rvm.ProductList.ElementAt(0).CardList.pieChart[4] += 1;
                             break;
                         case "Meat and Poultry":
-                            _rvm.MyStockList.ElementAt(0).pieChart[5] += 1;
+                            _rvm.ProductList.ElementAt(0).CardList.pieChart[5] += 1;
                             break;
                         default:
-                            _rvm.MyStockList.ElementAt(0).pieChart[6] += 1;
+                            _rvm.ProductList.ElementAt(0).CardList.pieChart[6] += 1;
                             break;
                     }
                 }
@@ -109,12 +110,13 @@ namespace ST1109348.Controllers
                     file.InputStream.CopyTo(stream);
                     imageModel.Data = stream.ToArray();
                 }
-                //COMPARE TO CURRENT USER FILE
+                use.ProfilePicture = imageModel;
+                ProgramDal.UpdateUser(use, _currentUser.UserEmail,true);
             }
-
-            use.ProfilePicture = imageModel;
-            
-            ProgramDal.UpdateUser(use, _currentUser.UserEmail);
+            else
+            {
+                ProgramDal.UpdateUser(use, _currentUser.UserEmail,false);
+            }
 
             return !User.Identity.Name.Equals(use.UserEmail) ? RedirectToAction("SignOut", "Account") : RedirectToAction("Index");
             //MessageBox.Show("New display name " + use.DisplayName);          

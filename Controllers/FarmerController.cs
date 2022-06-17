@@ -148,7 +148,6 @@ namespace ST1109348.Controllers
         }
         public ActionResult MyProfile()
         {
-            ViewBag.Base64String = "data:image/png;base64," + Convert.ToBase64String(_currentUser.ProfilePicture.Data, 0, _currentUser.ProfilePicture.Data.Length);
             return View(_rvm);
         }
         private static string ValidateUpdate(string check, string old)
@@ -177,8 +176,8 @@ namespace ST1109348.Controllers
             use.DisplayName = ValidateUpdate(formData["DisplayName"] == "" ? null : formData["DisplayName"], _currentUser.DisplayName);
             
             use.FullName = use.FirstName + " " + use.LastName;
-
             use.UserId = _currentUser.UserId;
+            
             HttpPostedFileBase file = Request.Files["ImageData"];
             ImageModel imageModel = new ImageModel();
             if (file != null && !IsNullOrEmpty(file.FileName))
@@ -190,12 +189,16 @@ namespace ST1109348.Controllers
                     file.InputStream.CopyTo(stream);
                     imageModel.Data = stream.ToArray();
                 }
-                //COMPARE TO CURRENT USER FILE
+                use.ProfilePicture = imageModel;
+                ProgramDal.UpdateUser(use, _currentUser.UserEmail,true);
+            }
+            else
+            {
+                ProgramDal.UpdateUser(use, _currentUser.UserEmail,false);
             }
 
-            use.ProfilePicture = imageModel;
+
             
-            ProgramDal.UpdateUser(use, _currentUser.UserEmail);
             //HttpPostedFileBase file = formData["ImageData"];
             
             

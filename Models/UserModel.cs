@@ -61,4 +61,12 @@ namespace ST1109348.Models
         }
         
     }
+
+    public class CardModel
+    {
+        public int outgoing { get; set; }
+        public int incoming { get; set; }
+        public int[] pieChart{ get; set; }
+        public string[] allCats{ get; set; }
+    }
 }

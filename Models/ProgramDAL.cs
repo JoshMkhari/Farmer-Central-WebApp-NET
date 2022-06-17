@@ -192,7 +192,7 @@ namespace ST1109348.Models
             }
         }
         //Update User
-        public static void UpdateUser(UserModel use, string oldEmail)
+        public static void UpdateUser(UserModel use, string oldEmail, bool picUpdate)
         {
             using (var con = new SqlConnection(ConnectionStringLocalDev))
             {
@@ -210,27 +210,31 @@ namespace ST1109348.Models
             }
             var imagesList = (List<ImageModel>)GetAllUserImages();
 
-            var found = false;
-            //foreach (var VARIABLE in COLLECTION)
-            foreach (var img in imagesList)
+            if (picUpdate)
             {
-                if (img.UserId.Equals(use.UserId))
+                var found = false;
+                //foreach (var VARIABLE in COLLECTION)
+                foreach (var img in imagesList)
                 {
-                    found = true;
-                    break;
+                    if (img.UserId.Equals(use.UserId))
+                    {
+                        found = true;
+                        break;
+                    }
                 }
+
+                if (found)
+                {
+                    //Update user image
+                    UpdateUserImage(use);
+                }
+                else
+                {
+                    //Adds an image
+                    AddUserImage(use);
+                }   
             }
 
-            if (found)
-            {
-                //Update user image
-                UpdateUserImage(use);
-            }
-            else
-            {
-                //Adds an image
-                AddUserImage(use);
-            }
             
         }
         public static void AddUserImage(UserModel use)

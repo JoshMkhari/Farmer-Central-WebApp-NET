@@ -17,7 +17,6 @@
 <section class="section profile">
     <div class="row">
         <div class="col-xl-4">
-
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                     <img class="rounded-circle" src="@($"data:image/png;base64,{Convert.ToBase64String(Model.Farmer.CurrentUser.ProfilePicture.Data, 0, Model.Farmer.CurrentUser.ProfilePicture.Data.Length)}")" alt="ProductPicture"/>
@@ -91,64 +90,63 @@
                             @using (Html.BeginForm("MyProfile", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
                             {
                             <form>
+                            
+                                                                <div class="row mb-3">
+                                                                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                                                                    <div class="col-md-8 col-lg-9">
+                                                                      <img class="rounded-circle" src="@($"data:image/png;base64,{Convert.ToBase64String(Model.Farmer.CurrentUser.ProfilePicture.Data, 0, Model.Farmer.CurrentUser.ProfilePicture.Data.Length)}")" alt="ProductPicture"/>
 
-                                <div class="row mb-3">
-                                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <img class="rounded-circle" src="@($"data:image/png;base64,{Convert.ToBase64String(Model.Farmer.CurrentUser.ProfilePicture.Data, 0, Model.Farmer.CurrentUser.ProfilePicture.Data.Length)}")" alt="ProductPicture"/>
-                                        <div class="pt-2">
-                                            <input type="file" name="ImageData" id="ImageData"/> 
-                                            <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="FirstName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="FirstName" type="text" class="form-control" id="FirstName" value=@Model.Farmer.CurrentUser.FirstName>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="LastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="LastName" type="text" class="form-control" id="LastName" value=@Model.Farmer.CurrentUser.LastName>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="DisplayName" class="col-md-4 col-lg-3 col-form-label">Display Name</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="DisplayName" type="text" class="form-control" id="DisplayName" value=@Model.Farmer.CurrentUser.DisplayName>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="address" type="text" class="form-control" id="Address" value=@Model.Farmer.CurrentUser.Address>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="phone" type="text" class="form-control" id="Phone" value=@Model.Farmer.CurrentUser.Phone>
-                                    </div>
-                                </div>
-                                @Html.AntiForgeryToken()
-                                @Html.ValidationSummary("", new { @class = "text-danger" })
-                                <div class="row mb-3">
-                                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="email" type="email" class="form-control" id="Email" value=@Model.Farmer.CurrentUser.UserEmail>
-                                    </div>
-                                </div>
-
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                                </div>
-                            </form><!-- End Profile Edit Form -->
+                                                                        <div class="pt-2">
+                                                                            <input class="form-control" type="file" name="ImageData" id="ImageData"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                            
+                                                                <div class="row mb-3">
+                                                                    <label for="FirstName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                                                                    <div class="col-md-8 col-lg-9">
+                                                                        <input name="FirstName" type="text" class="form-control" id="FirstName" value=@Model.Farmer.CurrentUser.FirstName>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <label for="LastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                                                                    <div class="col-md-8 col-lg-9">
+                                                                        <input name="LastName" type="text" class="form-control" id="LastName" value=@Model.Farmer.CurrentUser.LastName>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <label for="DisplayName" class="col-md-4 col-lg-3 col-form-label">Display Name</label>
+                                                                    <div class="col-md-8 col-lg-9">
+                                                                        <input name="DisplayName" type="text" class="form-control" id="DisplayName" value=@Model.Farmer.CurrentUser.DisplayName>
+                                                                    </div>
+                                                                </div>
+                            
+                                                                <div class="row mb-3">
+                                                                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                                                                    <div class="col-md-8 col-lg-9">
+                                                                        <input name="address" type="text" class="form-control" id="Address" value=@Model.Farmer.CurrentUser.Address>
+                                                                    </div>
+                                                                </div>
+                            
+                                                                <div class="row mb-3">
+                                                                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                                                    <div class="col-md-8 col-lg-9">
+                                                                        <input name="phone" type="text" class="form-control" id="Phone" value=@Model.Farmer.CurrentUser.Phone>
+                                                                    </div>
+                                                                </div>
+                                                                @Html.AntiForgeryToken()
+                                                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                                                <div class="row mb-3">
+                                                                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                                                    <div class="col-md-8 col-lg-9">
+                                                                        <input name="email" type="email" class="form-control" id="Email" value=@Model.Farmer.CurrentUser.UserEmail>
+                                                                    </div>
+                                                                </div>
+                            
+                                                                <div class="text-center">
+                                                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                                </div>
+                                                            </form><!-- End Profile Edit Form -->
                             }
                             </div>
 
